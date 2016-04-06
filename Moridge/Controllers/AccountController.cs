@@ -50,15 +50,10 @@ namespace Moridge.Controllers
             {
                 FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-                //Prevent Open Redirection Attacks
-                if (Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-
                 //Gets the next page based off the user's role.
                 string actionName, controllerName;
                 RolesHelper.GetPageForUser(userManager, user.Id, out actionName, out controllerName);
+                
                 return RedirectToAction(actionName, controllerName);
             }
             //incorrect login.
@@ -73,7 +68,7 @@ namespace Moridge.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Account");
         }
 
         //

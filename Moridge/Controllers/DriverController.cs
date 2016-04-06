@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Moridge.Controllers
 {
+    [Authorize]
     public class DriverController : Controller
     {
         public ActionResult Index()

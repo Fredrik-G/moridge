@@ -41,11 +41,11 @@ namespace Moridge.Helpers
         /// <param name="controllerName">controller for the next page</param>
         public static void GetPageForUser(UserManager<ApplicationUser> userManager, string id, out string actionName, out string controllerName)
         {
-            //Make sure the user doesn't have more than one role.
             var userActiveRoles = userManager.GetRoles(id);
             if (userActiveRoles.Count() > 1)
             {
-                throw new Exception("User has more than one role => something's wrong");
+                //More than one role = something is wrong. Log it.
+                //log.log("User " + id + " has more than one role.");
             }
 
             var userActiveRole = userActiveRoles.First();

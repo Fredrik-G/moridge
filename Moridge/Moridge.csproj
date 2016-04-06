@@ -300,22 +300,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Account\Web.config" />
-    <Content Include="Views\Home\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Admin\About.cshtml" />
     <Content Include="Views\Admin\Contact.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Driver\About.cshtml" />
     <Content Include="Views\Driver\Contact.cshtml" />
     <Content Include="Views\Driver\Index.cshtml" />
-    <Content Include="Views\Driver\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
