@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Driver Page";
+}
+
+<h2>@ViewBag.Message</h2>
+<p>
+    You are a driver.
+</p>
+
+<ul data-role="listview" data-inset="true">
+    <li data-role="list-divider">Navigation</li>
+    <li>@Html.ActionLink("About", "About", "Home")</li>
+    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+</ul>

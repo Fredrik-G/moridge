@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Moridge.Models;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Moridge.Data;
+using Moridge.Helpers;
 
 namespace Moridge.Controllers
 {
@@ -40,23 +41,30 @@ namespace Moridge.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new UsersDbContext()));
+            var context = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var user = userManager.Find(model.UserName, model.Password);
+
             //check if username and password is correct
-            if(user != null )
+            if (user != null)
             {
                 FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
+                //Prevent Open Redirection Attacks
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
-                return RedirectToAction("Index", "Home");
+
+                //Gets the next page based off the user's role.
+                string actionName, controllerName;
+                RolesHelper.GetPageForUser(userManager, user.Id, out actionName, out controllerName);
+                return RedirectToAction(actionName, controllerName);
             }
             //incorrect login.
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View(model);
         }
-
 
         //
         // GET: /Account/LogOff
@@ -87,8 +95,9 @@ namespace Moridge.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new UsersDbContext()));
-            var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            // var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new UsersDbContext()));
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
             var creationResult = userManager.Create(user, model.Password);
 
             if (creationResult.Succeeded)

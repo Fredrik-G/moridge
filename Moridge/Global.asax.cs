@@ -24,5 +24,9 @@ namespace Moridge
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        //private void Session_Start()
+        //{
+        //    Response.Redirect("~/Account/Login");
+        //}
     }
 }
