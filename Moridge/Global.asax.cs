@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+using Moridge.Helpers;
 
 namespace Moridge
 {
@@ -28,7 +29,7 @@ namespace Moridge
         }
         private void Session_Start()
         {
-            // Response.Redirect("~/Account/Login");
+            // Response.Redirect("~/Home/Index");
         }
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {

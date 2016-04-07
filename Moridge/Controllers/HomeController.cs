@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Moridge.Helpers;
 
 namespace Moridge.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+            //Gets the next page based off the user's role.
+            string actionName, controllerName;
+            RolesHelper.GetPageForUser(HttpContext.User, out actionName, out controllerName);
+
+            return RedirectToAction(actionName, controllerName);
         }
 
         public ActionResult About()

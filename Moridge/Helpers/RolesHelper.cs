@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.Models;
@@ -33,7 +35,7 @@ namespace Moridge.Helpers
 
         /// <summary>
         /// Gets the next page based on the given user's role.
-        /// Values are given by the out parameters actionName and controllerName.
+        /// Values are returned by the out parameters actionName and controllerName.
         /// </summary>
         /// <param name="userManager">Application's database context</param>
         /// <param name="id">user id</param>
@@ -46,15 +48,31 @@ namespace Moridge.Helpers
             {
                 //More than one role = something is wrong. Log it.
                 //log.log("User " + id + " has more than one role.");
+                //TODO logga
             }
 
             var userActiveRole = userActiveRoles.First();
-            if (userActiveRole.Equals(ADMIN_ROLE))
+            GetPageForUser(null, out actionName, out controllerName, userActiveRole);
+        }
+
+        /// <summary>
+        /// Gets the next page based on the given user's role.
+        /// Values are returned by the out parameters actionName and controllerName.
+        /// </summary>
+        /// <param name="user">user to process, null if using <paramref name="role"/></param>
+        /// <param name="actionName">name for the next page</param>
+        /// <param name="controllerName">controller for the next page</param>
+        /// <param name="role">user's role. should be skipped if using <paramref name="user"/> </param>
+        public static void GetPageForUser(IPrincipal user, out string actionName, out string controllerName, string role = "")
+        {
+            if (user != null && user.IsInRole(ADMIN_ROLE) ||
+                role.Equals(ADMIN_ROLE))
             {
                 actionName = "Index";
                 controllerName = ADMIN_ROLE;
             }
-            else if (userActiveRole.Equals(DRIVER_ROLE))
+            else if (user != null && user.IsInRole(DRIVER_ROLE) ||
+                role.Equals(DRIVER_ROLE))
             {
                 actionName = "Index";
                 controllerName = DRIVER_ROLE;
