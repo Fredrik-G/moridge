@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Moridge.Helpers;
 
 namespace Moridge.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = RolesHelper.ADMIN_ROLE)]
     public class AdminController : Controller
     {
         public ActionResult Index()

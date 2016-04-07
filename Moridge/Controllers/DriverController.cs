@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Moridge.Helpers;
 
 namespace Moridge.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
     public class DriverController : Controller
     {
         public ActionResult Index()

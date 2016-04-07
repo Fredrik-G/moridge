@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Moridge.Models;
@@ -45,20 +46,34 @@ namespace Moridge.Controllers
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var user = userManager.Find(model.UserName, model.Password);
 
-            //check if username and password is correct
+            //user was found => correct login
             if (user != null)
             {
-                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-
                 //Gets the next page based off the user's role.
                 string actionName, controllerName;
                 RolesHelper.GetPageForUser(userManager, user.Id, out actionName, out controllerName);
-                
+
+                //Create authentication cookie with user role.
+                CreateAuthenticationCookie(user.UserName, controllerName, model.RememberMe);
+
                 return RedirectToAction(actionName, controllerName);
             }
             //incorrect login.
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View(model);
+        }
+
+        /// <summary>
+        /// Creates an authentication cookie for the logged on user.
+        /// </summary>
+        /// <param name="userName">user's name.</param>
+        /// <param name="role">user's role.</param>
+        /// <param name="isPersistent">indicates whether the cookie should be kept beyond the current session.</param>
+        private void CreateAuthenticationCookie(string userName, string role, bool isPersistent)
+        {
+            var authTicket = new FormsAuthenticationTicket(1, userName, DateTime.Now, DateTime.Now.AddMinutes(10), isPersistent, role, "/");
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket));
+            Response.Cookies.Add(cookie);
         }
 
         //

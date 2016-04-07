@@ -15,11 +15,11 @@ namespace Moridge.Helpers
         /// <summary>
         /// Admin role string
         /// </summary>
-        public static readonly string ADMIN_ROLE = "Admin";
+        public const string ADMIN_ROLE = "Admin";
         /// <summary>
         /// Driver role string
         /// </summary>
-        public static readonly string DRIVER_ROLE = "Driver";
+        public const string DRIVER_ROLE = "Driver";
 
         /// <summary>
         /// Sets up the roles used in this application
