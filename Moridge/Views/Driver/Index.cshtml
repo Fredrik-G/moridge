@@ -4,7 +4,6 @@
     ViewBag.Title = "Driver Page";
 }
 
-<h2>@ViewBag.Message</h2>
 <p>
     You are a driver.
 </p>
@@ -13,49 +12,99 @@
 {
     @Html.ValidationSummary()
 
+    <style>
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ui-li-heading {
+            font-size: 70%;
+        }
+
+        .ui-li-desc {
+            font-size: 60%;
+        }
+    </style>
+
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">Måndag den 1235 2016
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
         </li>
-        <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d"
-            data-corners="false" data-theme="d" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right">
-            <div class="ui-btn-inner ui-li">
-                <div class="ui-btn-text">
-                    <a href="" class="ui-link-inherit" data-ytta-id="-">
-                        <p class="ui-li-aside ui-li-desc">
-                            <strong>Förmiddag</strong>
-                        </p>
-                        <h3 class="ui-li-heading">2 av 4 bokningar</h3>
-                        <p class="ui-li-desc">
-                            <strong>You've been invited to a meeting at Filament Group in Boston, MA</strong>
-                        </p>
-                        <p class="ui-li-desc">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
-                    </a>
-                </div>
-                <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-            </div>
+        <li data-theme="d">
+            <table>
+                <tr>
+                    <td>
+                        <div class="ui-btn ui-li ui-btn-up-d ui-btn-corner-all"
+                            data-theme="d" data-shadow="true" data-iconshadow="true" data-wrapperels="div">
+                            <span class="ui-btn-inner ui-btn-corner-all">
+                                <a href="" class="ui-link-inherit" data-ytta-id="-">
+                                    <h3 class="ui-li-heading">3 av 4 bokningar</h3>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Tom</p>
+                                </a>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui-btn ui-li ui-btn-up-d ui-btn-corner-all"
+                            data-theme="d" data-shadow="true" data-iconshadow="true" data-wrapperels="div">
+                            <span class="ui-btn-inner ui-btn-corner-all">
+                                <a href="" class="ui-link-inherit" data-ytta-id="-">
+                                    <h3 class="ui-li-heading">4 av 5 bokningar</h3>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Tom</p>
+                                </a>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </li>
-
-        <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d"
-            data-corners="false" data-theme="d" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" >
-            <div class="ui-btn-inner ui-li">
-                <div class="ui-btn-text">
-                    <a href="" class="ui-link-inherit" data-ytta-id="-">
-                        <p class="ui-li-aside ui-li-desc">
-                            <strong>Eftermiddag</strong>
-                        </p>
-                        <h3 class="ui-li-heading">4 av 5 bokningar</h3>
-                        <p class="ui-li-desc">
-                            <strong>You've been invited to a meeting at Filament Group in Boston, MA</strong>
-                        </p>
-                        <p class="ui-li-desc">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
-                    </a>
-                </div>
-                <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-            </div>
+        <li data-role="list-divider">Tisdag den 1235 2016
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
         </li>
-
-        <li data-role="fieldcontain"></li>
+          <li data-theme="d">
+            <table>
+                <tr>
+                    <td>
+                        <div class="ui-btn ui-li ui-btn-up-d ui-btn-corner-all"
+                            data-theme="d" data-shadow="true" data-iconshadow="true" data-wrapperels="div">
+                            <span class="ui-btn-inner ui-btn-corner-all">
+                                <a href="" class="ui-link-inherit" data-ytta-id="-">
+                                    <h3 class="ui-li-heading">4 av 5 bokningar</h3>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Tom</p>
+                                </a>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ui-btn ui-li ui-btn-up-d ui-btn-corner-all"
+                            data-theme="d" data-shadow="true" data-iconshadow="true" data-wrapperels="div">
+                            <span class="ui-btn-inner ui-btn-corner-all">
+                                <a href="" class="ui-link-inherit" data-ytta-id="-">
+                                    <h3 class="ui-li-heading">4 av 5 bokningar</h3>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Grankottevägen 55</p>
+                                    <p class="ui-li-desc">Tom</p>
+                                </a>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </li>
 
         <li data-role="fieldcontain"></li>
 
