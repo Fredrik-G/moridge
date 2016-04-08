@@ -71,7 +71,9 @@ namespace Moridge.Controllers
         /// <param name="isPersistent">indicates whether the cookie should be kept beyond the current session.</param>
         private void CreateAuthenticationCookie(string userName, string role, bool isPersistent)
         {
-            var authTicket = new FormsAuthenticationTicket(1, userName, DateTime.Now, DateTime.Now.AddMinutes(10), isPersistent, role, "/");
+            var authTicket = new FormsAuthenticationTicket(1, userName, DateTime.Now,
+                DateTime.Now.AddMinutes(60), //TODO DEBUG kör 10min
+                isPersistent, role, "/");
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket));
             Response.Cookies.Add(cookie);
         }
