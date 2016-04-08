@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Principal;
-using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.Models;
@@ -44,7 +41,7 @@ namespace Moridge.Helpers
         public static void GetPageForUser(UserManager<ApplicationUser> userManager, string id, out string actionName, out string controllerName)
         {
             var userActiveRoles = userManager.GetRoles(id);
-            if (userActiveRoles.Count() > 1)
+            if (userActiveRoles.Count > 1)
             {
                 //More than one role = something is wrong. Log it.
                 //log.log("User " + id + " has more than one role.");

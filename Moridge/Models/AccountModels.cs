@@ -1,15 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Security;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Moridge;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Moridge.Models
 {
