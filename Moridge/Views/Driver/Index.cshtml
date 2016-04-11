@@ -1,107 +1,104 @@
 ﻿@using System.Globalization
-@using System.Linq;
 @model Moridge.Models.DriverModel
 
 @{
     ViewBag.Title = "Driver Page";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 
+@Html.ValidationSummary()
 
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary()
+<ul data-role="listview" data-theme="d" data-divider-theme="d" class="ui-listview">
 
-    <style>
-        .ui.li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
-            padding: 0.2% 1% 0.2% 5px;
-        }
-
-        .black-link {
-            color: black;
-        }
-
-        .popup_item {
-            padding: 12% 0 12% 0;
-        }
-
-        .popup-header {
-            padding: 10% 10% 10% 10%;
-        }
-    </style>
-
-    <ul data-role="listview" data-theme="d" data-divider-theme="d" class="ui-listview">
-
-        @{
-    var days = new List<DateTime>();
-    var daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
-    for (var i = 0; i < daysInWeek; i++)
-    {
-        days.Add(DateTime.Now.AddDays(i));
-    }
-    //TODO skippa helg?
-        }
-
-        @foreach (var day in days)
+    @{
+        var days = new List<DateTime>();
+        var daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
+        for (var i = 0; i < daysInWeek; i++)
         {
-            <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
-                @day.DayOfWeek, @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("MMMM d, yyyy"))
-                <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
-            </li>
+            days.Add(DateTime.Now.AddDays(i));
+        }
+        //TODO skippa helg?
+    }
+
+    @foreach (var day in days)
+    {
+        <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
+            @day.DayOfWeek, @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("MMMM d, yyyy"))
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
+        </li>
 
             
-            var times = new[] { "Förmiddag", "Eftermiddag" };
-            foreach (var time in times)
-            {
-            <li class="ui-btn ui-btn-up-d ui-btn-icon-right ui-li-has-arrow ui-li"
-                data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
-                <div class="ui-btn-inner ui-li">
-                    <div class="ui-btn-text">
-                        <a class="ui-link-inherit" href="#popupMenu" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
-                            <p class="ui-li-aside ui-li-desc">
-                                <strong class="black-link">
-                                    @time
-                                </strong>
-                            </p>
-                            <h3 class="ui-li-heading black-link">3 av 4 bokningar</h3>
-                            <p class="ui-li-desc black-link">Vad ska det stå här?</p>
-                            <p class="ui-li-desc black-link">rad2</p>
-                        </a>
-                    </div>
-                    <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-                </div>
-            </li>
-            }
-
-        }
-    </ul>
-    
-    <div class="ui-screen-hidden ui-popup-screen" id="popupMenu-screen"></div>
-    <div class="ui-popup-container ui-selectmenu-hidden" id="popupMenu-popup">
-        <div data-role="popup" id="popupMenu" data-theme="a"
-            class="ui-popup ui-body-a ui-overlay-shadow ui-corner-all "
-            aria-disabled="false" data-disabled="false" data-shadow="true" data-corners="true" data-transition="none" data-position-to="origin">
-            <ul data-role="listview" data-inset="true" style="min-width: 210px;" data-theme="b"
-                class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
-                <li data-role="divider" data-theme="a" class="ui-li ui-li-static ui-btn-up-a ui-corner-top popup-header">Förmiddag</li>
-
-                @{
-        //TODO use real value
-        const int bookingsForThisDay = 4;
-        for (var i = 0; i < bookingsForThisDay; i++)
+        var times = new[] { "Förmiddag", "Eftermiddag" };
+        foreach (var time in times)
         {
-                    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="b"
-                        class="ui-btn ui-btn-up-b ui-btn-icon-right ui-li-has-arrow ui-li">
-                        <div class="ui-btn-inner ui-li">
-                            <div class="ui-btn-text popup_item">
-                                <a href=""
-                                    class="ui-link-inherit" data-ytta-id="-">Grankottevägen 55</a>
-                            </div>
-                            <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-                        </div>
-                    </li>
+        <li class="ui-btn ui-btn-up-d ui-btn-icon-right ui-li-has-arrow ui-li"
+            data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
+            <div class="ui-btn-inner ui-li">
+                <div class="ui-btn-text">
+                    <a class="ui-link-inherit" href="#popupMenu" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+                        <p class="ui-li-aside ui-li-desc">
+                            <strong class="black-link">
+                                @time
+                            </strong>
+                        </p>
+                        <h3 class="ui-li-heading black-link">3 av 4 bokningar</h3>
+                        <p class="ui-li-desc black-link">Vad ska det stå här?</p>
+                    </a>
+                </div>
+                <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+            </div>
+        </li>
         }
+
+    }
+</ul>
+
+<div class="ui-screen-hidden ui-popup-screen" id="popupMenu-screen"></div>
+<div class="ui-popup-container ui-selectmenu-hidden" id="popupMenu-popup">
+    <div data-role="popup" id="popupMenu" data-theme="a"
+        class="ui-popup ui-body-a ui-overlay-shadow ui-corner-all "
+        aria-disabled="false" data-disabled="false" data-shadow="true" data-corners="true" data-transition="none" data-position-to="origin">
+        <ul data-role="listview" data-inset="true" style="min-width: 210px;" data-theme="b"
+            class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            <li data-role="divider" data-theme="a" class="ui-li ui-li-static ui-btn-up-a ui-corner-top popup-header">Förmiddag</li>
+
+            @{
+                //TODO use real value
+                const int bookingsForThisDay = 4;
+                for (var i = 0; i < bookingsForThisDay; i++)
+                {
+                <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="b"
+                    class="ui-btn ui-btn-up-b ui-btn-icon-right ui-li-has-arrow ui-li">
+                    <div class="ui-btn-inner ui-li">
+                        <div class="ui-btn-text popup_item">
+                            <a href=""
+                                class="ui-link-inherit" data-ytta-id="-">Grankottevägen 55</a>
+                        </div>
+                        <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
+                    </div>
+                </li>
                 }
-            </ul>
-        </div>
+            }
+        </ul>
     </div>
-}
+</div>
+
+<div data-role="footer" data-theme="b" data-position="fixed">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#"><span>
+                <i class="material-icons">assignment</i>
+                <span style="font-size: 12px; display: block;">Boka</span>
+            </span></a></li>
+            <li><a href="#"><span>
+                <i class="material-icons">event</i>
+                <span style="font-size: 12px; display: block;">Arbetsschema</span>
+            </span></a></li>
+            <li><a href="#"><span>
+                <i class="material-icons">account_box</i>
+                <span style="font-size: 12px; display: block;">Redigera Info</span>
+            </span></a></li>
+        </ul>
+    </div>
+</div>
+
