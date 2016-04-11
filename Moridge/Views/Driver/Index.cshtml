@@ -31,45 +31,37 @@
         var times = new[] { "Förmiddag", "Eftermiddag" };
         foreach (var time in times)
         {
-        <li class="ui-btn ui-btn-up-d ui-btn-icon-right ui-li-has-arrow ui-li"
-            data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="d">
-            <div class="ui-btn-inner ui-li">
-                <div class="ui-btn-text">
-                    <a class="ui-link-inherit" href="#popupMenu" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
-                        <p class="ui-li-aside ui-li-desc">
-                            <strong class="black-link">
-                                @time
-                            </strong>
-                        </p>
-                        <h3 class="ui-li-heading black-link">3 av 4 bokningar</h3>
-                        <p class="ui-li-desc black-link">Vad ska det stå här?</p>
-                    </a>
-                </div>
+        <li class="ui-btn-icon-right">
+            <div class="ui-btn-inner">
+                <a class="ui-link-inherit" href="#popupMenu" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+                    <p class="ui-li-aside ui-li-desc">
+                        <strong class="black-link">
+                            @time
+                        </strong>
+                    </p>
+                    <h3 class="ui-li-heading black-link">3 av 4 bokningar</h3>
+                    <p class="ui-li-desc black-link">Vad ska det stå här?</p>
+                </a>
                 <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
             </div>
         </li>
         }
-
     }
 </ul>
 
 <div class="ui-screen-hidden ui-popup-screen" id="popupMenu-screen"></div>
 <div class="ui-popup-container ui-selectmenu-hidden" id="popupMenu-popup">
-    <div data-role="popup" id="popupMenu" data-theme="a"
-        class="ui-popup ui-body-a ui-overlay-shadow ui-corner-all "
-        aria-disabled="false" data-disabled="false" data-shadow="true" data-corners="true" data-transition="none" data-position-to="origin">
-        <ul data-role="listview" data-inset="true" style="min-width: 210px;" data-theme="b"
-            class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
-            <li data-role="divider" data-theme="a" class="ui-li ui-li-static ui-btn-up-a ui-corner-top popup-header">Förmiddag</li>
+    <div data-role="popup" id="popupMenu">
+        <ul data-role="listview" data-inset="true" style="min-width: 210px;" data-theme="b">
+            <li data-role="divider" data-theme="a" class="popup-header">Förmiddag</li>
 
             @{
                 //TODO use real value
                 const int bookingsForThisDay = 4;
                 for (var i = 0; i < bookingsForThisDay; i++)
                 {
-                <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="b"
-                    class="ui-btn ui-btn-up-b ui-btn-icon-right ui-li-has-arrow ui-li">
-                    <div class="ui-btn-inner ui-li">
+                <li data-theme="b" class="ui-btn-icon-right">
+                    <div class="ui-btn-inner">
                         <div class="ui-btn-text popup_item">
                             <a href=""
                                 class="ui-link-inherit" data-ytta-id="-">Grankottevägen 55</a>
