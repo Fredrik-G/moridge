@@ -9,27 +9,24 @@
 
 hejsan :)
 
+
 <div data-role="footer" data-theme="b" data-position="fixed">
     <div data-role="navbar">
         <ul>
-            <li>
-                <a href="@Url.Action("Booking", "Driver")"
-                   class="" id="Booking" data-name="Booking"><span>
-                       <i class="material-icons">assignment</i>
-                       <span style="font-size: 12px; display: block;">Boka</span>
-                   </span></a>
+            <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
+                    <i class="material-icons">assignment</i>
+                    <span style="font-size: 12px; display: block;">Boka</span>
+                </span></a>
             </li>
-            <li><a href="@Url.Action("Schedule", "Driver")"
-                class="ui-btn-active" id="Schedule" data-name="Schedule"><span>
-                    <i class="material-icons">event</i>
-                    <span style="font-size: 12px; display: block;">Arbetsschema</span>
-                </span></a></li>
+            <li><a href="#" class="ui-btn-active" data-transition="slide"><span>
+                <i class="material-icons">event</i>
+                <span style="font-size: 12px; display: block;">Arbetsschema</span>
+            </span></a></li>
             <li>
-                <a href="@Url.Action("PersonalInfo", "Driver")"
-                    class="" id="PersonalInfo" data-name="PersonalInfo"><span>
-                        <i class="material-icons">account_box</i>
-                        <span style="font-size: 12px; display: block;">Redigera Info</span>
-                    </span></a>
+                <a href="@Url.Action("PersonalInfo", "Driver")" data-transition="slide"><span>
+                    <i class="material-icons">account_box</i>
+                    <span style="font-size: 12px; display: block;">Redigera Info</span>
+                </span></a>
             </li>
         </ul>
     </div>
