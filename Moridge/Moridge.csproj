@@ -313,6 +313,7 @@
     <Content Include="Views\Driver\Booking.cshtml" />
     <Content Include="Views\Driver\Schedule.cshtml" />
     <Content Include="Views\Driver\PersonalInfo.cshtml" />
+    <Content Include="Views\Shared\_SidePanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
