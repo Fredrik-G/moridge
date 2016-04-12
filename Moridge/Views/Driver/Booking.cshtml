@@ -6,6 +6,15 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 
+<script>
+    //set this navbar as active
+    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
+        var $footers = $(document).find('div[data-role="footer"]');
+        $footers.find('a[id=Booking]').addClass("ui-btn-active");
+    });
+</script>
+
+
 @Html.ValidationSummary()
 
 <ul data-role="listview" data-theme="d" data-divider-theme="d" class="ui-listview">
@@ -76,24 +85,21 @@
 <div data-role="footer" data-theme="b" data-position="fixed">
     <div data-role="navbar">
         <ul>
-            <li>
-                <a href="@Url.Action("Booking", "Driver")"
-                   class="ui-btn-active" id="Booking" data-name="Booking"><span>
-                       <i class="material-icons">assignment</i>
-                       <span style="font-size: 12px; display: block;">Boka</span>
-                   </span></a>
+            <li><a href="#"
+                class="ui-btn-active ui-state-persist" id="Booking"><span>
+                    <i class="material-icons">assignment</i>
+                    <span style="font-size: 12px; display: block;">Boka</span>
+                </span></a>
             </li>
-            <li><a href="@Url.Action("Schedule", "Driver")"
-                class="" id="Schedule" data-name="Schedule"><span>
-                    <i class="material-icons">event</i>
-                    <span style="font-size: 12px; display: block;">Arbetsschema</span>
-                </span></a></li>
+            <li><a href="@Url.Action("Schedule", "Driver")"><span>
+                <i class="material-icons">event</i>
+                <span style="font-size: 12px; display: block;">Arbetsschema</span>
+            </span></a></li>
             <li>
-                <a href="@Url.Action("PersonalInfo", "Driver")"
-                    class="" id="PersonalInfo" data-name="PersonalInfo"><span>
-                        <i class="material-icons">account_box</i>
-                        <span style="font-size: 12px; display: block;">Redigera Info</span>
-                    </span></a>
+                <a href="@Url.Action("PersonalInfo", "Driver")"><span>
+                    <i class="material-icons">account_box</i>
+                    <span style="font-size: 12px; display: block;">Redigera Info</span>
+                </span></a>
             </li>
         </ul>
     </div>

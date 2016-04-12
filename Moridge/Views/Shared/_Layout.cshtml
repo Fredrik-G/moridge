@@ -8,12 +8,12 @@
 
     @Styles.Render("~/Content/mobileCss", "~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 </head>
 <body>
-    <div data-role="page" data-theme="b">
+    <div data-role="page" data-theme="b" id="@ViewContext.Controller.ValueProvider.GetValue("action").RawValue">
         <div data-role="header" data-theme="b">
             @if (IsSectionDefined("Header"))
             {
