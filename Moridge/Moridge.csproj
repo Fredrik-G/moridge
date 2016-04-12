@@ -310,7 +310,9 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Driver\About.cshtml" />
     <Content Include="Views\Driver\Contact.cshtml" />
-    <Content Include="Views\Driver\Index.cshtml" />
+    <Content Include="Views\Driver\Booking.cshtml" />
+    <Content Include="Views\Driver\Schedule.cshtml" />
+    <Content Include="Views\Driver\PersonalInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

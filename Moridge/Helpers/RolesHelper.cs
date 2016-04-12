@@ -71,7 +71,7 @@ namespace Moridge.Helpers
             else if (user != null && user.IsInRole(DRIVER_ROLE) ||
                 role.Equals(DRIVER_ROLE))
             {
-                actionName = "Index";
+                actionName = "Booking";
                 controllerName = DRIVER_ROLE;
             }
             //nor admin or driver => error, show login page again.

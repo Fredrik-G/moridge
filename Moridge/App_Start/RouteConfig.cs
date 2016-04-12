@@ -13,7 +13,7 @@ namespace Moridge
                 url: "{controller}/{action}/{id}",
                 defaults: new
                 {
-                    controller = "Account",
+                    controller = "Home",
                     action = "Index",
                     id = UrlParameter.Optional
                 }
