@@ -1,19 +1,24 @@
-﻿    .ui.li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
-        padding: 0.2% 1% 0.2% 5px;
-    }
+﻿.ui.li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+    padding: 0.2% 1% 0.2% 5px;
+}
 
-    .black-link {
-        color: black;
-    }
+.link-header {
+    right: 2.5% !important;
+}
 
-    .popup_item {
-        padding: 12% 0 12% 0;
-    }
+.black-link {
+    color: black;
+}
 
-    .popup-header {
-        padding: 10% 10% 10% 10%;
-    }
-    .ui-navbar li .ui-btn .ui-btn-inner {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
+.popup_item {
+    padding: 12% 0 12% 0;
+}
+
+.popup-header {
+    padding: 10% 10% 10% 10%;
+}
+
+.ui-navbar li .ui-btn .ui-btn-inner {
+    padding-top: 0;
+    padding-bottom: 0;
+}

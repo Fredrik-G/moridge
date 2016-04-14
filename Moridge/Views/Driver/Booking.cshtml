@@ -5,19 +5,44 @@
     ViewBag.Title = "Driver Page";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
-
-@*<script>
-    //set this navbar as active
-    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
-        var $footers = $(document).find('div[data-role="footer"]');
-        $footers.find('a[id=Booking]').addClass("ui-btn-active");
+<style>
+    .uiButton:active, .active {
+        background-color: #38c !important;
+        border-color: #38c !important;
+        color: #fff !important;
+        text-shadow: 0 1px 0 #059 !important;
+    }
+</style>
+<script>
+    //Make the clicked button stay active until the popup is closed.
+    $(document).ready(function () {
+        $("*#btnSubmit").click(function () {
+            toggleActive(this);
+        });
+        $("#popupMenu").bind({
+            popupafterclose: function () {
+                $("*#active").each(function () {
+                    toggleActive(this);
+                });
+            }
+        });
+        function toggleActive(button) {
+            $(button).toggleClass("active");
+            $(button).attr("id", $(button).attr("id") === "active" ? "btnSubmit" : "active");
+        }
     });
-</script>*@
+
+    ////set this navbar as active
+    //$(":jqmData(role=page)").bind("pagebeforeshow", function () {
+    //    var $footers = $(document).find('div[data-role="footer"]');
+    //    $footers.find('a[id=Booking]').addClass("ui-btn-active");
+    //});
+</script>
 
 
 @Html.ValidationSummary()
 
-<ul data-role="listview" data-theme="d" data-divider-theme="d" class="ui-listview">
+<ul data-role="listview" class="ui-listview">
     @{
         var days = new List<DateTime>();
         var daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
@@ -38,48 +63,38 @@
         var times = new[] { "Förmiddag", "Eftermiddag" };
         foreach (var time in times)
         {
-        <li class="ui-btn-icon-right">
-            <div class="ui-btn-inner">
-                <a class="ui-link-inherit" href="#popupMenu" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
-                    <p class="ui-li-aside ui-li-desc">
-                        <strong class="black-link">
-                            @time
-                        </strong>
-                    </p>
-                    <h3 class="ui-li-heading black-link">3 av 4 bokningar</h3>
-                    <p class="ui-li-desc black-link">Vad ska det stå här?</p>
-                </a>
-                <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-            </div>
+        <li>
+            <a href="#popupMenu" id="btnSubmit" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+                <p class="ui-li-aside ui-li-desc link-header">
+                    <strong>
+                        @time
+                    </strong>
+                </p>
+                <h3 class="ui-li-heading ">3 av 4 bokningar</h3>
+                <p class="ui-li-desc ">Vad ska det stå här?</p>
+            </a>
         </li>
         }
     }
 </ul>
 
-<div class="ui-screen-hidden ui-popup-screen" id="popupMenu-screen"></div>
-<div class="ui-popup-container ui-selectmenu-hidden" id="popupMenu-popup">
-    <div data-role="popup" id="popupMenu">
-        <ul data-role="listview" data-inset="true" style="min-width: 210px;" data-theme="b">
-            <li data-role="divider" data-theme="a" class="popup-header">Förmiddag</li>
+<div data-role="popup" id="popupMenu" data-theme="a">
+    <ul data-role="listview" data-inset="true" style="min-width: 210px;">
+        <li data-role="divider" class="popup-header">Förmiddag</li>
 
-            @{
-                //TODO use real value
-                const int bookingsForThisDay = 4;
-                for (var i = 0; i < bookingsForThisDay; i++)
-                {
-                <li data-theme="b" class="ui-btn-icon-right">
-                    <div class="ui-btn-inner">
-                        <div class="ui-btn-text popup_item">
-                            <a href="" class="ui-link-inherit" data-ytta-id="-">Grankottevägen 55</a>
-                        </div>
-                        <span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span>
-                    </div>
-                </li>
-                }
+        @{
+            //TODO use real value
+            const int bookingsForThisDay = 4;
+            for (var i = 0; i < bookingsForThisDay; i++)
+            {
+            <li>
+                <a href="" class="popup-header">Grankottevägen 55</a>
+            </li>
             }
-        </ul>
-    </div>
+        }
+    </ul>
 </div>
+
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer">
     <div data-role="navbar">
