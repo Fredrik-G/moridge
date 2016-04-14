@@ -1,11 +1,4 @@
-﻿<div data-role="panel" data-position-fixed="true" data-display="push" data-theme="b" id="nav-panel">
-    <ul data-role="listview" class="ui-listview sidebar-footer">
-        <li>
-            <a href="#" class="ui-btn" data-ytta-id="-">Support</a>
-            <a href="#" class="ui-btn" data-ytta-id="-">Om Moridge</a>
-            <a href="#" class="ui-btn" data-ytta-id="-">Loga ut</a>
-        </li>
-    </ul>
+﻿<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
     <ul data-role="listview" class="ui-listview">
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">Förnamn Efternamn</li>
         <li>
@@ -13,5 +6,20 @@
             <h6>kalle@kalle.se</h6>
             <h6>073-123456789</h6>
         </li>
+    </ul>
+    <ul data-role="listview" class="ui-listview sidebar-footer">
+        <li><a href="http://www.moridge.com/sv-se/orebro/support/index1,10.htm" class="ui-btn">
+            <i class="material-icons">info_outline</i>
+            <span class="align-super">Support</span>
+        </a></li>
+        <li><a href="http://www.moridge.com/sv-se/orebro/moridge/index1,7.htm" class="ui-btn">
+            <i class="material-icons">help_outline</i>
+            <span class="align-super">Om Moridge</span>
+        </a></li>
+        <li>
+            <a href="@Url.Action("LogOff", "Account")" class="ui-btn">
+                <i class="material-icons">exit_to_app</i>
+                <span class="align-super">Logga ut</span>
+            </a></li>
     </ul>
 </div>

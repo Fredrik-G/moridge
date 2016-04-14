@@ -31,10 +31,14 @@
 
 .sidebar-footer {
     position: absolute;
-    left: 0px;
+    left: 0;
     bottom: 3px;
     height: auto;
-    width: 90%;
+    width: 100%;
     padding: 5%;
     border: none;
+}
+
+.align-super {
+    vertical-align: super;
 }
