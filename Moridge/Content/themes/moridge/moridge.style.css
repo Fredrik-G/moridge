@@ -22,3 +22,19 @@
     padding-top: 0;
     padding-bottom: 0;
 }
+
+
+.sidebar-bottom {
+    position: fixed !important;
+    bottom: 20% !important;
+}
+
+.sidebar-footer {
+    position: absolute;
+    left: 0px;
+    bottom: 3px;
+    height: auto;
+    width: 90%;
+    padding: 5%;
+    border: none;
+}
