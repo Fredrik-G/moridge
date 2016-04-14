@@ -9,7 +9,7 @@
 <script>
     //Make the clicked button stay active until the popup is closed.
     $(document).ready(function () {
-        $("*#btnSubmit").click(function () {
+        $("*#bookingButton").click(function () {
             toggleActive(this);
         });
         $("#popupMenu").bind({
@@ -21,7 +21,7 @@
         });
         function toggleActive(button) {
             $(button).toggleClass("active");
-            $(button).attr("id", $(button).attr("id") === "active" ? "btnSubmit" : "active");
+            $(button).attr("id", $(button).attr("id") === "active" ? "bookingButton" : "active");
         }
     });
 
@@ -57,7 +57,7 @@
         foreach (var time in times)
         {
         <li>
-            <a href="#popupMenu" id="btnSubmit" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+            <a href="#popupMenu" id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>
                         @time
