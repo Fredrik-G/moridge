@@ -27,15 +27,15 @@
 
         //Adds content dynamically
         $('*#bookingButton').click(function () {
-            var p1 = $(this).data('occassion');
-            console.log(p1);
+            var occassions = $(this).data('occassions');
+            console.log(occassions);
             var popup = $('#popup-listview');
             popup.empty();
 
             $('<li data-role="divider" class="popup-header">Förmiddag</li>').appendTo(popup);
 
             //List all bookings for this occassions.
-            for (var i = 0; i < @Model.GetBookingsForOccasion(); i++) {
+            for (var i = 0; i < occassions; i++) {
                 $('<li><a href="#" class="popup-header">Grankottevägen 55</a></li>').appendTo(popup);
             }
 
@@ -46,6 +46,7 @@
             });
         });
     });
+
     //set this navbar as active
     //$(":jqmData(role=page)").bind("pagebeforeshow", function () {
     //    var $footers = $(document).find('div[data-role="footer"]');
@@ -66,21 +67,22 @@
 
         foreach (var occassion in Model.OccasionsPerDay)
         {
-        <li>
-            <a href="#" data-occassion=@Model.OccassionString(day, occassion)
-               id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
-                <p class="ui-li-aside ui-li-desc link-header">
-                    <strong>
-                        @occassion
-                    </strong>
-                </p>
-                <h3 class="ui-li-heading ">3 av 4 bokningar</h3>
-                <p class="ui-li-desc ">Vad ska det stå här?</p>
-            </a>
-        </li>
+            <li>
+                <a href="#" data-occassions=@Model.GetBookingsForOccasion(day, occassion)
+                   id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+                    <p class="ui-li-aside ui-li-desc link-header">
+                        <strong>
+                            @occassion
+                        </strong>
+                    </p>
+                    <h3 class="ui-li-heading ">3 av 4 bokningar</h3>
+                    <p class="ui-li-desc ">Vad ska det stå här?</p>
+                </a>
+            </li>
         }
     }
 </ul>
+
 
 <div data-role="popup" id="popupMenu" data-theme="a">
     <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">

@@ -40,19 +40,50 @@ namespace Moridge.Models
             }
         }
 
-        public int GetBookingsForOccasion()
+        public int GetBookingsForOccasion(DateTime day, string occassion)
         {
-            //TODO use real value
-            //Events.Items.FirstOrDefault().Start.Date
-            return 4; //chosen by a fair dice roll. guaranteed to be random.
+            var eventsThisOccassion = new Events { Items = new List<Event>() };
+            foreach (var bookingEvent in Events.Items.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
+            {
+                if (IsTimeDuringOccassion(occassion, bookingEvent.Start.DateTime.Value))
+                {
+                    eventsThisOccassion.Items.Add(bookingEvent);
+                }
+            }
+
+
+            return eventsThisOccassion.Items.Count;
+        }
+
+        /// <summary>
+        /// Checks if given time occurs during the given occassion.
+        /// </summary>
+        /// <param name="occassion"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        private bool IsTimeDuringOccassion(string occassion, DateTime time)
+        {
+            var start = new TimeSpan();
+            var end = new TimeSpan();
+            if (occassion.Equals("Förmiddag"))
+            {
+                start = new TimeSpan(8, 0, 0);
+                end = new TimeSpan(12, 0, 0);
+            }
+            else if (occassion.Equals("Eftermiddag"))
+            {
+                start = new TimeSpan(13, 0, 0);
+                end = new TimeSpan(17, 0, 0);
+            }
+            else
+            {
+                //both false => is debug or some error
+                //if(!debug) { database.logError(); }
+            }
+            return time.TimeOfDay >= start && time.TimeOfDay <= end;
         }
 
         public Events Events { get; set; }
-
-        public string OccassionString(DateTime day, string occassion)
-        {
-            return day.DayOfWeek + (occassion.Equals("Förmiddag") ? "-AM" : "-PM");
-        }
     }
 
 
