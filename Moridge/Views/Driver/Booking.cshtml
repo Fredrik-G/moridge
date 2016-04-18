@@ -19,19 +19,39 @@
                 });
             }
         });
+
         function toggleActive(button) {
             $(button).toggleClass("active");
             $(button).attr("id", $(button).attr("id") === "active" ? "bookingButton" : "active");
         }
-    });
 
-    ////set this navbar as active
+        //Adds content dynamically
+        $('*#bookingButton').click(function () {
+            var p1 = $(this).data('occassion');
+            console.log(p1);
+            var popup = $('#popup-listview');
+            popup.empty();
+
+            $('<li data-role="divider" class="popup-header">Förmiddag</li>').appendTo(popup);
+
+            //List all bookings for this occassions.
+            for (var i = 0; i < @Model.GetBookingsForOccasion(); i++) {
+                $('<li><a href="#" class="popup-header">Grankottevägen 55</a></li>').appendTo(popup);
+            }
+
+            popup.listview('refresh'); 
+            $("#popupMenu").popup("open", {
+                positionTo: "window", 
+                transition: "pop"
+            });
+        });
+    });
+    //set this navbar as active
     //$(":jqmData(role=page)").bind("pagebeforeshow", function () {
     //    var $footers = $(document).find('div[data-role="footer"]');
     //    $footers.find('a[id=Booking]').addClass("ui-btn-active");
     //});
 </script>
-
 
 @Html.ValidationSummary()
 
@@ -43,11 +63,12 @@
             @Model.DayString(day)
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
         </li>
-            
+
         foreach (var occassion in Model.OccasionsPerDay)
         {
         <li>
-            <a href="#popupMenu" id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+            <a href="#" data-occassion=@Model.OccassionString(day, occassion)
+               id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>
                         @occassion
@@ -62,20 +83,9 @@
 </ul>
 
 <div data-role="popup" id="popupMenu" data-theme="a">
-    <ul data-role="listview" data-inset="true" style="min-width: 210px;">
-        <li data-role="divider" class="popup-header">Förmiddag</li>
-
-        @{
-            for (var i = 0; i < Model.BookingsToday; i++)
-            {
-            <li>
-                <a href="" class="popup-header">Grankottevägen 55</a>
-            </li>
-            }
-        }
+    <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     </ul>
 </div>
-
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">

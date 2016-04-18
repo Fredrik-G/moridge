@@ -1,6 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Google.Apis.Calendar.v3.Data;
 using Moridge.Helpers;
 using Moridge.Models;
+using MyMoridgeServer.BusinessLogic;
 
 namespace Moridge.Controllers
 {
@@ -9,11 +13,12 @@ namespace Moridge.Controllers
     {
         public ActionResult Booking()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            var bookingModel = new BookingModel();
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            var events = calendar.GetEventList();
+            var bookingModel = new BookingModel { Events = events };
             return View(bookingModel);
         }
+
         public ActionResult Schedule()
         {
             return View();

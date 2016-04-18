@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using Google.Apis.Calendar.v3.Data;
 
 namespace Moridge.Models
 {
@@ -38,13 +40,18 @@ namespace Moridge.Models
             }
         }
 
-        public int BookingsToday
+        public int GetBookingsForOccasion()
         {
-            get
-            {
-                //TODO use real value
-                return 4;
-            }
+            //TODO use real value
+            //Events.Items.FirstOrDefault().Start.Date
+            return 4; //chosen by a fair dice roll. guaranteed to be random.
+        }
+
+        public Events Events { get; set; }
+
+        public string OccassionString(DateTime day, string occassion)
+        {
+            return day.DayOfWeek + (occassion.Equals("Förmiddag") ? "-AM" : "-PM");
         }
     }
 
