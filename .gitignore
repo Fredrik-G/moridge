@@ -3,6 +3,7 @@
 
 *.config
 Web.config
+*.p12
 
 Moridge.Tests/
 packages/
