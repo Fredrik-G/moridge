@@ -1,5 +1,5 @@
 ﻿@using System.Globalization
-@model Moridge.Models.DriverModel
+@model Moridge.Models.BookingModel
 
 @{
     ViewBag.Title = "Driver Page";
@@ -36,31 +36,21 @@
 @Html.ValidationSummary()
 
 <ul data-role="listview" class="ui-listview">
-    @{
-        var days = new List<DateTime>();
-        var daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
-        for (var i = 0; i < daysInWeek; i++)
-        {
-            days.Add(DateTime.Now.AddDays(i));
-        }
-        //TODO skippa helg?
-    }
 
-    @foreach (var day in days)
+    @foreach (var day in Model.Days)
     {
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
-            @day.DayOfWeek, @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("MMMM d, yyyy"))
+            @Model.DayString(day)
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
         </li>
             
-        var times = new[] { "Förmiddag", "Eftermiddag" };
-        foreach (var time in times)
+        foreach (var occassion in Model.OccasionsPerDay)
         {
         <li>
             <a href="#popupMenu" id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>
-                        @time
+                        @occassion
                     </strong>
                 </p>
                 <h3 class="ui-li-heading ">3 av 4 bokningar</h3>
@@ -76,9 +66,7 @@
         <li data-role="divider" class="popup-header">Förmiddag</li>
 
         @{
-            //TODO use real value
-            const int bookingsForThisDay = 4;
-            for (var i = 0; i < bookingsForThisDay; i++)
+            for (var i = 0; i < Model.BookingsToday; i++)
             {
             <li>
                 <a href="" class="popup-header">Grankottevägen 55</a>

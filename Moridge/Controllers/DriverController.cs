@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Moridge.Helpers;
+using Moridge.Models;
 
 namespace Moridge.Controllers
 {
@@ -10,7 +11,8 @@ namespace Moridge.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+            var bookingModel = new BookingModel();
+            return View(bookingModel);
         }
         public ActionResult Schedule()
         {
