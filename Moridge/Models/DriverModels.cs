@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
+using System.Web.Helpers;
 using Google.Apis.Calendar.v3.Data;
 
 namespace Moridge.Models
@@ -29,7 +31,7 @@ namespace Moridge.Models
 
         public string DayString(DateTime day)
         {
-            return day.DayOfWeek + ", " + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("MMMM d, yyyy"));
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy"));
         }
 
         public string[] OccasionsPerDay
@@ -40,19 +42,20 @@ namespace Moridge.Models
             }
         }
 
-        public int GetBookingsForOccasion(DateTime day, string occassion)
+        public IList<Event> GetBookingsForOccasion(string date, string occassion)
         {
+            var splittedDate = date.Split('-');
+            var day = new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
+
             var eventsThisOccassion = new Events { Items = new List<Event>() };
-            foreach (var bookingEvent in Events.Items.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
+            foreach (var bookingEvent in Events.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
             {
                 if (IsTimeDuringOccassion(occassion, bookingEvent.Start.DateTime.Value))
                 {
                     eventsThisOccassion.Items.Add(bookingEvent);
                 }
             }
-
-
-            return eventsThisOccassion.Items.Count;
+            return eventsThisOccassion.Items;
         }
 
         /// <summary>
@@ -83,7 +86,8 @@ namespace Moridge.Models
             return time.TimeOfDay >= start && time.TimeOfDay <= end;
         }
 
-        public Events Events { get; set; }
+        public IList<Event> Events { get; set; }
+
     }
 
 

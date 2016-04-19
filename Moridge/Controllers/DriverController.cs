@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.Helpers;
@@ -15,8 +14,20 @@ namespace Moridge.Controllers
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             var events = calendar.GetEventList();
-            var bookingModel = new BookingModel { Events = events };
-            return View(bookingModel);
+            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
+
+            return View(new BookingModel { Events = events.Items });
+        }
+
+        public void SetClickedDate(string date, string occassion)
+        {
+            var bookingModel = new BookingModel { Events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event> };
+            System.Web.HttpContext.Current.Session["Events"] = bookingModel.GetBookingsForOccasion(date, occassion);
+        }
+
+        public ActionResult _PopupPartial()
+        {
+            return PartialView();
         }
 
         public ActionResult Schedule()
