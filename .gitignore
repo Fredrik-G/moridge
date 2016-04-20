@@ -4,6 +4,7 @@
 *.config
 Web.config
 *.p12
+*.pubxml
 
 Moridge.Tests/
 packages/
