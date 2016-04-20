@@ -18,10 +18,20 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
+        //Makes the header button open the sidebar.
         function setSideBar() {
             $('*#nav-btn').off('click');
             $('*#nav-btn').prop("href", "#nav-panel");
             $('*#nav-btn').addClass("ui-icon-bars").removeClass("ui-icon-back");
+        }
+        //Makes the header button act as a back button.
+        function setBackButton() {
+            $('*#nav-btn').prop("href", "#");
+            $('*#nav-btn').on('click');
+            $('*#nav-btn').click(function () {
+                parent.history.back();
+                return false;
+            });
         }
     </script>
 </head>

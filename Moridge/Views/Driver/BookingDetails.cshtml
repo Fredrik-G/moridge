@@ -7,15 +7,7 @@
 
 <script>
     $(document).ready(function () {
-        $('*#nav-btn').prop("href", "#");
-        var icon = $("*#nav-btn");
-
-        $('*#nav-btn').on('click');
-        $('*#nav-btn').click(function () {
-            console.log("klick");
-            parent.history.back();
-            return false;
-        });
+        setBackButton();
     });
 </script>
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
@@ -35,7 +27,6 @@
         }
     }
 </ul>
-
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">
