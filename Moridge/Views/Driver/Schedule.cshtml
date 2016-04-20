@@ -4,7 +4,11 @@
     ViewBag.Title = "Driver Page";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
-
+<script>
+    $(":jqmData(role=page)").bind("pagebeforeshow", function() {
+        setSideBar();
+    });
+</script>
 @Html.ValidationSummary()
 
 hejsan :)

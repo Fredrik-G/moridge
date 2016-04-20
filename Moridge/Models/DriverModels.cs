@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,10 @@ namespace Moridge.Models
 {
     public class BookingModel
     {
+        #region Data
+
         private List<DateTime> _days;
+
         public List<DateTime> Days
         {
             get
@@ -18,7 +22,7 @@ namespace Moridge.Models
                 if (_days == null)
                 {
                     _days = new List<DateTime>();
-                    var daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
+                    var daysInWeek = Enum.GetNames(typeof (DayOfWeek)).Length;
                     for (var i = 0; i < daysInWeek; i++)
                     {
                         _days.Add(DateTime.Now.AddDays(i));
@@ -29,33 +33,38 @@ namespace Moridge.Models
             }
         }
 
+        public string CurrentOccassion { get; set; }
+
+        public string[] OccasionsPerDay
+        {
+            get { return new[] {"Förmiddag", "Eftermiddag"}; }
+        }
+
+        public IList<Event> Events { get; set; }
+        public Events EventsThisOccassion { get; set; }
+
+        #endregion
+
         public string DayString(DateTime day)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy"));
         }
 
-        public string[] OccasionsPerDay
-        {
-            get
-            {
-                return new[] { "Förmiddag", "Eftermiddag" };
-            }
-        }
-
         public IList<Event> GetBookingsForOccasion(string date, string occassion)
         {
+            CurrentOccassion = occassion;
             var splittedDate = date.Split('-');
             var day = new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
 
-            var eventsThisOccassion = new Events { Items = new List<Event>() };
+            EventsThisOccassion = new Events { Items = new List<Event>() };
             foreach (var bookingEvent in Events.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
             {
                 if (IsTimeDuringOccassion(occassion, bookingEvent.Start.DateTime.Value))
                 {
-                    eventsThisOccassion.Items.Add(bookingEvent);
+                    EventsThisOccassion.Items.Add(bookingEvent);
                 }
             }
-            return eventsThisOccassion.Items;
+            return EventsThisOccassion.Items;
         }
 
         /// <summary>
@@ -85,9 +94,6 @@ namespace Moridge.Models
             }
             return time.TimeOfDay >= start && time.TimeOfDay <= end;
         }
-
-        public IList<Event> Events { get; set; }
-
     }
 
 

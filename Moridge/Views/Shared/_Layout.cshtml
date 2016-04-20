@@ -17,27 +17,34 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script>
+        function setSideBar() {
+            $('*#nav-btn').off('click');
+            $('*#nav-btn').prop("href", "#nav-panel");
+            $('*#nav-btn').addClass("ui-icon-bars").removeClass("ui-icon-back");
+        }
+    </script>
 </head>
 <body>
-<div data-role="page" data-theme="a" id="@ViewContext.Controller.ValueProvider.GetValue("action").RawValue">
+    <div data-role="page" data-theme="a">
 
-    @Html.Partial("_SidePanel")
+        @Html.Partial("_SidePanel")
 
-    <div data-role="header" data-theme="a">
-        @if (IsSectionDefined("Header"))
-        {
-            @RenderSection("Header")
-        }
-        else
-        {
-            <h1>@ViewBag.Title</h1>
-            @Html.Partial("_LoginPartial")
-        }
+        <div data-role="header" data-theme="a">
+            @if (IsSectionDefined("Header"))
+            {
+                @RenderSection("Header")
+            }
+            else
+            {
+                <h1>@ViewBag.Title</h1>
+                @Html.Partial("_LoginPartial")
+            }
+        </div>
+        <div data-role="content">
+            @RenderBody()
+        </div>
     </div>
-    <div data-role="content">
-        @RenderBody()
-    </div>
-</div>
     <script>
         $(document).on("mobileinit", function () {
             $.mobile.ajaxEnabled = false;

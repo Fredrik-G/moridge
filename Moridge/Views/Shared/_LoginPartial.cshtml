@@ -1,6 +1,6 @@
 ﻿@if (Request.IsAuthenticated)
 {
-    <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+    <a href="#nav-panel" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
     @*@Html.ActionLink(User.Identity.Name, "Index", "Account", routeValues: null, htmlAttributes: new { data_icon = "gear" })*@
 }
 else

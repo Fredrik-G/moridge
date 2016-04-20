@@ -112,8 +112,7 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MyMoridgeServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MyMoridgeServer">
       <HintPath>..\..\MoridgeServer\MyMoridgeServer\MyMoridgeServer\obj\Release\MyMoridgeServer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -370,6 +369,7 @@
     <Content Include="Views\Driver\PersonalInfo.cshtml" />
     <Content Include="Views\Shared\_SidePanel.cshtml" />
     <Content Include="Views\Driver\_PopupPartial.cshtml" />
+    <Content Include="Views\Driver\BookingDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

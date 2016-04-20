@@ -8,8 +8,15 @@
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 
 <script>
-    //Make the clicked button stay active until the popup is closed.
+    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
+        setSideBar();
+    });
+</script>
+
+@*Make the clicked button stay active until the popup is closed.
     $(document).ready(function () {
+    $('*#bajs').off('click');
+    $('*#bajs').click(function () {console.log("navbar klick") });
         $("*#bookingButton").click(function () {
             toggleActive(this);
         });
@@ -24,19 +31,19 @@
         function toggleActive(button) {
             $(button).toggleClass("active");
             $(button).attr("id", $(button).attr("id") === "active" ? "bookingButton" : "active");
-        }
+        }*@
 
-        $(function () {
-            $('*#bookingButton').click(function () {
-                var date = $(this).data('date');
-                var occassion = $(this).data('occassion');
-                $.post('/Driver/SetClickedDate', { date: date, occassion:  occassion});
-                $('#popup-listview').load('@Url.Action("_PopupPartial", "Driver")');
-                return false;
-            });
-        });
+@*  $(function () {
+              $('*#bookingButton').click(function () {
+                  var date = $(this).data('date');
+                  var occassion = $(this).data('occassion');
+                  $.post('/Driver/SetClickedDate', { date: date, occassion: occassion });
+                  $('#popup-listview').load('@Url.Action("_PopupPartial", "Driver")');
+                  return false;
+              });
+          });*@
 
-        @*   //Adds content dynamically
+@*   //Adds content dynamically
         $('*#bookingButton').click(function () {
             var day = $(this).data('day');
             var occassion = $(this).data('occassion');
@@ -55,18 +62,17 @@
                 positionTo: "window",
                 transition: "pop"
             });
-        });*@
-    });
+        });
+    });*@
 
-    //set this navbar as active
-    //$(":jqmData(role=page)").bind("pagebeforeshow", function () {
-    //    var $footers = $(document).find('div[data-role="footer"]');
-    //    $footers.find('a[id=Booking]').addClass("ui-btn-active");
-    //});
-</script>
+@*//set this navbar as active
+    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
+        var $footers = $(document).find('div[data-role="footer"]');
+        $footers.find('a[id=Booking]').addClass("ui-btn-active");
+    });*@
+@*</script>*@
 
 @Html.ValidationSummary()
-
 
 <ul data-role="listview" class="ui-listview">
 
@@ -74,14 +80,14 @@
     {
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
             @Model.DayString(day)
-            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">2</span>
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@Model.Events.Count</span>
         </li>
 
         foreach (var occassion in Model.OccasionsPerDay)
         {
         <li>
-            <a href="#" data-date=@day.ToString("d") data-occassion=@occassion
-                   id="bookingButton" data-rel="popup" data-position-to="origin" data-inline="true" data-transition="pop">
+            <a href='@Url.Action("BookingDetails", "Driver", new { date = day.ToString("yyyy-M-d"), occassion = occassion })' data-date=@day.ToString("d") data-occassion=@occassion
+                 data-transition="slidedown">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>
                         @occassion
