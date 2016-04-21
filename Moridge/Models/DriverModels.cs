@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
+using Moridge.BusinessLogic;
 
 namespace Moridge.Models
 {
@@ -11,6 +12,13 @@ namespace Moridge.Models
         #region Data
 
         private List<DateTime> _days;
+
+        public BookingModel(IList<Event> events)
+        {
+            Booking.Events = events;
+        }
+
+        public Booking Booking {get;} = new Booking();
 
         public List<DateTime> Days
         {
@@ -30,73 +38,13 @@ namespace Moridge.Models
             }
         }
 
-        public string CurrentOccassion { get; set; }
-
-        public string[] OccasionsPerDay
-        {
-            get { return new[] {"Förmiddag", "Eftermiddag"}; }
-        }
-
-        public IList<Event> Events { get; set; }
-        public Events EventsThisOccassion { get; set; }
-        public int TotalNumberOfBookings { get; set; }
-
         #endregion
 
-        public string DayString(DateTime day) => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy"));
-
-        /// <summary>
-        /// Gets all bookings for the given occassion.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <param name="occassion"></param>
-        /// <returns></returns>
-        public IList<Event> GetBookingsForOccasion(string date, string occassion)
-        {
-            CurrentOccassion = occassion;
-            var splittedDate = date.Split('-');
-            var day = new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
-
-            EventsThisOccassion = new Events { Items = new List<Event>() };
-            foreach (var bookingEvent in Events.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
-            {
-                if (IsTimeDuringOccassion(occassion, bookingEvent.Start.DateTime.Value))
-                {
-                    EventsThisOccassion.Items.Add(bookingEvent);
-                }
-            }
-            return EventsThisOccassion.Items;
-        }
-
-        /// <summary>
-        /// Checks if given time occurs during the given occassion.
-        /// </summary>
-        /// <param name="occassion"></param>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        private bool IsTimeDuringOccassion(string occassion, DateTime time)
-        {
-            var swedishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-            var swedishTime = TimeZoneInfo.ConvertTimeFromUtc(time.ToUniversalTime(), swedishTimeZone);
-            var start = new TimeSpan();
-            var end = new TimeSpan();
-            if (occassion.Equals("Förmiddag"))
-            {
-                start = new TimeSpan(8, 0, 0);
-                end = new TimeSpan(12, 0, 0);
-            }
-            else if (occassion.Equals("Eftermiddag"))
-            {
-                start = new TimeSpan(13, 0, 0);
-                end = new TimeSpan(17, 0, 0);
-            }
-            else
-            {
-                //both false => is debug or some error
-                //if(!debug) { database.logError(); }
-            }
-            return swedishTime.TimeOfDay >= start && swedishTime.TimeOfDay <= end;
-        }
+        public string GetDayString(DateTime day) => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy"));
+        public string GetMissingBookings(string date) => Booking.GetMissingBookings(date);
+        public string GetTitle() => Booking.Occassions.CurrentOccassion;
+        public string[] GetOccasionsPerDay() => Booking.Occassions.OccasionsPerDay;
+        public IList<Event> GetEventsThisOccassion => Booking.Occassions.EventsThisOccassion.Items;     
 
         /// <summary>
         /// Gets the text for the header.
@@ -106,27 +54,9 @@ namespace Moridge.Models
         /// <returns></returns>
         public string GetHeaderText(string date, string occassion)
         {
-            var upcomingOccassions = GetBookingsForOccasion(date, occassion).Count;
+            var upcomingOccassions = Booking.GetBookingsForOccasion(date, occassion).Count;
             var numberOfBookingsForThisDriver = 4; //TODO
             return $"{upcomingOccassions} av {numberOfBookingsForThisDriver} bokningar";
-        }
-
-        /// <summary>
-        /// Gets the number of missing bookings for this driver.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public string GetMissingBookings(string date)
-        {
-            TotalNumberOfBookings = 0;
-            //Get total bookings for this date
-            foreach(var occassion in OccasionsPerDay)
-            {
-                TotalNumberOfBookings += GetBookingsForOccasion(date, occassion).Count;
-            }
-            //Subtract those already booked
-            return (4*2 - TotalNumberOfBookings).ToString();
-            //TODO
         }
     }
 

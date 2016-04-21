@@ -1,7 +1,7 @@
 ﻿@model Moridge.Models.BookingModel
 
 @{
-    ViewBag.Title = Model.CurrentOccassion;
+    ViewBag.Title = Model.GetTitle();
 }
 
 <script>
@@ -16,7 +16,7 @@
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     @{
         //Adds content dynamically
-        foreach (var bookingEvent in Model.EventsThisOccassion.Items)
+        foreach (var bookingEvent in Model.GetEventsThisOccassion)
         {
         <li>
             <a href="#" class="popup-header">@bookingEvent.Location

@@ -245,8 +245,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="BusinessLogic\Booking.cs" />
     <Compile Include="Models\DriverModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="BusinessLogic\Occassions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

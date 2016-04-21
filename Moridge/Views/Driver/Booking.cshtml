@@ -21,11 +21,11 @@
     {
         var totalBookings = @Model.GetMissingBookings(day.ToString("yyyy-M-d"));
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
-            @Model.DayString(day)
+            @Model.GetDayString(day)
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@totalBookings</span>
         </li>
 
-        foreach (var occassion in Model.OccasionsPerDay)
+        foreach (var occassion in Model.GetOccasionsPerDay())
         {
         <li>
             <a href='@Url.Action("BookingDetails", "Driver", new { date = day.ToString("yyyy-M-d"), occassion = occassion })'

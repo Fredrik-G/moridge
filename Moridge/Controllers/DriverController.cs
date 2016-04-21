@@ -16,7 +16,7 @@ namespace Moridge.Controllers
             var events = calendar.GetEventList();
             System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
 
-            return View(new BookingModel { Events = events.Items });
+            return View(new BookingModel(events.Items));
         }
 
         public void SetClickedDate(string date, string occassion)
@@ -27,8 +27,9 @@ namespace Moridge.Controllers
 
         public ActionResult BookingDetails(string date, string occassion)
         {
-            var bookingModel = new BookingModel { Events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event> };
-            bookingModel.GetBookingsForOccasion(date, occassion);
+            var events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event>;
+            var bookingModel = new BookingModel(events);
+            bookingModel.Booking.GetBookingsForOccasion(date, occassion);
             return View(bookingModel);
         }
 
