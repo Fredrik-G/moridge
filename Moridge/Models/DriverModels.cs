@@ -75,6 +75,8 @@ namespace Moridge.Models
         /// <returns></returns>
         private bool IsTimeDuringOccassion(string occassion, DateTime time)
         {
+            var swedishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            var swedishTime = TimeZoneInfo.ConvertTimeFromUtc(time.ToUniversalTime(), swedishTimeZone);
             var start = new TimeSpan();
             var end = new TimeSpan();
             if (occassion.Equals("Förmiddag"))
@@ -92,7 +94,7 @@ namespace Moridge.Models
                 //both false => is debug or some error
                 //if(!debug) { database.logError(); }
             }
-            return time.TimeOfDay >= start && time.TimeOfDay <= end;
+            return swedishTime.TimeOfDay >= start && swedishTime.TimeOfDay <= end;
         }
     }
 

@@ -1,5 +1,4 @@
-﻿@using Google.Apis.Calendar.v3.Data
-@model Moridge.Models.BookingModel
+﻿@model Moridge.Models.BookingModel
 
 @{
     ViewBag.Title = Model.CurrentOccassion;
@@ -15,14 +14,17 @@
 @Html.ValidationSummary()
 
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
-    <li data-role="divider" class="popup-header">Förmiddag</li>
-
     @{
         //Adds content dynamically
-        foreach (var bookingEvent in Model.Events)
+        foreach (var bookingEvent in Model.EventsThisOccassion.Items)
         {
         <li>
-            <a href="#" class="popup-header">@bookingEvent.Location</a>
+            <a href="#" class="popup-header">@bookingEvent.Location
+                <p>@bookingEvent.Start.DateTime.Value.Date.ToString("yyyy-M-d") @bookingEvent.Start.DateTime.Value.TimeOfDay</p>
+                <p>@bookingEvent.Summary</p>
+                <p>@bookingEvent.Start.DateTime.Value.ToUniversalTime().TimeOfDay</p>
+                <p>@bookingEvent.Description</p>
+            </a>
         </li>
         }
     }
