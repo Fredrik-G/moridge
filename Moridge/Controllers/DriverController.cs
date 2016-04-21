@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Google.Apis.Calendar.v3.Data;
-using Moridge.Helpers;
+using Moridge.BusinessLogic;
 using Moridge.Models;
 using MyMoridgeServer.BusinessLogic;
 

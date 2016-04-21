@@ -7,7 +7,6 @@ using Moridge.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.BusinessLogic;
-using Moridge.Helpers;
 
 namespace Moridge.Controllers
 {

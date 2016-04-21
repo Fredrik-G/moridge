@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Moridge.Helpers;
+using Moridge.BusinessLogic;
 
 namespace Moridge.Controllers
 {

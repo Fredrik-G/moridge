@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Moridge.Helpers;
+using Moridge.BusinessLogic;
 
 namespace Moridge.Models
 {

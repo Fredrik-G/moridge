@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.Models;
 
-namespace Moridge.Helpers
+namespace Moridge.BusinessLogic
 {
     /// <summary>
     /// Contains information and methods regarding roles.
