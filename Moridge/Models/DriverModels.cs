@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using Google.Apis.Calendar.v3.Data;
 
 namespace Moridge.Models
@@ -42,14 +39,18 @@ namespace Moridge.Models
 
         public IList<Event> Events { get; set; }
         public Events EventsThisOccassion { get; set; }
+        public int TotalNumberOfBookings { get; set; }
 
         #endregion
 
-        public string DayString(DateTime day)
-        {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy"));
-        }
+        public string DayString(DateTime day) => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy"));
 
+        /// <summary>
+        /// Gets all bookings for the given occassion.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="occassion"></param>
+        /// <returns></returns>
         public IList<Event> GetBookingsForOccasion(string date, string occassion)
         {
             CurrentOccassion = occassion;
@@ -95,6 +96,37 @@ namespace Moridge.Models
                 //if(!debug) { database.logError(); }
             }
             return swedishTime.TimeOfDay >= start && swedishTime.TimeOfDay <= end;
+        }
+
+        /// <summary>
+        /// Gets the text for the header.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="occassion"></param>
+        /// <returns></returns>
+        public string GetHeaderText(string date, string occassion)
+        {
+            var upcomingOccassions = GetBookingsForOccasion(date, occassion).Count;
+            var numberOfBookingsForThisDriver = 4; //TODO
+            return $"{upcomingOccassions} av {numberOfBookingsForThisDriver} bokningar";
+        }
+
+        /// <summary>
+        /// Gets the number of missing bookings for this driver.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public string GetMissingBookings(string date)
+        {
+            TotalNumberOfBookings = 0;
+            //Get total bookings for this date
+            foreach(var occassion in OccasionsPerDay)
+            {
+                TotalNumberOfBookings += GetBookingsForOccasion(date, occassion).Count;
+            }
+            //Subtract those already booked
+            return (4*2 - TotalNumberOfBookings).ToString();
+            //TODO
         }
     }
 

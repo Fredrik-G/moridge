@@ -13,94 +13,34 @@
     });
 </script>
 
-@*Make the clicked button stay active until the popup is closed.
-    $(document).ready(function () {
-    $('*#bajs').off('click');
-    $('*#bajs').click(function () {console.log("navbar klick") });
-        $("*#bookingButton").click(function () {
-            toggleActive(this);
-        });
-        $("#popupMenu").bind({
-            popupafterclose: function () {
-                $("*#active").each(function () {
-                    toggleActive(this);
-                });
-            }
-        });
-
-        function toggleActive(button) {
-            $(button).toggleClass("active");
-            $(button).attr("id", $(button).attr("id") === "active" ? "bookingButton" : "active");
-        }*@
-
-@*  $(function () {
-              $('*#bookingButton').click(function () {
-                  var date = $(this).data('date');
-                  var occassion = $(this).data('occassion');
-                  $.post('/Driver/SetClickedDate', { date: date, occassion: occassion });
-                  $('#popup-listview').load('@Url.Action("_PopupPartial", "Driver")');
-                  return false;
-              });
-          });*@
-
-@*   //Adds content dynamically
-        $('*#bookingButton').click(function () {
-            var day = $(this).data('day');
-            var occassion = $(this).data('occassion');
-            var popup = $('#popup-listview');
-            popup.empty();
-
-            $(@Html.Raw(Model.GetText())).appendTo(popup);
-
-            //List all bookings for this occassions.
-            //for (var i = 0; i < occassions; i++) {
-            //    $('<li><a href="#" class="popup-header">Grankottevägen '+i+'</a></li>').appendTo(popup);
-            //}
-
-            popup.listview('refresh');
-            $("#popupMenu").popup("open", {
-                positionTo: "window",
-                transition: "pop"
-            });
-        });
-    });*@
-
-@*//set this navbar as active
-    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
-        var $footers = $(document).find('div[data-role="footer"]');
-        $footers.find('a[id=Booking]').addClass("ui-btn-active");
-    });*@
-@*</script>*@
-
 @Html.ValidationSummary()
 
 <ul data-role="listview" class="ui-listview">
 
     @foreach (var day in Model.Days)
     {
+        var totalBookings = @Model.GetMissingBookings(day.ToString("yyyy-M-d"));
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
             @Model.DayString(day)
-            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@Model.Events.Count</span>
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@totalBookings</span>
         </li>
 
         foreach (var occassion in Model.OccasionsPerDay)
         {
         <li>
-            <a href='@Url.Action("BookingDetails", "Driver", new { date = day.ToString("yyyy-M-d"), occassion = occassion })' data-date=@day.ToString("d") data-occassion=@occassion
+            <a href='@Url.Action("BookingDetails", "Driver", new { date = day.ToString("yyyy-M-d"), occassion = occassion })'
                  data-transition="slidedown">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>
                         @occassion
                     </strong>
                 </p>
-                <h3 class="ui-li-heading ">3 av 4 bokningar</h3>
-                <p class="ui-li-desc ">Vad ska det stå här?</p>
+                <h3 class="ui-li-heading ">@Model.GetHeaderText(day.ToString("yyyy-M-d"), occassion)</h3>
             </a>
         </li>
         }
     }
 </ul>
-
 
 <div data-role="popup" id="popupMenu" data-theme="a">
     <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
