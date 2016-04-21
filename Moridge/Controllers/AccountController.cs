@@ -6,6 +6,7 @@ using Moridge.Models;
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Moridge.BusinessLogic;
 using Moridge.Helpers;
 
 namespace Moridge.Controllers
@@ -28,7 +29,7 @@ namespace Moridge.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            return View();
+            return View(new LoginModel());
         }
 
         //
@@ -43,7 +44,7 @@ namespace Moridge.Controllers
 
             var context = new ApplicationDbContext();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var user = userManager.Find(model.UserName, model.Password);
+            var user = userManager.FindByNameOrEmail(model.Email, model.Password);
 
             //user was found => correct login
             if (user != null)

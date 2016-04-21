@@ -23,13 +23,17 @@ namespace Moridge.Models
 
     public class LoginModel
     {
+        private const string _emailDisplay = "Din e-postadress";
+        public string EmailDisplay => _emailDisplay;
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = _emailDisplay)]
+        public string Email { get; set; }
 
+        private const string _passwordDisplay = "Ditt lösenord";
+        public string PasswordDisplay => _passwordDisplay;
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = _passwordDisplay)]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
