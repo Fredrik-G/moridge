@@ -43,7 +43,7 @@ namespace Moridge.Controllers
 
             var context = new ApplicationDbContext();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var user = userManager.FindByNameOrEmail(model.Email, model.Password);
+            var user = userManager.FindByEmail(model.Email, model.Password);
 
             //user was found => correct login
             if (user != null)
