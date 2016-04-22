@@ -10,6 +10,7 @@
 <script>
     $(":jqmData(role=page)").bind("pagebeforeshow", function () {
         setSideBar();
+        $('.header-btn-right').hide();
     });
 </script>
 
@@ -56,7 +57,7 @@
                     <span style="font-size: 12px; display: block;">Boka</span>
                 </span></a>
             </li>
-            <li><a href="@Url.Action("Schedule", "Driver")" data-transition="slide"><span>
+            <li><a href="@Url.Action("Schedule", "Driver")" onclick="setPageIndicator(2)" data-transition="slide"><span>
                 <i class="material-icons">event</i>
                 <span style="font-size: 12px; display: block;">Arbetsschema</span>
             </span></a></li>

@@ -81,3 +81,36 @@
 .ui-input-text {
     height: 28px !important;
 }
+
+.header-btn-right {
+    padding: 10px 0 0 0 !important;
+    background-color: #000000 !important;
+    background-color: rgba(0, 0, 0, 0) !important;
+    border-color: #000000 !important;
+    border-color: rgba(0, 0, 0, 0) !important;
+}
+
+#page-indicator {
+    /* you can add positioning properties here if needed */
+    width: 75px; 
+    padding: 0 0 0 36%;
+    height: 0;
+}
+
+#page-indicator a {
+    display: block;
+    float: left;
+    width: 10px;
+    height: 10px;
+    text-indent: -999em;
+    background: #dbdbdb;
+    border-radius: 10px; /* must be the same as width and height */
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    box-shadow: 0 0 1px 1px #707173; /* border color */
+    margin-right: 10px;
+}
+
+#page-indicator a.activeSlide {
+    background: #707173; /* color when active */
+}

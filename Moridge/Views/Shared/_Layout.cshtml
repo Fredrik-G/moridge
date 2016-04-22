@@ -27,6 +27,17 @@
         function setBackButton() {
             $('*#nav-btn').prop("href", '@Url.Action("Booking", "Driver")');
         }
+        //Sets the given page as active in the page indicator.
+        function setPageIndicator(page) {
+            if (page === 1) {
+                $('*#page-indicator-1').attr("class", "activeSlide");
+                $('*#page-indicator-2').attr("class", "");
+            }
+            else if (page === 2) {
+                $('*#page-indicator-1').attr("class", "");
+                $('*#page-indicator-2').attr("class", "activeSlide");
+            }
+        }
     </script>
 </head>
 <body>
@@ -41,7 +52,12 @@
             }
             else
             {
-                <h1>@ViewBag.Title</h1>
+                <h1>
+                    <div id="page-indicator">
+                        <a href="#" id="page-indicator-1" class="activeSlide">Boka</a>
+                        <a href="#" id="page-indicator-2" class=""></a>
+                    </div>
+                </h1>
                 @Html.Partial("_LoginPartial")
             }
         </div>

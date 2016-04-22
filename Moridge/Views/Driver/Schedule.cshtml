@@ -7,6 +7,11 @@
 <script>
     $(":jqmData(role=page)").bind("pagebeforeshow", function () {
         setSideBar();
+
+    });
+    $(document).ready(function () {
+        setPageIndicator(2);
+        $('.header-btn-right').show();
     });
 </script>
 
@@ -60,7 +65,7 @@
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">
         <ul>
-            <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
+            <li><a href="@Url.Action("Booking", "Driver")" onclick="setPageIndicator(1)" data-transition="slide" data-direction="reverse"><span>
                 <i class="material-icons">assignment</i>
                 <span style="font-size: 12px; display: block;">Boka</span>
             </span></a>
