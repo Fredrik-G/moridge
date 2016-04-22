@@ -39,6 +39,8 @@ namespace Moridge.BusinessLogic
             return _days;
         }
 
-        public string GetDayString(DateTime day) => _swedishCultureInfo.TextInfo.ToTitleCase(@day.ToString("dddd, MMMM d, yyyy", _swedishCultureInfo));
+        public string GetDayString(DateTime day, bool isShort = false) 
+            => _swedishCultureInfo.TextInfo.ToTitleCase(
+                @day.ToString(isShort ? "dddd" : "dddd, MMMM d, yyyy", _swedishCultureInfo));
     }
 }

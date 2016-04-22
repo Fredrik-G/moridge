@@ -40,7 +40,7 @@ namespace Moridge.Controllers
 
         public ActionResult Schedule()
         {
-            return View();
+            return View(new ScheduleModel());
         }
         public ActionResult PersonalInfo()
         {

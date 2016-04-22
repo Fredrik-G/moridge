@@ -47,6 +47,7 @@ namespace Moridge.Models
 
         public string GetTitle() => "Arbetsschema";
         public List<DateTime> GetDays() => Schedule.Days.AllDays(startFromToday: false);
+        public string GetDayString(DateTime day) => Schedule.Days.GetDayString(day, true);
     }
 
     public class PersonalInfoModel { }

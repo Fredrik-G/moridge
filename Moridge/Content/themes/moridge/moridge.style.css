@@ -50,3 +50,34 @@
     color: #fff !important;
     text-shadow: 0 1px 0 #059 !important;
 }
+
+.bar-item {
+    padding-left: 4% !important;
+    padding-right: 0 !important;
+}
+
+.list-item {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.ui-flipswitch {
+    width: 4em !important;
+}
+
+.ui-flipswitch-active {
+    width: 2em !important;
+    padding-left: 2em !important;
+}
+
+.flipswitch-label {
+    padding-bottom: 20px !important;
+}
+
+.number-input {
+    height: 30px !important;
+}
+
+.ui-input-text {
+    height: 28px !important;
+}
