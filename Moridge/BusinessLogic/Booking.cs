@@ -11,7 +11,8 @@ namespace Moridge.BusinessLogic
     /// </summary>
     public class Booking
     {
-        public  Occassions Occassions {get;}= new Occassions();
+        public  Occassions Occassions { get;} = new Occassions();
+        public DaysInfo Days { get; } = new DaysInfo();
 
         public IList<Event> Events { get; set; }
         public int TotalNumberOfBookings { get; set; }

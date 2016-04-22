@@ -3,7 +3,7 @@
 @model BookingModel
 
 @{
-    ViewBag.Title = "Driver Page";
+    ViewBag.Title = Model.GetTitle(isDetails: false);
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 
@@ -17,7 +17,7 @@
 
 <ul data-role="listview" class="ui-listview">
 
-    @foreach (var day in Model.Days)
+    @foreach (var day in Model.GetDays())
     {
         var totalBookings = @Model.GetMissingBookings(day.ToString("yyyy-M-d"));
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
