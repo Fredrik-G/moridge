@@ -261,6 +261,8 @@
     <Content Include="Content\images\icons-18-white.png" />
     <Content Include="Content\images\icons-36-black.png" />
     <Content Include="Content\images\icons-36-white.png" />
+    <Content Include="Content\images\logotype-yellow-114x114.png" />
+    <Content Include="Content\images\logotype.png" />
     <Content Include="Content\jquery.mobile-1.2.0.css" />
     <Content Include="Content\jquery.mobile-1.2.0.min.css" />
     <Content Include="Content\jquery.mobile.structure-1.2.0.css" />
