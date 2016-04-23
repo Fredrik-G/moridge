@@ -13,7 +13,7 @@
     Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
 </p>*@
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { data_ajax = "false" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
     
