@@ -38,23 +38,23 @@
                 <div class="ui-block-c">
                     <div class="ui-bar ui-bar-c bar-item" style="height: 80px">
                         <form>
-                            <select name="flip-3" data-role="flipswitch" data-mini="true">
+                            <select data-role="flipswitch" data-mini="true">
                                 <option value="off"></option>
-                                <option value="on"></option>
+                                <option @Model.IsActive(day, "Förmiddag") value="on"></option>
                             </select>
                         </form>
                         <form>
-                            <select name="flip-3" data-role="flipswitch" data-mini="true">
+                            <select data-role="flipswitch" data-mini="true">
                                 <option value="off"></option>
-                                <option value="on"></option>
+                                <option @Model.IsActive(day, "Förmiddag") value="on"></option>
                             </select>
                         </form>
                     </div>
                 </div>
                 <div class="ui-block-d">
                     <div class="ui-bar ui-bar-c bar-item" style="height: 85px">
-                        <input type="number" value="3" data-mini="true">
-                        <input type="number" value="4" data-mini="true" >
+                        <input type="number" value=@day.Occassions["Förmiddag"].BookingsForDriver data-mini="true">
+                        <input type="number" value=@day.Occassions["Eftermiddag"].BookingsForDriver data-mini="true" >
                     </div>
                 </div>
             </div>

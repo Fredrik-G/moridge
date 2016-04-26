@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Moridge.Extensions;
 using Moridge.Models;
 
 namespace Moridge.BusinessLogic
@@ -48,7 +49,9 @@ namespace Moridge.BusinessLogic
             {
                 var day = new Day { DayOfWeek = daySchedule.DayOfWeek };
                 day.Occassions["Förmiddag"].BookingsForDriver = daySchedule.Morning;
+                day.Occassions["Förmiddag"].IsActive = daySchedule.MorningActive;
                 day.Occassions["Eftermiddag"].BookingsForDriver = daySchedule.Afternoon;
+                day.Occassions["Eftermiddag"].IsActive = daySchedule.AfternoonActive;
                 DaysInfo.Days.Add(day);
             }
         }
@@ -58,18 +61,30 @@ namespace Moridge.BusinessLogic
         /// </summary>
         public void CreateDefaultSchedule()
         {
+            var dayNames = DaysInfo.SwedishCultureInfo.DateTimeFormat.DayNames;
+            dayNames = dayNames.Shift((int) DayOfWeek.Monday);
+            const int weekdays = 5;
+            const int weekendDays = 2;
             var days = new List<DaySchedule>();
-            var daysInWeek = Enum.GetNames(typeof (DayOfWeek)).Length;
-            for (var i = 0; i < daysInWeek; i++)
+            for (var i = 0; i < weekdays; i++)
             {
-                var monday = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
-                //Use swedish names for days.
-                var day = DaysInfo.SwedishCultureInfo.TextInfo.ToTitleCase(
-                        monday.AddDays(i).ToString("dddd", DaysInfo.SwedishCultureInfo));
                 days.Add(new DaySchedule{
-                            DayOfWeek = day,
+                            DayOfWeek = DaysInfo.GetDayString(dayNames[i]),
                             Morning = 4,
-                            Afternoon = 4
+                            Afternoon = 4,
+                            MorningActive = true,
+                            AfternoonActive = true
+                        });
+            }
+            //handle weekends diffently
+            for(var i = 0; i < weekendDays; i++)
+            {
+                days.Add(new DaySchedule{
+                            DayOfWeek = DaysInfo.GetDayString(dayNames[weekdays + i]),
+                            Morning = 0,
+                            Afternoon = 0,
+                            MorningActive = false,
+                            AfternoonActive = false
                         });
             }
             _user.Schedule = days;

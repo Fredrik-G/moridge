@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Moridge.Extensions;
 
 namespace Moridge.BusinessLogic
 {
@@ -38,6 +39,8 @@ namespace Moridge.BusinessLogic
 
         public string GetDayString(DateTime day, bool isShort = false) 
             => SwedishCultureInfo.TextInfo.ToTitleCase(
-                @day.ToString(isShort ? "dddd" : "dddd, MMMM d, yyyy", SwedishCultureInfo));
+                day.ToString(isShort ? "dddd" : "dddd, MMMM d, yyyy", SwedishCultureInfo));
+
+        public string GetDayString(string day) => SwedishCultureInfo.TextInfo.ToTitleCase(day);
     }
 }

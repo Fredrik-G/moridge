@@ -25,6 +25,8 @@ namespace Moridge.Models
         public string DayOfWeek { get; set; }
         public int Morning { get; set; }
         public int Afternoon { get; set; }
+        public bool MorningActive { get; set; }
+        public bool AfternoonActive { get; set; }
     }
 
     /// <summary>
@@ -42,8 +44,6 @@ namespace Moridge.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        //public System.Data.Entity.DbSet<DaySchedule> Schedule { get; set; }
-
         public ApplicationDbContext()
             : base("DefaultConnection")
         {

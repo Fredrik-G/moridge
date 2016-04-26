@@ -50,6 +50,7 @@ namespace Moridge.Models
         public List<Day> GetDays() => Schedule.GetDriverSchedule();
 
         public string GetDayString(DateTime day) => Schedule.DaysInfo.GetDayString(day, true);
+        public string IsActive(Day day, string occassion) => day.Occassions[occassion].IsActive ? "selected" : string.Empty;
     }
 
     public class PersonalInfoModel { }

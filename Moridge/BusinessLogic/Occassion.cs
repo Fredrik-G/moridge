@@ -22,5 +22,10 @@ namespace Moridge.BusinessLogic
         /// The actual number of bookings.
         /// </summary>
         public int NumberOfBookings { get; set; }
+
+        /// <summary>
+        /// Determines if this occassion is active.
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }
