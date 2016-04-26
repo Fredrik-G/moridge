@@ -26,13 +26,13 @@
             <div class="ui-grid-c">
                 <div class="ui-block-a">
                     <div class="ui-bar ui-bar-c bar-item" style="height: 60px">
-                        <h1>@Model.GetDayString(day)</h1>
+                        <h1>@Model.GetDayString(day.Date)</h1>
                     </div>
                 </div>
                 <div class="ui-block-b">
                     <div class="ui-bar ui-bar-c bar-item" style="height: 60px">
-                        <p class="flipswitch-label">@Model.Schedule.Occassions.OccasionsPerDay[0]</p>
-                        <p>@Model.Schedule.Occassions.OccasionsPerDay[1]</p>
+                        <p class="flipswitch-label">Förmiddag</p>
+                        <p>Eftermiddag</p>
                     </div>
                 </div>
                 <div class="ui-block-c">

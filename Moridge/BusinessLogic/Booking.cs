@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
-using Moridge.Models;
 
 namespace Moridge.BusinessLogic
 {
@@ -11,11 +10,10 @@ namespace Moridge.BusinessLogic
     /// </summary>
     public class Booking
     {
-        public Occassions Occassions { get; } = new Occassions();
-        public DaysInfo Days { get; } = new DaysInfo();
+        public DaysInfo DaysInfo { get; } = new DaysInfo();
+        public Day Day { get; } = new Day();
 
         public IList<Event> Events { get; set; }
-        public int TotalNumberOfBookings { get; set; }
 
         /// <summary>
         /// Gets all bookings for the given occassion.
@@ -25,19 +23,19 @@ namespace Moridge.BusinessLogic
         /// <returns></returns>
         public IList<Event> GetBookingsForOccasion(string date, string occassion)
         {
-            Occassions.CurrentOccassion = occassion;
+            Day.CurrentOccassion = occassion;
             var splittedDate = date.Split('-');
             var day = new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
 
-            Occassions.EventsThisOccassion = new Events { Items = new List<Event>() };
+            Day.EventsThisDay = new Events { Items = new List<Event>() };
             foreach (var bookingEvent in Events.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
             {
                 if (IsTimeDuringOccassion(occassion, bookingEvent.Start.DateTime.Value))
                 {
-                    Occassions.EventsThisOccassion.Items.Add(bookingEvent);
+                    Day.EventsThisDay.Items.Add(bookingEvent);
                 }
             }
-            return Occassions.EventsThisOccassion.Items;
+            return Day.EventsThisDay.Items;
         }
 
         /// <summary>
@@ -77,14 +75,15 @@ namespace Moridge.BusinessLogic
         /// <returns></returns>
         public string GetMissingBookings(string date)
         {
-            TotalNumberOfBookings = 0;
             //Get total bookings for this date
-            foreach (var occassion in Occassions.OccasionsPerDay)
+            var totalNumberOfBookings = 0;
+            foreach (var occassion in Day.Occassions)
             {
-                TotalNumberOfBookings += GetBookingsForOccasion(date, occassion).Count;
+                occassion.Value.NumberOfBookings += GetBookingsForOccasion(date, occassion.Value.Name).Count;
+                totalNumberOfBookings += occassion.Value.NumberOfBookings;
             }
             //Subtract those already booked
-            return (4 * 2 - TotalNumberOfBookings).ToString();
+            return (4 * 2 - totalNumberOfBookings).ToString();
             //TODO
         }
     }

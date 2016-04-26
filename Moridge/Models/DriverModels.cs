@@ -20,12 +20,12 @@ namespace Moridge.Models
             Booking.Events = events;
         }
 
-        public string GetDayString(DateTime day) => Booking.Days.GetDayString(day);
+        public string GetDayString(DateTime day) => Booking.DaysInfo.GetDayString(day);
         public string GetMissingBookings(string date) => Booking.GetMissingBookings(date);
-        public string GetTitle(bool isDetails) => isDetails ? Booking.Occassions.CurrentOccassion : "Boka";
-        public List<DateTime> GetDays() => Booking.Days.AllDays(startFromToday: true);
-        public string[] GetOccasionsPerDay() => Booking.Occassions.OccasionsPerDay;
-        public IList<Event> GetEventsThisOccassion => Booking.Occassions.EventsThisOccassion.Items;     
+        public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";
+        public List<Day> GetDays() => Booking.DaysInfo.AllDays(startFromToday: true);
+        public Dictionary<string, Occassion> GetOccassions() => Booking.Day.Occassions;
+        public IList<Event> GetEventsThisOccassion => Booking.Day.EventsThisDay.Items;     
 
         /// <summary>
         /// Gets the text for the header.
@@ -35,7 +35,8 @@ namespace Moridge.Models
         /// <returns></returns>
         public string GetHeaderText(string date, string occassion)
         {
-            var upcomingOccassions = Booking.GetBookingsForOccasion(date, occassion).Count;
+            var upcomingOccassions = Booking.Day.Occassions[occassion].NumberOfBookings;
+            Booking.Day.Occassions[occassion].NumberOfBookings = 0;//reset it after done.
             var numberOfBookingsForThisDriver = 4; //TODO
             return $"{upcomingOccassions} av {numberOfBookingsForThisDriver} bokningar";
         }
@@ -46,8 +47,13 @@ namespace Moridge.Models
         public Schedule Schedule { get; } = new Schedule();
 
         public string GetTitle() => "Arbetsschema";
-        public List<DateTime> GetDays() => Schedule.Days.AllDays(startFromToday: false);
-        public string GetDayString(DateTime day) => Schedule.Days.GetDayString(day, true);
+        public List<Day> GetDays()
+        { 
+            Schedule.GetDriverSchedule();
+            return Schedule.DaysInfo.AllDays(startFromToday: false);
+        }
+            
+        public string GetDayString(DateTime day) => Schedule.DaysInfo.GetDayString(day, true);
     }
 
     public class PersonalInfoModel { }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using Google.Apis.Calendar.v3.Data;
-using Moridge.Models;
 
 namespace Moridge.BusinessLogic
 {
@@ -14,25 +11,24 @@ namespace Moridge.BusinessLogic
     { 
         private readonly CultureInfo _swedishCultureInfo = CultureInfo.GetCultureInfo(1053);
 
-        private List<DateTime> _days;
-
-        public List<DateTime> AllDays(bool startFromToday)
+        private List<Day> _days;
+        public List<Day> AllDays(bool startFromToday = false)
         {
             if (_days == null)
             {
-                _days = new List<DateTime>();
+                _days = new List<Day>();
                 var daysInWeek = Enum.GetNames(typeof (DayOfWeek)).Length;
                 for (var i = 0; i < daysInWeek; i++)
                 {
                     //TODO skippa helg?
                     if(startFromToday)
                     {
-                        _days.Add(DateTime.Now.AddDays(i));
+                        _days.Add(new Day {Date = DateTime.Now.AddDays(i)});
                     }
                     else
                     {
                         var monday = DateTime.Now.StartOfWeek(_swedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
-                        _days.Add(monday.AddDays(i));
+                       _days.Add(new Day {Date = monday.AddDays(i)});
                     }
                 }
             }

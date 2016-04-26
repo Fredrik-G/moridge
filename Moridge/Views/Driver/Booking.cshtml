@@ -20,23 +20,23 @@
 
     @foreach (var day in Model.GetDays())
     {
-        var totalBookings = @Model.GetMissingBookings(day.ToString("yyyy-M-d"));
+        var totalBookings = @Model.GetMissingBookings(day.Date.ToString("yyyy-M-d"));
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
-            @Model.GetDayString(day)
+            @Model.GetDayString(day.Date)
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@totalBookings</span>
         </li>
 
-        foreach (var occassion in Model.GetOccasionsPerDay())
+        foreach (var occassion in Model.GetOccassions())
         {
         <li>
-            <a href='@Url.Action("BookingDetails", "Driver", new { date = day.ToString("yyyy-M-d"), occassion = occassion })'
+            <a href='@Url.Action("BookingDetails", "Driver", new { date = day.Date.ToString("yyyy-M-d"), occassion = occassion.Value.Name })'
                  data-transition="slidedown">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>
-                        @occassion
+                        @occassion.Value.Name
                     </strong>
                 </p>
-                <h3 class="ui-li-heading ">@Model.GetHeaderText(day.ToString("yyyy-M-d"), occassion)</h3>
+                <h3 class="ui-li-heading ">@Model.GetHeaderText(day.Date.ToString("yyyy-M-d"), occassion.Value.Name)</h3>
             </a>
         </li>
         }
