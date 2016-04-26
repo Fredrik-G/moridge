@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Moridge.Models;
 
-namespace Moridge.BusinessLogic
+namespace Moridge.Extensions
 {
     /// <summary>
     /// Contains extension methods for <see cref="DateTime"/>

@@ -236,22 +236,27 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="BusinessLogic\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="BusinessLogic\DaysInfo.cs" />
     <Compile Include="BusinessLogic\Occassion.cs" />
     <Compile Include="BusinessLogic\Schedule.cs" />
-    <Compile Include="BusinessLogic\IdentityExtensions.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="BusinessLogic\RolesHelper.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201604251451412_Initial.cs" />
     <Compile Include="Migrations\201604251451412_Initial.Designer.cs">
       <DependentUpon>201604251451412_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604261221191_schedule-active.cs" />
+    <Compile Include="Migrations\201604261221191_schedule-active.Designer.cs">
+      <DependentUpon>201604261221191_schedule-active.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -398,6 +403,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604251451412_Initial.resx">
       <DependentUpon>201604251451412_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604261221191_schedule-active.resx">
+      <DependentUpon>201604261221191_schedule-active.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

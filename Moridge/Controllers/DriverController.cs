@@ -6,6 +6,7 @@ using Google.Apis.Calendar.v3.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.BusinessLogic;
+using Moridge.Extensions;
 using Moridge.Models;
 using MyMoridgeServer.BusinessLogic;
 
