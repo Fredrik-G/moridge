@@ -47,12 +47,8 @@ namespace Moridge.Models
         public Schedule Schedule { get; } = new Schedule();
 
         public string GetTitle() => "Arbetsschema";
-        public List<Day> GetDays()
-        { 
-            Schedule.GetDriverSchedule();
-            return Schedule.DaysInfo.AllDays(startFromToday: false);
-        }
-            
+        public List<Day> GetDays() => Schedule.GetDriverSchedule();
+
         public string GetDayString(DateTime day) => Schedule.DaysInfo.GetDayString(day, true);
     }
 

@@ -53,7 +53,7 @@ namespace Moridge.Controllers
                 RolesHelper.GetPageForUser(userManager, user.Id, out actionName, out controllerName);
 
                 //Create authentication cookie with user role.
-                CreateAuthenticationCookie(user.UserName, controllerName, model.RememberMe);
+                CreateAuthenticationCookie(user.Id, controllerName, model.RememberMe);
 
                 return RedirectToAction(actionName, controllerName);
             }
@@ -68,9 +68,9 @@ namespace Moridge.Controllers
         /// <param name="userName">user's name.</param>
         /// <param name="role">user's role.</param>
         /// <param name="isPersistent">indicates whether the cookie should be kept beyond the current session.</param>
-        private void CreateAuthenticationCookie(string userName, string role, bool isPersistent)
+        private void CreateAuthenticationCookie(string userId, string role, bool isPersistent)
         {
-            var authTicket = new FormsAuthenticationTicket(1, userName, DateTime.Now,
+            var authTicket = new FormsAuthenticationTicket(1, userId, DateTime.Now,
                 DateTime.Now.AddMinutes(60), //TODO DEBUG kör 10min
                 isPersistent, role, "/");
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket));

@@ -9,34 +9,35 @@ namespace Moridge.BusinessLogic
     /// </summary>
     public class DaysInfo
     { 
-        private readonly CultureInfo _swedishCultureInfo = CultureInfo.GetCultureInfo(1053);
+        public readonly CultureInfo SwedishCultureInfo = CultureInfo.GetCultureInfo(1053);
 
-        private List<Day> _days;
+        public List<Day> Days { get; set; }
+
         public List<Day> AllDays(bool startFromToday = false)
         {
-            if (_days == null)
+            if (Days == null)
             {
-                _days = new List<Day>();
+                Days = new List<Day>();
                 var daysInWeek = Enum.GetNames(typeof (DayOfWeek)).Length;
                 for (var i = 0; i < daysInWeek; i++)
                 {
                     //TODO skippa helg?
                     if(startFromToday)
                     {
-                        _days.Add(new Day {Date = DateTime.Now.AddDays(i)});
+                        Days.Add(new Day {Date = DateTime.Now.AddDays(i)});
                     }
                     else
                     {
-                        var monday = DateTime.Now.StartOfWeek(_swedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
-                       _days.Add(new Day {Date = monday.AddDays(i)});
+                       var monday = DateTime.Now.StartOfWeek(SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
+                       Days.Add(new Day {Date = monday.AddDays(i)});
                     }
                 }
             }
-            return _days;
+            return Days;
         }
 
         public string GetDayString(DateTime day, bool isShort = false) 
-            => _swedishCultureInfo.TextInfo.ToTitleCase(
-                @day.ToString(isShort ? "dddd" : "dddd, MMMM d, yyyy", _swedishCultureInfo));
+            => SwedishCultureInfo.TextInfo.ToTitleCase(
+                @day.ToString(isShort ? "dddd" : "dddd, MMMM d, yyyy", SwedishCultureInfo));
     }
 }
