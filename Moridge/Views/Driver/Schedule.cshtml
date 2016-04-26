@@ -1,4 +1,5 @@
-﻿@model Moridge.Models.ScheduleModel
+﻿@using Moridge.Extensions
+@model Moridge.Models.ScheduleModel
 
 @{
     ViewBag.Title = Model.GetTitle();
@@ -7,7 +8,11 @@
 <script>
     $(":jqmData(role=page)").bind("pagebeforeshow", function () {
         setSideBar();
+        $('div[role="application"').attr("style", "width: 90%; height: 30%");
+        $('a[role="slider"').attr("style", "height:20px;");
 
+        $('div[role="application"').attr("style", "width: 90%; height: 28px");
+        $('a[role="slider"').attr("style", "height:25px;");
     });
     $(document).ready(function () {
         setPageIndicator(2);
@@ -17,44 +22,36 @@
 
 @Html.ValidationSummary()
 
-
 <ul data-role="listview" class="ui-listview">
 
     @foreach (var day in Model.GetDays())
     {
+        Model.CurrentOccassion = "Förmiddag";
+        Model.CurrentDay = day;
+        
         <li class="list-item">
             <div class="ui-grid-c">
                 <div class="ui-block-a">
-                    <div class="ui-bar ui-bar-c bar-item" style="height: 60px">
+                    <div class="ui-bar ui-bar-c bar-item" style="">
                         <h1>@day.DayOfWeek</h1>
                     </div>
                 </div>
                 <div class="ui-block-b">
-                    <div class="ui-bar ui-bar-c bar-item" style="height: 60px">
+                    <div class="ui-bar ui-bar-c bar-item" style="">
                         <p class="flipswitch-label">Förmiddag</p>
                         <p>Eftermiddag</p>
                     </div>
                 </div>
                 <div class="ui-block-c">
-                    <div class="ui-bar ui-bar-c bar-item" style="height: 80px">
-                        <form>
-                            <select data-role="flipswitch" data-mini="true">
-                                <option value="off"></option>
-                                <option @Model.IsActive(day, "Förmiddag") value="on"></option>
-                            </select>
-                        </form>
-                        <form>
-                            <select data-role="flipswitch" data-mini="true">
-                                <option value="off"></option>
-                                <option @Model.IsActive(day, "Förmiddag") value="on"></option>
-                            </select>
-                        </form>
+                    <div class="ui-bar ui-bar-c no-padding">
+                        <p class="no-padding">@Html.FlipSwitchFor(m => m.MorningActive)</p>
+                        <p class="no-padding">@Html.FlipSwitchFor(m => m.AfternoonActive)</p>
                     </div>
                 </div>
                 <div class="ui-block-d">
-                    <div class="ui-bar ui-bar-c bar-item" style="height: 85px">
-                        <input type="number" value=@day.Occassions["Förmiddag"].BookingsForDriver data-mini="true">
-                        <input type="number" value=@day.Occassions["Eftermiddag"].BookingsForDriver data-mini="true" >
+                    <div class="ui-bar ui-bar-c no-padding">
+                        <p class="no-padding"> <input class="flipswitch-label" type="number" value=@day.Occassions["Förmiddag"].BookingsForDriver data-mini="true"></p>
+                        <p class="no-padding"> <input type="number" value=@day.Occassions["Eftermiddag"].BookingsForDriver data-mini="true"></p>
                     </div>
                 </div>
             </div>

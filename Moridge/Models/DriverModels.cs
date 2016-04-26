@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
 
@@ -44,7 +43,23 @@ namespace Moridge.Models
 
     public class ScheduleModel
     {
+        public Day CurrentDay {get;set;}
+        public string CurrentOccassion {get;set;}
+
         public Schedule Schedule { get; } = new Schedule();
+
+        public bool MorningActive { get; set; }
+        public bool AfternoonActive
+        {
+            get
+            {
+                return CurrentDay.Occassions["Eftermiddag"].IsActive;
+            } 
+            set
+            {
+                CurrentDay.Occassions["Eftermiddag"].IsActive = value;
+            }
+        }
 
         public string GetTitle() => "Arbetsschema";
         public List<Day> GetDays() => Schedule.GetDriverSchedule();

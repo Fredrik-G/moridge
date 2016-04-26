@@ -56,6 +56,11 @@
     padding-right: 0 !important;
 }
 
+.no-padding {
+    padding: 0 0 0 0 !important;
+    margin: 0 0 0 0 !important;
+}
+
 .list-item {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -71,7 +76,7 @@
 }
 
 .flipswitch-label {
-    padding-bottom: 20px !important;
+    padding-bottom: 15px !important;
 }
 
 .number-input {
@@ -92,7 +97,7 @@
 
 #page-indicator {
     /* you can add positioning properties here if needed */
-    width: 75px; 
+    width: 75px;
     padding: 0 0 0 36%;
     height: 0;
 }
