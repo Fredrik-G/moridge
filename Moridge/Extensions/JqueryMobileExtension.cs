@@ -27,7 +27,7 @@ namespace Moridge.Extensions
                         new SelectListItem() { Text = "", Value = "False", Selected = (!value) },
                         new SelectListItem() { Text = "", Value = "True", Selected = (value) }
                     };
-            return htmlHelper.DropDownListFor(expression, items, new { @data_role = "slider", style = "width:50px" });
+            return htmlHelper.DropDownListFor(expression, items, new { @data_role = "slider"});
         }
     }
 }

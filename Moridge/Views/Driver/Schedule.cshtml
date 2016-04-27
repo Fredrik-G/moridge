@@ -1,63 +1,66 @@
 ﻿@using Moridge.Extensions
-@model Moridge.Models.ScheduleModel
+@using Moridge.Models
+@model IList<ScheduleDay>
 
 @{
-    ViewBag.Title = Model.GetTitle();
+    //ViewBag.Title = Model.GetTitle();
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 <script>
     $(":jqmData(role=page)").bind("pagebeforeshow", function () {
         setSideBar();
-        $('div[role="application"').attr("style", "width: 90%; height: 30%");
-        $('a[role="slider"').attr("style", "height:20px;");
+        //$('div[role="application"').attr("style", "width: 90%; height: 30%");
+        //$('a[role="slider"').attr("style", "height:20px;");
 
-        $('div[role="application"').attr("style", "width: 90%; height: 28px");
-        $('a[role="slider"').attr("style", "height:25px;");
+        //$('div[role="application"').attr("style", "width: 90%; height: 28px");
+        //$('a[role="slider"').attr("style", "height:25px;");
     });
     $(document).ready(function () {
         setPageIndicator(2);
         $('.header-btn-right').show();
     });
 </script>
+@using (Html.BeginForm("ScheduleTest", "Driver"))
+{ 
+    @Html.ValidationSummary()
 
-@Html.ValidationSummary()
+    <ul data-role="listview" class="ui-listview">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <li class="list-item">
+                <div class="ui-grid-c">
+                    <div class="ui-block-a">
+                        <div class="ui-bar ui-bar-c bar-item">
+                            <h1>@Model[i].DayOfWeek</h1>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div class="ui-bar ui-bar-c bar-item">
+                            <p class="schedule-label">Förmiddag</p>
+                            <p>Eftermiddag</p>
+                        </div>
+                    </div>
+                    <div class="ui-block-c">
+                        <div class="ui-bar ui-bar-c no-padding" style="height: 92px">
+                            <p class="no-padding">@Html.FlipSwitchFor(m => m[i].MorningActive)</p>
+                            <p class="no-padding">@Html.FlipSwitchFor(m => m[i].AfternoonActive)</p>
+                        </div>
+                    </div>
+                    <div class="ui-block-d">
+                        <div class="ui-bar ui-bar-c no-padding" style="margin-left: 10px !important;">
+                            <p class="schedule-input">@Html.TextBoxFor(m => m[i].MorningBookings, new {@type = "number"})</p>
+                            <p class="no-padding">@Html.TextBoxFor(m => m[i].AfternoonBookings, new {@type = "number"})</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
 
-<ul data-role="listview" class="ui-listview">
-
-    @foreach (var day in Model.GetDays())
-    {
-        Model.CurrentOccassion = "Förmiddag";
-        Model.CurrentDay = day;
-        
-        <li class="list-item">
-            <div class="ui-grid-c">
-                <div class="ui-block-a">
-                    <div class="ui-bar ui-bar-c bar-item" style="">
-                        <h1>@day.DayOfWeek</h1>
-                    </div>
-                </div>
-                <div class="ui-block-b">
-                    <div class="ui-bar ui-bar-c bar-item" style="">
-                        <p class="flipswitch-label">Förmiddag</p>
-                        <p>Eftermiddag</p>
-                    </div>
-                </div>
-                <div class="ui-block-c">
-                    <div class="ui-bar ui-bar-c no-padding">
-                        <p class="no-padding">@Html.FlipSwitchFor(m => m.MorningActive)</p>
-                        <p class="no-padding">@Html.FlipSwitchFor(m => m.AfternoonActive)</p>
-                    </div>
-                </div>
-                <div class="ui-block-d">
-                    <div class="ui-bar ui-bar-c no-padding">
-                        <p class="no-padding"> <input class="flipswitch-label" type="number" value=@day.Occassions["Förmiddag"].BookingsForDriver data-mini="true"></p>
-                        <p class="no-padding"> <input type="number" value=@day.Occassions["Eftermiddag"].BookingsForDriver data-mini="true"></p>
-                    </div>
-                </div>
-            </div>
-        </li>
-    }
-</ul>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">

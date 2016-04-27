@@ -45,8 +45,19 @@ namespace Moridge.Controllers
 
         public ActionResult Schedule()
         {
-            return View(new ScheduleModel());
+            var day = new ScheduleDay  { DayOfWeek = "Måndag", MorningActive = true, AfternoonActive = false, AfternoonBookings = 4, MorningBookings = 5 };
+            var day2 = new ScheduleDay  { DayOfWeek = "Tisdag", MorningActive = true, AfternoonActive = false, AfternoonBookings = 4, MorningBookings = 5 };
+            var day3 = new ScheduleDay  { DayOfWeek = "Onsdag", MorningActive = true, AfternoonActive = false, AfternoonBookings = 4, MorningBookings = 5 };
+            IList<ScheduleDay> scheduleDays = new List<ScheduleDay> { day, day2, day3};
+            //TODO
+            return View(scheduleDays);
         }
+
+        public ActionResult ScheduleTest(IEnumerable<ScheduleDay> schedule)
+        {
+            return null;
+        }
+
         public ActionResult PersonalInfo()
         {
             return View();

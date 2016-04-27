@@ -60,7 +60,14 @@
     padding: 0 0 0 0 !important;
     margin: 0 0 0 0 !important;
 }
-
+.schedule-label {
+    margin-top: 5% !important;
+    margin-bottom: 34px !important;
+}
+.schedule-input {
+    margin-top: 0 !important;
+    margin-bottom: 7px !important;
+}
 .list-item {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
