@@ -32,17 +32,7 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Gets the driver's schedule.
         /// </summary>
-        public List<Day> GetDriverSchedule()
-        {
-            ConvertDatabaseSchedule(_user.Schedule);
-            return DaysInfo.Days;
-        }
-
-        /// <summary>
-        /// Gets the driver's schedule.
-        /// </summary>
-        /// <param name="useLocalValues"></param>
-        public List<ScheduleModel> GetDriverSchedule2()
+        public List<ScheduleModel> GetDriverSchedule()
         {
             ConvertDatabaseSchedule(_user.Schedule);
             return DaysInfo.ScheduleDays;

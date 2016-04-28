@@ -49,7 +49,7 @@ namespace Moridge.Controllers
         public ActionResult Schedule(bool useLocalValues = false)
         {
             var schedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
-                                          : _schedule.GetDriverSchedule2();
+                                          : _schedule.GetDriverSchedule();
             return View(schedule);
         }
 
