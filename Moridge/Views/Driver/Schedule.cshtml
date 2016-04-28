@@ -1,9 +1,10 @@
 ﻿@using Moridge.Extensions
 @using Moridge.Models
-@model IList<ScheduleModel>
+@*@model IList<ScheduleModel>*@
+@model ScheduleModelSet
 
 @{
-    ViewBag.Title = Model[0].GetTitle();
+    ViewBag.Title = Model.GetTitle();
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 <script>
@@ -20,13 +21,13 @@
     @Html.ValidationSummary()
 
     <ul data-role="listview" class="ui-listview">
-        @for (var i = 0; i < Model.Count; i++)
+        @for (var i = 0; i < Model.ScheduleModels.Count; i++)
         {
             <li class="list-item">
                 <div class="ui-grid-c">
                     <div class="ui-block-a">
                         <div class="ui-bar ui-bar-c bar-item">
-                            <h1>@Model[i].DayOfWeek</h1>
+                            <h1>@Model.ScheduleModels[i].DayOfWeek</h1>
                         </div>
                     </div>
                     <div class="ui-block-b">
@@ -37,14 +38,14 @@
                     </div>
                     <div class="ui-block-c">
                         <div class="ui-bar ui-bar-c no-padding" style="height: 92px">
-                            <p class="no-padding">@Html.FlipSwitchFor(m => m[i].MorningActive)</p>
-                            <p class="no-padding">@Html.FlipSwitchFor(m => m[i].AfternoonActive)</p>
+                            <p class="no-padding">@Html.FlipSwitchFor(m => m.ScheduleModels[i].MorningActive)</p>
+                            <p class="no-padding">@Html.FlipSwitchFor(m => m.ScheduleModels[i].AfternoonActive)</p>
                         </div>
                     </div>
                     <div class="ui-block-d">
                         <div class="ui-bar ui-bar-c no-padding" style="margin-left: 10px !important;">
-                            <p class="schedule-input">@Html.TextBoxFor(m => m[i].MorningBookings, new {@type = "number"})</p>
-                            <p class="no-padding">@Html.TextBoxFor(m => m[i].AfternoonBookings, new {@type = "number"})</p>
+                            <p class="schedule-input">@Html.TextBoxFor(m => m.ScheduleModels[i].MorningBookings, new {@type = "number"})</p>
+                            <p class="no-padding">@Html.TextBoxFor(m => m.ScheduleModels[i].AfternoonBookings, new {@type = "number"})</p>
                         </div>
                     </div>
                 </div>

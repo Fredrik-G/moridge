@@ -41,6 +41,12 @@ namespace Moridge.Models
         }
     }
 
+    public class ScheduleModelSet
+    {
+        public List<ScheduleModel> ScheduleModels { get; set; } 
+        public string GetTitle() => "Arbetsschema";
+    }
+
     public class ScheduleModel
     {
         public string DayOfWeek { get; set; }
@@ -48,8 +54,6 @@ namespace Moridge.Models
         public bool AfternoonActive { get; set; }
         public int MorningBookings { get; set; }
         public int AfternoonBookings { get; set; }
-
-        public string GetTitle() => "Arbetsschema";
     }
 
     public class PersonalInfoModel { }

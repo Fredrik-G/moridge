@@ -50,31 +50,19 @@ namespace Moridge.Controllers
         {
             var schedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
                                           : _schedule.GetDriverSchedule();
-            return View(schedule);
+            var scheduleSet = new ScheduleModelSet { ScheduleModels = schedule };
+            return View(scheduleSet);
         }
 
         [HttpPost]
-        public ActionResult Schedule(IEnumerable<ScheduleModel> schedule)
+        public ActionResult Schedule(ScheduleModelSet schedule)
         {
-            System.Web.HttpContext.Current.Session["Schedule"] = _schedule.SaveDriverSchedule(schedule);
+            System.Web.HttpContext.Current.Session["Schedule"] = _schedule.SaveDriverSchedule(schedule.ScheduleModels);
             return RedirectToAction("Schedule", "Driver", new { useLocalValues = true});
         }
 
         public ActionResult PersonalInfo()
         {
-            return View();
-        }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
