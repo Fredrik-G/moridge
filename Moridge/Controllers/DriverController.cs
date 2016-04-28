@@ -15,9 +15,6 @@ namespace Moridge.Controllers
     [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
     public class DriverController : Controller
     {
-        private Schedule _schedule;
-        private ScheduleModelSet _scheduleSet;
-
         public ActionResult Booking()
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
@@ -49,27 +46,30 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult Schedule(bool useLocalValues = false)
         {
-            _schedule = new Schedule();
-            _scheduleSet = new ScheduleModelSet();
-            var schedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
-                                          : _schedule.GetDriverSchedule();
-            _scheduleSet.ScheduleModels = schedule;
-            return View(_scheduleSet);
+            var schedule = new Schedule();
+            var scheduleSet = new ScheduleModelSet();
+            var driverSchedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
+                                          : schedule.GetDriverSchedule();
+            scheduleSet.ScheduleModels = driverSchedule;
+            return View(scheduleSet);
         }
 
         [HttpPost]
-        public ActionResult Schedule(ScheduleModelSet schedule)
+        public ActionResult Schedule(ScheduleModelSet scheduleSet)
         {
-            System.Web.HttpContext.Current.Session["Schedule"] = _schedule.SaveDriverSchedule(schedule.ScheduleModels);
-            return RedirectToAction("Schedule", "Driver", new { useLocalValues = true});
+            var schedule = new Schedule();
+            System.Web.HttpContext.Current.Session["Schedule"] = schedule.SaveDriverSchedule(scheduleSet.ScheduleModels);
+            return RedirectToAction("Schedule", "Driver", new { useLocalValues = true });
         }
 
         public ActionResult ScheduleDeviation()
         {
             //var schedule = System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>;
-            var schedule = _schedule.GetDriverSchedule();
-            _scheduleSet.ScheduleModels = schedule;
-            return View(_scheduleSet);
+            var schedule = new Schedule();
+            var scheduleSet = new ScheduleModelSet();
+            var driverSchedule = schedule.GetDriverSchedule();
+            scheduleSet.ScheduleModels = driverSchedule;
+            return View(scheduleSet);
         }
 
         public ActionResult PersonalInfo()
