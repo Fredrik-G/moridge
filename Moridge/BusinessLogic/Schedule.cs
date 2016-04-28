@@ -67,12 +67,10 @@ namespace Moridge.BusinessLogic
         /// <param name="schedule">the database schedule</param>
         public void ConvertDatabaseSchedule(ICollection<DaySchedule> schedule)
         {
-            DaysInfo.Days = new List<Day>();
             DaysInfo.ScheduleDays = new List<ScheduleModel>();
             foreach(var daySchedule in schedule)
             {
-                var day = new Day { DayOfWeek = daySchedule.DayOfWeek };
-                var day2 = new ScheduleModel
+                var day = new ScheduleModel
                 {
                     DayOfWeek = daySchedule.DayOfWeek, 
                     MorningActive = daySchedule.MorningActive,
@@ -81,12 +79,7 @@ namespace Moridge.BusinessLogic
                     AfternoonBookings = daySchedule.Afternoon
 
                 };
-                DaysInfo.ScheduleDays.Add(day2);
-                day.Occassions["Förmiddag"].BookingsForDriver = daySchedule.Morning;
-                day.Occassions["Förmiddag"].IsActive = daySchedule.MorningActive;
-                day.Occassions["Eftermiddag"].BookingsForDriver = daySchedule.Afternoon;
-                day.Occassions["Eftermiddag"].IsActive = daySchedule.AfternoonActive;
-                DaysInfo.Days.Add(day);
+                DaysInfo.ScheduleDays.Add(day);
             }
         }
 
