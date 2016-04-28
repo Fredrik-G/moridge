@@ -16,6 +16,7 @@ namespace Moridge.Controllers
     public class DriverController : Controller
     {
         private readonly Schedule _schedule = new Schedule();
+        private readonly ScheduleModelSet _scheduleSet = new ScheduleModelSet();
 
         public ActionResult Booking()
         {
@@ -50,8 +51,8 @@ namespace Moridge.Controllers
         {
             var schedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
                                           : _schedule.GetDriverSchedule();
-            var scheduleSet = new ScheduleModelSet { ScheduleModels = schedule };
-            return View(scheduleSet);
+            _scheduleSet.ScheduleModels = schedule;
+            return View(_scheduleSet);
         }
 
         [HttpPost]
