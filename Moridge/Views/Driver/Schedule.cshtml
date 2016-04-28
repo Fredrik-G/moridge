@@ -9,18 +9,13 @@
 <script>
     $(":jqmData(role=page)").bind("pagebeforeshow", function () {
         setSideBar();
-        //$('div[role="application"').attr("style", "width: 90%; height: 30%");
-        //$('a[role="slider"').attr("style", "height:20px;");
-
-        //$('div[role="application"').attr("style", "width: 90%; height: 28px");
-        //$('a[role="slider"').attr("style", "height:25px;");
     });
     $(document).ready(function () {
         setPageIndicator(2);
         $('.header-btn-right').show();
     });
 </script>
-@using (Html.BeginForm("ScheduleTest", "Driver"))
+@using (Html.BeginForm("Schedule", "Driver"))
 { 
     @Html.ValidationSummary()
 
@@ -56,9 +51,8 @@
             </li>
         }
     </ul>
-
-    <div>
-        <input type="submit" value="Save" />
+    <div style="padding-top: 1em;">
+        <input type="submit" value="Save"/>
     </div>
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Moridge.Extensions;
+using Moridge.Models;
 
 namespace Moridge.BusinessLogic
 {
@@ -13,6 +14,7 @@ namespace Moridge.BusinessLogic
         public readonly CultureInfo SwedishCultureInfo = CultureInfo.GetCultureInfo(1053);
 
         public List<Day> Days { get; set; }
+        public List<ScheduleDay> ScheduleDays { get; set; }
 
         public List<Day> AllDays(bool startFromToday = false)
         {

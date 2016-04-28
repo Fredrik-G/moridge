@@ -39,15 +39,59 @@ namespace Moridge.BusinessLogic
         }
 
         /// <summary>
+        /// Gets the driver's schedule.
+        /// </summary>
+        /// <param name="useLocalValues"></param>
+        public List<ScheduleDay> GetDriverSchedule2()
+        {
+            ConvertDatabaseSchedule(_user.Schedule);
+            return DaysInfo.ScheduleDays;
+        }
+
+        /// <summary>
+        /// Saves the given schedule back to the database.
+        /// </summary>
+        /// <param name="schedule">the schedule to save</param>
+        /// <returns>gets the schedule as list</returns>
+        public List<ScheduleDay> SaveDriverSchedule(IEnumerable<ScheduleDay> schedule)
+        {
+            for(var i = 0; i < _user.Schedule.Count; i++)
+            {
+                var dbDay = _user.Schedule.ElementAt(i);
+                var newDay = schedule.ElementAt(i);
+
+                dbDay.MorningActive = newDay.MorningActive;
+                dbDay.AfternoonActive = newDay.AfternoonActive;
+                dbDay.Morning = newDay.MorningBookings;
+                dbDay.Afternoon = newDay.AfternoonBookings;
+
+                newDay.DayOfWeek = dbDay.DayOfWeek;
+            }
+            _dbContext.SaveChanges();
+            return schedule.ToList();
+        }
+
+        /// <summary>
         /// Converts the database schedule to the local <see cref="Day"/> schedule.
         /// </summary>
         /// <param name="schedule">the database schedule</param>
         public void ConvertDatabaseSchedule(ICollection<DaySchedule> schedule)
         {
             DaysInfo.Days = new List<Day>();
+            DaysInfo.ScheduleDays = new List<ScheduleDay>();
             foreach(var daySchedule in schedule)
             {
                 var day = new Day { DayOfWeek = daySchedule.DayOfWeek };
+                var day2 = new ScheduleDay
+                {
+                    DayOfWeek = daySchedule.DayOfWeek, 
+                    MorningActive = daySchedule.MorningActive,
+                    AfternoonActive = daySchedule.AfternoonActive,
+                    MorningBookings = daySchedule.Morning,
+                    AfternoonBookings = daySchedule.Afternoon
+
+                };
+                DaysInfo.ScheduleDays.Add(day2);
                 day.Occassions["Förmiddag"].BookingsForDriver = daySchedule.Morning;
                 day.Occassions["Förmiddag"].IsActive = daySchedule.MorningActive;
                 day.Occassions["Eftermiddag"].BookingsForDriver = daySchedule.Afternoon;

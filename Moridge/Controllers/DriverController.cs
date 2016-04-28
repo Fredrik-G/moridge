@@ -15,6 +15,8 @@ namespace Moridge.Controllers
     [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
     public class DriverController : Controller
     {
+        private readonly Schedule _schedule = new Schedule();
+
         public ActionResult Booking()
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
@@ -43,19 +45,19 @@ namespace Moridge.Controllers
             return PartialView();
         }
 
-        public ActionResult Schedule()
+        [HttpGet]
+        public ActionResult Schedule(bool useLocalValues = false)
         {
-            var day = new ScheduleDay  { DayOfWeek = "Måndag", MorningActive = true, AfternoonActive = false, AfternoonBookings = 4, MorningBookings = 5 };
-            var day2 = new ScheduleDay  { DayOfWeek = "Tisdag", MorningActive = true, AfternoonActive = false, AfternoonBookings = 4, MorningBookings = 5 };
-            var day3 = new ScheduleDay  { DayOfWeek = "Onsdag", MorningActive = true, AfternoonActive = false, AfternoonBookings = 4, MorningBookings = 5 };
-            IList<ScheduleDay> scheduleDays = new List<ScheduleDay> { day, day2, day3};
-            //TODO
-            return View(scheduleDays);
+            var schedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleDay>
+                                          : _schedule.GetDriverSchedule2();
+            return View(schedule);
         }
 
-        public ActionResult ScheduleTest(IEnumerable<ScheduleDay> schedule)
+        [HttpPost]
+        public ActionResult Schedule(IEnumerable<ScheduleDay> schedule)
         {
-            return null;
+            System.Web.HttpContext.Current.Session["Schedule"] = _schedule.SaveDriverSchedule(schedule);
+            return RedirectToAction("Schedule", "Driver", new { useLocalValues = true});
         }
 
         public ActionResult PersonalInfo()
