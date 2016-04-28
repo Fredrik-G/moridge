@@ -81,5 +81,18 @@ namespace Moridge.BusinessLogic
                 controllerName = "Account";
             }
         }
+
+        public static void AddUserToRole(UserManager<ApplicationUser> userManager, string id, string role)
+        {
+            //nor admin or driver => error
+            if(!(role.Equals(ADMIN_ROLE) || role.Equals(DRIVER_ROLE)))
+            {
+                //log.log($"Error adding role {role} to userID {id}.");
+                //TODO logga
+                return;
+            }
+
+            userManager.AddToRole(id, role);
+        }
     }
 }

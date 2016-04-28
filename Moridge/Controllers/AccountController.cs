@@ -114,6 +114,11 @@ namespace Moridge.Controllers
 
             if (creationResult.Succeeded)
             {
+                //assign user a role and a default schedule
+                RolesHelper.AddUserToRole(userManager, user.Id, RolesHelper.DRIVER_ROLE);
+                var schedule = new Schedule(user.Id);
+                schedule.CreateDefaultSchedule();
+
                 FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                 return RedirectToAction("Index", "Home");
             }

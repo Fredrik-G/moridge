@@ -22,11 +22,11 @@ namespace Moridge.BusinessLogic
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationUser _user;
 
-        public Schedule()
+        public Schedule(string userId = null)
         {
             _dbContext = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_dbContext));
-            _user = _userManager.FindById(HttpContext.Current.User.Identity.Name);
+            _user = _userManager.FindById(userId ?? HttpContext.Current.User.Identity.Name);
         }
 
         /// <summary>
