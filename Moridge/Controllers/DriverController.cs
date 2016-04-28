@@ -15,8 +15,8 @@ namespace Moridge.Controllers
     [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
     public class DriverController : Controller
     {
-        private readonly Schedule _schedule = new Schedule();
-        private readonly ScheduleModelSet _scheduleSet = new ScheduleModelSet();
+        private Schedule _schedule;
+        private ScheduleModelSet _scheduleSet;
 
         public ActionResult Booking()
         {
@@ -49,6 +49,8 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult Schedule(bool useLocalValues = false)
         {
+            _schedule = new Schedule();
+            _scheduleSet = new ScheduleModelSet();
             var schedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
                                           : _schedule.GetDriverSchedule();
             _scheduleSet.ScheduleModels = schedule;
