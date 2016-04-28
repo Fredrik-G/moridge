@@ -62,6 +62,14 @@ namespace Moridge.Controllers
             return RedirectToAction("Schedule", "Driver", new { useLocalValues = true});
         }
 
+        public ActionResult ScheduleDeviation()
+        {
+            //var schedule = System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>;
+            var schedule = _schedule.GetDriverSchedule();
+            _scheduleSet.ScheduleModels = schedule;
+            return View(_scheduleSet);
+        }
+
         public ActionResult PersonalInfo()
         {
             return View();

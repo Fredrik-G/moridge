@@ -1,7 +1,7 @@
 ﻿@if (Request.IsAuthenticated)
 {
     <a href="#nav-panel" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <a href="" class="ui-btn-right ui-btn ui-mini header-btn-right">Ange Avvikelse</a>
+    @Html.ActionLink("Ange Avvikelse", "ScheduleDeviation", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right" })
 }
 else
 {

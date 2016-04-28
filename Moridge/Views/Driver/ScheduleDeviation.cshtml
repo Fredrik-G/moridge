@@ -1,0 +1,27 @@
+﻿@using Moridge.Extensions
+@using Moridge.Models
+@model ScheduleModelSet
+
+@{
+    ViewBag.Title = Model.GetTitle();
+}
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+<script>
+    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
+        setSideBar();
+    });
+    $(document).ready(function () {
+        setPageIndicator(2);
+        $('.header-btn-right').show();
+    });
+</script>
+
+@Html.Partial("_ScheduleForm", Model)
+
+<div data-role="footer" data-theme="a" data-position="fixed" data-id="footer" data-tap-toggle="false">
+    <div class="center-wrapper">
+        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline">Button</a>
+        <a class="ui-shadow ui-btn ui-corner-all ui-icon-grid ui-btn-inline">Vecka 13 - 8-14 April</a>
+       <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline">Button</a>
+    </div>
+</div>

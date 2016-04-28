@@ -391,6 +391,8 @@
     <Content Include="Views\Shared\_SidePanel.cshtml" />
     <Content Include="Views\Driver\_PopupPartial.cshtml" />
     <Content Include="Views\Driver\BookingDetails.cshtml" />
+    <Content Include="Views\Driver\ScheduleDeviation.cshtml" />
+    <Content Include="Views\Shared\_ScheduleForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -126,3 +126,13 @@
 #page-indicator a.activeSlide {
     background: #707173; /* color when active */
 }
+
+.center-button{
+  margin: 0 auto;
+}
+.center-wrapper{
+  text-align: center;
+}
+.center-wrapper * {
+  margin: 0 auto;
+}
