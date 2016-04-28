@@ -3,7 +3,7 @@
 @model IList<ScheduleModel>
 
 @{
-    //ViewBag.Title = Model.GetTitle();
+    ViewBag.Title = Model[0].GetTitle();
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 <script>
@@ -52,7 +52,7 @@
         }
     </ul>
     <div style="padding-top: 1em;">
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Spara"/>
     </div>
 }
 
