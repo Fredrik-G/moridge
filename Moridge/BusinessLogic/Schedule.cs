@@ -42,7 +42,7 @@ namespace Moridge.BusinessLogic
         /// Gets the driver's schedule.
         /// </summary>
         /// <param name="useLocalValues"></param>
-        public List<ScheduleDay> GetDriverSchedule2()
+        public List<ScheduleModel> GetDriverSchedule2()
         {
             ConvertDatabaseSchedule(_user.Schedule);
             return DaysInfo.ScheduleDays;
@@ -53,7 +53,7 @@ namespace Moridge.BusinessLogic
         /// </summary>
         /// <param name="schedule">the schedule to save</param>
         /// <returns>gets the schedule as list</returns>
-        public List<ScheduleDay> SaveDriverSchedule(IEnumerable<ScheduleDay> schedule)
+        public List<ScheduleModel> SaveDriverSchedule(IEnumerable<ScheduleModel> schedule)
         {
             for(var i = 0; i < _user.Schedule.Count; i++)
             {
@@ -78,11 +78,11 @@ namespace Moridge.BusinessLogic
         public void ConvertDatabaseSchedule(ICollection<DaySchedule> schedule)
         {
             DaysInfo.Days = new List<Day>();
-            DaysInfo.ScheduleDays = new List<ScheduleDay>();
+            DaysInfo.ScheduleDays = new List<ScheduleModel>();
             foreach(var daySchedule in schedule)
             {
                 var day = new Day { DayOfWeek = daySchedule.DayOfWeek };
-                var day2 = new ScheduleDay
+                var day2 = new ScheduleModel
                 {
                     DayOfWeek = daySchedule.DayOfWeek, 
                     MorningActive = daySchedule.MorningActive,
