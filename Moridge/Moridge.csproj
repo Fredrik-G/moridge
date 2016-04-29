@@ -259,6 +259,10 @@
     <Compile Include="Migrations\201604261221191_schedule-active.Designer.cs">
       <DependentUpon>201604261221191_schedule-active.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604290816008_scheduleDeviation-active.cs" />
+    <Compile Include="Migrations\201604290816008_scheduleDeviation-active.Designer.cs">
+      <DependentUpon>201604290816008_scheduleDeviation-active.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="BusinessLogic\Booking.cs" />
@@ -409,6 +413,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604261221191_schedule-active.resx">
       <DependentUpon>201604261221191_schedule-active.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604290816008_scheduleDeviation-active.resx">
+      <DependentUpon>201604290816008_scheduleDeviation-active.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

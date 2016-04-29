@@ -40,6 +40,8 @@ namespace Moridge.Models
         public DateTime? Date { get; set; }
         public int? Morning { get; set; }
         public int? Afternoon { get; set; }
+        public bool? MorningActive { get; set; }
+        public bool? AfternoonActive { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
