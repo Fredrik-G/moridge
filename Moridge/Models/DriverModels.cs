@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
+using Moridge.Extensions;
 
 namespace Moridge.Models
 {
@@ -43,8 +45,37 @@ namespace Moridge.Models
 
     public class ScheduleModelSet
     {
-        public List<ScheduleModel> ScheduleModels { get; set; } 
+        public List<ScheduleModel> ScheduleModels { get; set; }
+        public DateTime CurrentDate { get; set; }
+        public string CurrentWeek => GetCurrentWeek();
+
+        private string GetCurrentWeek()
+        {
+            var swedishInfo = DaysInfo.SwedishCultureInfo;
+            var weekNumber = swedishInfo.Calendar.GetWeekOfYear(
+                CurrentDate,
+                swedishInfo.DateTimeFormat.CalendarWeekRule,
+                swedishInfo.DateTimeFormat.FirstDayOfWeek);
+            var firstDayOfWeek = DateTime.Now.StartOfWeek(swedishInfo.DateTimeFormat.FirstDayOfWeek);
+            var lastDayOfWeek = firstDayOfWeek.AddDays(6);
+
+            return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMMM", swedishInfo.DateTimeFormat)}";
+        }
+
         public string GetTitle() => "Arbetsschema";
+
+        /// <summary>
+        /// Sets the date to current week for the schedule models.
+        /// </summary>
+        public void SetCurrentWeek()
+        {
+            var monday = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
+            CurrentDate = monday;
+            for(var i = 0; i < ScheduleModels.Count; i++)
+            {
+                ScheduleModels[i].Date = monday.AddDays(i);
+            }
+        }
     }
 
     public class ScheduleModel
@@ -54,6 +85,9 @@ namespace Moridge.Models
         public bool AfternoonActive { get; set; }
         public int MorningBookings { get; set; }
         public int AfternoonBookings { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? Date { get; set; }
     }
 
     public class PersonalInfoModel { }

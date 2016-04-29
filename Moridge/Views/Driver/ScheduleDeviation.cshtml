@@ -1,5 +1,4 @@
-﻿@using Moridge.Extensions
-@using Moridge.Models
+﻿@using Moridge.Models
 @model ScheduleModelSet
 
 @{
@@ -21,7 +20,7 @@
 <div data-role="footer" data-theme="a" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div class="center-wrapper">
         <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline">Button</a>
-        <a class="ui-shadow ui-btn ui-corner-all ui-icon-grid ui-btn-inline">Vecka 13 - 8-14 April</a>
-       <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline">Button</a>
+        @Html.DisplayFor(m => m.CurrentWeek)
+        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline">Button</a>
     </div>
 </div>

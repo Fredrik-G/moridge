@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Google.Apis.Calendar.v3.Data;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.BusinessLogic;
-using Moridge.Extensions;
 using Moridge.Models;
 using MyMoridgeServer.BusinessLogic;
 
@@ -49,8 +44,9 @@ namespace Moridge.Controllers
             var schedule = new Schedule();
             var scheduleSet = new ScheduleModelSet();
             var driverSchedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
-                                          : schedule.GetDriverSchedule();
+                                                : schedule.GetDriverSchedule();
             scheduleSet.ScheduleModels = driverSchedule;
+            System.Web.HttpContext.Current.Session["Schedule"] = driverSchedule;
             return View(scheduleSet);
         }
 
@@ -64,11 +60,15 @@ namespace Moridge.Controllers
 
         public ActionResult ScheduleDeviation()
         {
-            //var schedule = System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>;
-            var schedule = new Schedule();
-            var scheduleSet = new ScheduleModelSet();
-            var driverSchedule = schedule.GetDriverSchedule();
-            scheduleSet.ScheduleModels = driverSchedule;
+            var driverSchedule = System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>;
+            if (driverSchedule == null)
+            {
+                var schedule = new Schedule();
+                driverSchedule = schedule.GetDriverSchedule();
+            }
+
+            var scheduleSet = new ScheduleModelSet { ScheduleModels = driverSchedule };
+            scheduleSet.SetCurrentWeek();
             return View(scheduleSet);
         }
 

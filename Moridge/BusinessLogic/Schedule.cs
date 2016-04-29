@@ -77,7 +77,6 @@ namespace Moridge.BusinessLogic
                     AfternoonActive = daySchedule.AfternoonActive,
                     MorningBookings = daySchedule.Morning,
                     AfternoonBookings = daySchedule.Afternoon
-
                 };
                 DaysInfo.ScheduleDays.Add(day);
             }

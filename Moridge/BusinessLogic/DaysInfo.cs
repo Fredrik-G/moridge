@@ -11,7 +11,7 @@ namespace Moridge.BusinessLogic
     /// </summary>
     public class DaysInfo
     { 
-        public readonly CultureInfo SwedishCultureInfo = CultureInfo.GetCultureInfo(1053);
+        public static readonly CultureInfo SwedishCultureInfo = CultureInfo.GetCultureInfo(1053);
 
         public List<Day> Days { get; set; }
         public List<ScheduleModel> ScheduleDays { get; set; }
