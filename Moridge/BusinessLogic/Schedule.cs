@@ -32,9 +32,9 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Gets the driver's schedule.
         /// </summary>
-        public List<ScheduleModel> GetDriverSchedule()
+        public List<ScheduleModel> GetDriverSchedule(bool isScheduleDeviation)
         {
-            ConvertDatabaseSchedule(_user.Schedule);
+            ConvertDatabaseSchedule(_user.Schedule, isScheduleDeviation ? _user.ScheduleDeviation : null);
             return DaysInfo.ScheduleDays;
         }
 
@@ -100,18 +100,22 @@ namespace Moridge.BusinessLogic
         /// Converts the database schedule to the local <see cref="Day"/> schedule.
         /// </summary>
         /// <param name="schedule">the database schedule</param>
-        public void ConvertDatabaseSchedule(ICollection<DaySchedule> schedule)
+        /// <param name="scheduleDeviations">schedule deviation or null if ignore deviations</param>
+        public void ConvertDatabaseSchedule(ICollection<DaySchedule> schedule, ICollection<ScheduleDeviation> scheduleDeviations)
         {
             DaysInfo.ScheduleDays = new List<ScheduleModel>();
             foreach(var daySchedule in schedule)
             {
+                //deviation kan innehålla flera vid den dagen. ej bra.
+                //funkar bara för aktuell vecka.
+                var deviation = scheduleDeviations?.SingleOrDefault(x => x.DayOfWeek == daySchedule.DayOfWeek);
                 var day = new ScheduleModel
                 {
                     DayOfWeek = daySchedule.DayOfWeek, 
-                    MorningActive = daySchedule.MorningActive,
-                    AfternoonActive = daySchedule.AfternoonActive,
-                    MorningBookings = daySchedule.Morning,
-                    AfternoonBookings = daySchedule.Afternoon
+                    MorningActive =  deviation?.MorningActive ?? daySchedule.MorningActive,
+                    AfternoonActive = deviation?.AfternoonActive ?? daySchedule.AfternoonActive,
+                    MorningBookings = deviation?.Morning ?? daySchedule.Morning,
+                    AfternoonBookings = deviation?.Afternoon ?? daySchedule.Afternoon
                 };
                 DaysInfo.ScheduleDays.Add(day);
             }
