@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
+using Moridge.Extensions;
 using Moridge.Models;
 using MyMoridgeServer.BusinessLogic;
 
@@ -42,9 +44,10 @@ namespace Moridge.Controllers
         public ActionResult Schedule(bool useLocalValues = false)
         {
             var schedule = new Schedule();
-            var driverSchedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
-                                                : schedule.GetDriverSchedule(isScheduleDeviation: false);
-            var scheduleSet = new ScheduleModelSet { ScheduleModels = driverSchedule, IsDeviationSet = false };
+            var driverSchedule = useLocalValues ? (System.Web.HttpContext.Current.Session["Schedule"] as List<List<ScheduleModel>>)?[0]
+                                                : schedule.GetDriverSchedule();
+            var scheduleSet = new ScheduleModelSet { IsDeviationSet = false, WeeksFromNow = 0 };
+            scheduleSet.ScheduleModels.Add(driverSchedule);
             System.Web.HttpContext.Current.Session["Schedule"] = driverSchedule;
             return View(scheduleSet);
         }
@@ -54,15 +57,31 @@ namespace Moridge.Controllers
         {
             var schedule = new Schedule();
             System.Web.HttpContext.Current.Session["Schedule"] = schedule.SaveDriverSchedule(scheduleSet.ScheduleModels, scheduleSet.IsDeviationSet);
-            return RedirectToAction("Schedule", "Driver", new { useLocalValues = true });
+
+            return RedirectToAction(scheduleSet.IsDeviationSet ? "ScheduleDeviation" : "Schedule", "Driver", new { useLocalValues = true });
         }
 
-        public ActionResult ScheduleDeviation()
+        [HttpGet]
+        public ActionResult ScheduleDeviation(bool useLocalValues = false)
         {
+            //TODO läs lokala variabler
             var schedule = new Schedule();
-            var driverSchedule = schedule.GetDriverSchedule(isScheduleDeviation: true);
-            var scheduleSet = new ScheduleModelSet { ScheduleModels = driverSchedule, IsDeviationSet = true };
-            scheduleSet.SetCurrentWeek();
+            var thisFirstDay = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
+            var scheduleSet = new ScheduleModelSet
+            {
+                IsDeviationSet = true,
+                CurrentDate = thisFirstDay,
+                WeeksFromNow = 0
+            };
+            for (var i = 0; i < 4; i++)
+            {
+                var weeksFromNow = i;
+                var futureFirstDay = thisFirstDay.AddDays(weeksFromNow * 7);
+                var futureLastDay = futureFirstDay.AddDays(6);
+                var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
+                scheduleSet.ScheduleModels.Add(driverSchedule);
+            }
+            //scheduleSet.SetWeek(weeksFromNow: 0);
             return View(scheduleSet);
         }
 

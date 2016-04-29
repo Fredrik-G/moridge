@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
@@ -46,9 +45,16 @@ namespace Moridge.Models
     public class ScheduleModelSet
     {
         public bool IsDeviationSet { get; set; }
-        public List<ScheduleModel> ScheduleModels { get; set; }
+
+        /// <summary>
+        /// List of all schedule models. The outer list is a set of schedule days representing a week.
+        /// </summary>
+        public List<List<ScheduleModel>> ScheduleModels { get; set; } = new List<List<ScheduleModel>>();
         public DateTime CurrentDate { get; set; }
         public string CurrentWeek => GetCurrentWeek();
+        public int WeeksFromNow { get; set; }
+        public List<ScheduleModel> GetScheduleModels() => ScheduleModels[WeeksFromNow];
+        public string GetTitle() => "Arbetsschema";
 
         private string GetCurrentWeek()
         {
@@ -63,20 +69,6 @@ namespace Moridge.Models
             return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMMM", swedishInfo.DateTimeFormat)}";
         }
 
-        public string GetTitle() => "Arbetsschema";
-
-        /// <summary>
-        /// Sets the date to current week for the schedule models.
-        /// </summary>
-        public void SetCurrentWeek()
-        {
-            var monday = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
-            CurrentDate = monday;
-            for(var i = 0; i < ScheduleModels.Count; i++)
-            {
-                ScheduleModels[i].Date = monday.AddDays(i);
-            }
-        }
     }
 
     public class ScheduleModel

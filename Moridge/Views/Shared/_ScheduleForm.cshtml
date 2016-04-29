@@ -1,21 +1,21 @@
 ﻿@using Moridge.Extensions
 @model Moridge.Models.ScheduleModelSet
 
-@using (Html.BeginForm("Schedule", "Driver"))
+@using (Html.BeginForm("Schedule", "Driver", FormMethod.Post, new { data_ajax = "false" }))
 { 
     @Html.ValidationSummary()
     @Html.HiddenFor(m => m.IsDeviationSet)
 
     <ul data-role="listview" class="ui-listview">
-        @for (var i = 0; i < Model.ScheduleModels.Count; i++)
+        @for(var i = 0; i < Model.GetScheduleModels().Count; i++)
         {
             <li class="list-item">
                 <div class="ui-grid-c">
                     <div class="ui-block-a">
                         <div class="ui-bar ui-bar-c bar-item">
-                            <h1>@Html.DisplayFor(m => m.ScheduleModels[i].DayOfWeek)</h1>
-                            <p>@Html.DisplayFor(m => m.ScheduleModels[i].Date)</p>
-                            @Html.HiddenFor(m => m.ScheduleModels[i].Date)
+                            <h1>@Html.DisplayFor(m => m.ScheduleModels[Model.WeeksFromNow][i].DayOfWeek)</h1>
+                            <p>@Html.DisplayFor(m => m.ScheduleModels[Model.WeeksFromNow][i].Date)</p>
+                            @Html.HiddenFor(m => m.ScheduleModels[Model.WeeksFromNow][i].Date)
                         </div>
                     </div>
                     <div class="ui-block-b">
@@ -26,14 +26,14 @@
                     </div>
                     <div class="ui-block-c">
                         <div class="ui-bar ui-bar-c no-padding" style="height: 92px">
-                            <p class="no-padding">@Html.FlipSwitchFor(m => m.ScheduleModels[i].MorningActive)</p>
-                            <p class="no-padding">@Html.FlipSwitchFor(m => m.ScheduleModels[i].AfternoonActive)</p>
+                            <p class="no-padding">@Html.FlipSwitchFor(m => m.ScheduleModels[Model.WeeksFromNow][i].MorningActive)</p>
+                            <p class="no-padding">@Html.FlipSwitchFor(m => m.ScheduleModels[Model.WeeksFromNow][i].AfternoonActive)</p>
                         </div>
                     </div>
                     <div class="ui-block-d">
                         <div class="ui-bar ui-bar-c no-padding" style="margin-left: 10px !important;">
-                            <p class="schedule-input">@Html.TextBoxFor(m => m.ScheduleModels[i].MorningBookings, new {@type = "number"})</p>
-                            <p class="no-padding">@Html.TextBoxFor(m => m.ScheduleModels[i].AfternoonBookings, new {@type = "number"})</p>
+                            <p class="schedule-input">@Html.TextBoxFor(m => m.ScheduleModels[Model.WeeksFromNow][i].MorningBookings, new { @type = "number" })</p>
+                            <p class="no-padding">@Html.TextBoxFor(m => m.ScheduleModels[Model.WeeksFromNow][i].AfternoonBookings, new { @type = "number" })</p>
                         </div>
                     </div>
                 </div>
