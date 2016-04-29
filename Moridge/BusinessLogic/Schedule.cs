@@ -42,23 +42,58 @@ namespace Moridge.BusinessLogic
         /// Saves the given schedule back to the database.
         /// </summary>
         /// <param name="schedule">the schedule to save</param>
+        /// <param name="isDeviationSet">determines if this set is a devation schedule or a normal schedule</param>
         /// <returns>gets the schedule as list</returns>
-        public List<ScheduleModel> SaveDriverSchedule(IEnumerable<ScheduleModel> schedule)
+        public List<ScheduleModel> SaveDriverSchedule(IEnumerable<ScheduleModel> schedule, bool isDeviationSet)
         {
             for(var i = 0; i < _user.Schedule.Count; i++)
             {
-                var dbDay = _user.Schedule.ElementAt(i);
                 var newDay = schedule.ElementAt(i);
+                var normalSchedule = _user.Schedule.ElementAt(i);
+                newDay.DayOfWeek = normalSchedule.DayOfWeek;
 
-                dbDay.MorningActive = newDay.MorningActive;
-                dbDay.AfternoonActive = newDay.AfternoonActive;
-                dbDay.Morning = newDay.MorningBookings;
-                dbDay.Afternoon = newDay.AfternoonBookings;
-
-                newDay.DayOfWeek = dbDay.DayOfWeek;
+                if (isDeviationSet)
+                {
+                    var scheduleDeviation = new ScheduleDeviation
+                    {
+                        DayOfWeek = normalSchedule.DayOfWeek,
+                        MorningActive = newDay.MorningActive,
+                        AfternoonActive = newDay.AfternoonActive,
+                        Morning = newDay.MorningBookings,
+                        Afternoon = newDay.AfternoonBookings,
+                        Date = newDay.Date
+                    };
+                    //Only add it if its different from the normal schedule.
+                    if (IsScheduleDifferent(normalSchedule, scheduleDeviation))
+                    {
+                        _user.ScheduleDeviation.Add(scheduleDeviation);
+                    }
+                }
+                else
+                {
+                    normalSchedule.MorningActive = newDay.MorningActive;
+                    normalSchedule.AfternoonActive = newDay.AfternoonActive;
+                    normalSchedule.Morning = newDay.MorningBookings;
+                    normalSchedule.Afternoon = newDay.AfternoonBookings;
+                }
             }
             _dbContext.SaveChanges();
             return schedule.ToList();
+        }
+
+        /// <summary>
+        /// Checks if the schedule is different from the normal day schedule.
+        /// </summary>
+        /// <param name="normalDaySchedule">the normal schedule for a day</param>
+        /// <param name="scheduleDayDeviation">the different schedule</param>
+        /// <returns>true if different schedule</returns>
+        private bool IsScheduleDifferent(DaySchedule normalDaySchedule, ScheduleDeviation scheduleDayDeviation)
+        {
+            return !((normalDaySchedule.DayOfWeek == scheduleDayDeviation.DayOfWeek) &&
+                   (normalDaySchedule.MorningActive == scheduleDayDeviation.MorningActive) &&
+                   (normalDaySchedule.AfternoonActive == scheduleDayDeviation.AfternoonActive) &&
+                   (normalDaySchedule.Morning == scheduleDayDeviation.Morning) &&
+                   (normalDaySchedule.Afternoon == scheduleDayDeviation.Afternoon));
         }
 
         /// <summary>

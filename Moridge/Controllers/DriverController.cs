@@ -42,10 +42,9 @@ namespace Moridge.Controllers
         public ActionResult Schedule(bool useLocalValues = false)
         {
             var schedule = new Schedule();
-            var scheduleSet = new ScheduleModelSet();
             var driverSchedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
                                                 : schedule.GetDriverSchedule();
-            scheduleSet.ScheduleModels = driverSchedule;
+            var scheduleSet = new ScheduleModelSet { ScheduleModels = driverSchedule, IsDeviationSet = false };
             System.Web.HttpContext.Current.Session["Schedule"] = driverSchedule;
             return View(scheduleSet);
         }
@@ -54,7 +53,7 @@ namespace Moridge.Controllers
         public ActionResult Schedule(ScheduleModelSet scheduleSet)
         {
             var schedule = new Schedule();
-            System.Web.HttpContext.Current.Session["Schedule"] = schedule.SaveDriverSchedule(scheduleSet.ScheduleModels);
+            System.Web.HttpContext.Current.Session["Schedule"] = schedule.SaveDriverSchedule(scheduleSet.ScheduleModels, scheduleSet.IsDeviationSet);
             return RedirectToAction("Schedule", "Driver", new { useLocalValues = true });
         }
 
@@ -67,7 +66,7 @@ namespace Moridge.Controllers
                 driverSchedule = schedule.GetDriverSchedule();
             }
 
-            var scheduleSet = new ScheduleModelSet { ScheduleModels = driverSchedule };
+            var scheduleSet = new ScheduleModelSet { ScheduleModels = driverSchedule, IsDeviationSet = true };
             scheduleSet.SetCurrentWeek();
             return View(scheduleSet);
         }

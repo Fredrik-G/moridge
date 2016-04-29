@@ -38,6 +38,7 @@ namespace Moridge.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime? Date { get; set; }
+        public string DayOfWeek { get; set; }
         public int? Morning { get; set; }
         public int? Afternoon { get; set; }
         public bool? MorningActive { get; set; }

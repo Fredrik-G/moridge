@@ -45,6 +45,7 @@ namespace Moridge.Models
 
     public class ScheduleModelSet
     {
+        public bool IsDeviationSet { get; set; }
         public List<ScheduleModel> ScheduleModels { get; set; }
         public DateTime CurrentDate { get; set; }
         public string CurrentWeek => GetCurrentWeek();
@@ -53,9 +54,9 @@ namespace Moridge.Models
         {
             var swedishInfo = DaysInfo.SwedishCultureInfo;
             var weekNumber = swedishInfo.Calendar.GetWeekOfYear(
-                CurrentDate,
-                swedishInfo.DateTimeFormat.CalendarWeekRule,
-                swedishInfo.DateTimeFormat.FirstDayOfWeek);
+                            CurrentDate,
+                            swedishInfo.DateTimeFormat.CalendarWeekRule,
+                            swedishInfo.DateTimeFormat.FirstDayOfWeek);
             var firstDayOfWeek = DateTime.Now.StartOfWeek(swedishInfo.DateTimeFormat.FirstDayOfWeek);
             var lastDayOfWeek = firstDayOfWeek.AddDays(6);
 
