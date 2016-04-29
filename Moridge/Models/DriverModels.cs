@@ -63,7 +63,7 @@ namespace Moridge.Models
                             CurrentDate,
                             swedishInfo.DateTimeFormat.CalendarWeekRule,
                             swedishInfo.DateTimeFormat.FirstDayOfWeek);
-            var firstDayOfWeek = DateTime.Now.StartOfWeek(swedishInfo.DateTimeFormat.FirstDayOfWeek);
+            var firstDayOfWeek = CurrentDate.StartOfWeek(swedishInfo.DateTimeFormat.FirstDayOfWeek);
             var lastDayOfWeek = firstDayOfWeek.AddDays(6);
 
             return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMMM", swedishInfo.DateTimeFormat)}";

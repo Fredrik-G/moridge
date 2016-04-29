@@ -62,35 +62,42 @@ namespace Moridge.Controllers
         }
 
         [HttpGet]
-        public ActionResult ScheduleDeviation(bool useLocalValues = false)
+        public ActionResult ScheduleDeviation(bool useLocalValues = false, int weeksFromNow = 0)
         {
-            //TODO läs lokala variabler
             var schedule = new Schedule();
             var thisFirstDay = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
             var scheduleSet = new ScheduleModelSet
             {
                 IsDeviationSet = true,
-                CurrentDate = thisFirstDay,
-                WeeksFromNow = 0
+                CurrentDate = thisFirstDay.Date.AddDays(7 * weeksFromNow),
+                WeeksFromNow = weeksFromNow
             };
             if (!useLocalValues)
             {
                 for (var i = 0; i < 4; i++)
                 {
-                    var weeksFromNow = i;
+                    weeksFromNow = i;
                     var futureFirstDay = thisFirstDay.AddDays(weeksFromNow * 7);
                     var futureLastDay = futureFirstDay.AddDays(6);
                     var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
                     scheduleSet.ScheduleModels.Add(driverSchedule);
                 }
+                System.Web.HttpContext.Current.Session["Schedule"] = scheduleSet.ScheduleModels;
             }
             else
             {
                 var driverSchedule = System.Web.HttpContext.Current.Session["Schedule"] as List<List<ScheduleModel>>;
                 scheduleSet.ScheduleModels = driverSchedule;
             }
-            //scheduleSet.SetWeek(weeksFromNow: 0);
             return View(scheduleSet);
+        }
+
+        [HttpGet]
+        public ActionResult ScheduleGotoNextWeek()
+        {
+            //TODO weeks parameter
+            var weeksFromNow = 1;
+            return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = weeksFromNow });
         }
 
         public ActionResult PersonalInfo()
