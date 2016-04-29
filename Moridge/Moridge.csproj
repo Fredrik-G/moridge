@@ -263,6 +263,10 @@
     <Compile Include="Migrations\201604290816008_scheduleDeviation-active.Designer.cs">
       <DependentUpon>201604290816008_scheduleDeviation-active.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604290827495_scheduleDeviation-dayOfWeek.cs" />
+    <Compile Include="Migrations\201604290827495_scheduleDeviation-dayOfWeek.Designer.cs">
+      <DependentUpon>201604290827495_scheduleDeviation-dayOfWeek.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="BusinessLogic\Booking.cs" />
@@ -416,6 +420,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604290816008_scheduleDeviation-active.resx">
       <DependentUpon>201604290816008_scheduleDeviation-active.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604290827495_scheduleDeviation-dayOfWeek.resx">
+      <DependentUpon>201604290827495_scheduleDeviation-dayOfWeek.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
