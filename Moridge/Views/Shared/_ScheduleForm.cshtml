@@ -9,6 +9,10 @@
     <ul data-role="listview" class="ui-listview">
         @for(var i = 0; i < Model.GetScheduleModels().Count; i++)
         {
+            if (Model.IsDeviationSet)
+            {
+                @Html.Partial("_HiddenSchedule", Model)
+            }
             <li class="list-item">
                 <div class="ui-grid-c">
                     <div class="ui-block-a">

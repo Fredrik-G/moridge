@@ -73,13 +73,21 @@ namespace Moridge.Controllers
                 CurrentDate = thisFirstDay,
                 WeeksFromNow = 0
             };
-            for (var i = 0; i < 4; i++)
+            if (!useLocalValues)
             {
-                var weeksFromNow = i;
-                var futureFirstDay = thisFirstDay.AddDays(weeksFromNow * 7);
-                var futureLastDay = futureFirstDay.AddDays(6);
-                var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
-                scheduleSet.ScheduleModels.Add(driverSchedule);
+                for (var i = 0; i < 4; i++)
+                {
+                    var weeksFromNow = i;
+                    var futureFirstDay = thisFirstDay.AddDays(weeksFromNow * 7);
+                    var futureLastDay = futureFirstDay.AddDays(6);
+                    var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
+                    scheduleSet.ScheduleModels.Add(driverSchedule);
+                }
+            }
+            else
+            {
+                var driverSchedule = System.Web.HttpContext.Current.Session["Schedule"] as List<List<ScheduleModel>>;
+                scheduleSet.ScheduleModels = driverSchedule;
             }
             //scheduleSet.SetWeek(weeksFromNow: 0);
             return View(scheduleSet);

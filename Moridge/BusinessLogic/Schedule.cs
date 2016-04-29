@@ -107,7 +107,7 @@ namespace Moridge.BusinessLogic
                 }
             }
             _dbContext.SaveChanges();
-            return schedule.ToList();
+            return schedule;
         }
 
         /// <summary>

@@ -1,0 +1,17 @@
+﻿@using Moridge.Extensions
+@model Moridge.Models.ScheduleModelSet
+
+@* TODO *@
+@for (var i = 1; i < Model.ScheduleModels.Count; i++)
+{
+    for (var j = 0; j < Model.ScheduleModels[i].Count; j++)
+    {
+        @Html.HiddenFor(m => m.ScheduleModels[i][j].Date)
+                  
+        @Html.HiddenFor(m => m.ScheduleModels[i][j].MorningActive)
+        @Html.HiddenFor(m => m.ScheduleModels[i][j].AfternoonActive)
+                                                 
+        @Html.HiddenFor(m => m.ScheduleModels[i][j].MorningBookings)
+        @Html.HiddenFor(m => m.ScheduleModels[i][j].AfternoonBookings)
+    }
+}
