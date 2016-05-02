@@ -9,14 +9,18 @@
 <script>
     $(":jqmData(role=page)").bind("pagebeforeshow", function () {
         setSideBar();
+        setScheduleButton();
     });
     $(document).ready(function () {
         setPageIndicator(2);
-        $('.header-btn-right').show();
+        setScheduleButton();
     });
 </script>
 
-@Html.Partial("_ScheduleForm", Model)
+@using (Html.BeginForm("Schedule", "Driver"))
+{
+    @Html.Partial("_ScheduleForm", Model)
+}
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">

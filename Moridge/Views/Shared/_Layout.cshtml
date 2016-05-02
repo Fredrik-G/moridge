@@ -38,6 +38,19 @@
                 $('*#page-indicator-2').attr("class", "activeSlide");
             }
         }
+
+        function setDeviationButton() {
+            $('.header-btn-right').show();
+            $('*.header-btn-right').data("transition", "slideup");
+            $('.header-btn-right').attr("href", "@Url.Action("Schedule", "Driver")");
+            $('.header-btn-right').text("Tillbaka Till Schemat");
+        }
+        function setScheduleButton() {
+            $('.header-btn-right').show();
+            $('*.header-btn-right').data("transition", "slidedown");
+            $('.header-btn-right').attr("href", "@Url.Action("ScheduleDeviation", "Driver")");
+            $('.header-btn-right').text("Ange Avvikelse");
+        }
     </script>
 </head>
 <body>
