@@ -119,12 +119,17 @@ namespace Moridge.Controllers
 
             return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = model.WeeksFromNow });
         }
-
+        /// <summary>
+        /// Loads the next/previous week for the schedule deviation.
+        /// </summary>
+        /// <param name="weeksFromNow">current weeks from now</param>
+        /// <param name="gotoNextWeek">true if load next week, false if previous week</param>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult ScheduleGotoNextWeek(int weeksFromNow)
+        public ActionResult ScheduleLoadWeek(int weeksFromNow, bool gotoNextWeek)
         {
-            //increase weeks from now
-            weeksFromNow++;
+            //increase or decrease  week from now
+            weeksFromNow = gotoNextWeek ? weeksFromNow + 1 : weeksFromNow - 1;
             return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = weeksFromNow });
         }
 
