@@ -1,7 +1,7 @@
 ﻿@using Moridge.Extensions
 @model Moridge.Models.ScheduleModelSet
 
-@using (Html.BeginForm("Schedule", "Driver", FormMethod.Post, new { data_ajax = "false" }))
+@using (Html.BeginForm("Schedule", "Driver"))
 { 
     @Html.ValidationSummary()
     @Html.HiddenFor(m => m.IsDeviationSet)

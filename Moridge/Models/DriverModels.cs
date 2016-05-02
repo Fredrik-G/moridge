@@ -49,11 +49,20 @@ namespace Moridge.Models
         /// <summary>
         /// List of all schedule models.
         /// </summary>
-        public List<ScheduleModel> ScheduleModels { get; set; } 
+        public List<ScheduleModel> ScheduleModels { get; set; }
+
+        /// <summary>
+        /// The number of weeks from today.
+        /// </summary>
+        public int WeeksFromNow { get; set; }
+
+        /// <summary>
+        /// The number of future weeks to display and let the user change.
+        /// </summary>
+        public int NumberOfWeeks { get; set; } = 4;
 
         public DateTime CurrentDate { get; set; }
         public string CurrentWeek => GetCurrentWeek();
-        public int WeeksFromNow { get; set; }
         public List<ScheduleModel> GetScheduleModels() => ScheduleModels;
         public string GetTitle() => "Arbetsschema";
 
@@ -70,6 +79,8 @@ namespace Moridge.Models
             return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMMM", swedishInfo.DateTimeFormat)}";
         }
 
+        public bool IsNextWeekAvailable() => WeeksFromNow + 1 < NumberOfWeeks;
+        public bool IsPreviousWeekAvailable() => WeeksFromNow > 0;
     }
 
     public class ScheduleModel

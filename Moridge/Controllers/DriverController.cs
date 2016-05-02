@@ -97,7 +97,7 @@ namespace Moridge.Controllers
             var weeks = new List<List<ScheduleModel>>();
             if (!useLocalValues)
             {
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i < scheduleSet.NumberOfWeeks; i++)
                 {
                     var futureFirstDay = thisFirstDay.AddDays(i * 7);
                     var futureLastDay = futureFirstDay.AddDays(6);
