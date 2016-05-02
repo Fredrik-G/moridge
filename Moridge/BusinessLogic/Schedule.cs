@@ -109,7 +109,38 @@ namespace Moridge.BusinessLogic
             _dbContext.SaveChanges();
             return schedule;
         }
+        
+                /// <summary>
+        /// Saves the given schedule back to the database.
+        /// </summary>
+        /// <param name="schedule">the schedule to save</param>
+        /// <param name="isDeviationSet">determines if this set is a devation schedule or a normal schedule</param>
+        /// <returns>gets the schedule as list</returns>
+        public List<ScheduleModel> SaveDriverSchedule(List<ScheduleModel> schedule, bool isDeviationSet)
+        {
+            for (var i = 0; i < _user.Schedule.Count; i++)
+            {
+                var newDay = schedule.ElementAt(i);
+                var normalSchedule = _user.Schedule.ElementAt(i);
+                newDay.DayOfWeek = normalSchedule.DayOfWeek;
 
+                if (isDeviationSet)
+                {
+                    SaveDeviation(normalSchedule, newDay);
+                }
+                else
+                {
+                    normalSchedule.MorningActive = newDay.MorningActive;
+                    normalSchedule.AfternoonActive = newDay.AfternoonActive;
+                    normalSchedule.Morning = newDay.MorningBookings;
+                    normalSchedule.Afternoon = newDay.AfternoonBookings;
+                }
+            }
+            
+            _dbContext.SaveChanges();
+            return schedule;
+        }
+        
         /// <summary>
         /// Saves the given deviation to the database.
         /// Only adds a new deviation if its different from the normal schedule.

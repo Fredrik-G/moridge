@@ -44,21 +44,42 @@ namespace Moridge.Controllers
         public ActionResult Schedule(bool useLocalValues = false)
         {
             var schedule = new Schedule();
-            var driverSchedule = useLocalValues ? (System.Web.HttpContext.Current.Session["Schedule"] as List<List<ScheduleModel>>)?[0]
+            var driverSchedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
                                                 : schedule.GetDriverSchedule();
-            var scheduleSet = new ScheduleModelSet { IsDeviationSet = false, WeeksFromNow = 0 };
-            scheduleSet.ScheduleModels.Add(driverSchedule);
+            var scheduleSet = new ScheduleModelSet
+            {
+                IsDeviationSet = false,
+                WeeksFromNow = 0,
+                TestModels = driverSchedule
+            };
             System.Web.HttpContext.Current.Session["Schedule"] = driverSchedule;
             return View(scheduleSet);
         }
 
         [HttpPost]
-        public ActionResult Schedule(ScheduleModelSet scheduleSet)
+        public ActionResult Schedule(ScheduleModelSet model)
         {
             var schedule = new Schedule();
-            System.Web.HttpContext.Current.Session["Schedule"] = schedule.SaveDriverSchedule(scheduleSet.ScheduleModels, scheduleSet.IsDeviationSet);
+            var newWeekSchedule = schedule.SaveDriverSchedule(model.TestModels, model.IsDeviationSet);
 
-            return RedirectToAction(scheduleSet.IsDeviationSet ? "ScheduleDeviation" : "Schedule", "Driver", new { useLocalValues = true });
+            UpdateSessionSchedule(newWeekSchedule, model.WeeksFromNow, model.IsDeviationSet);
+
+            return RedirectToAction(model.IsDeviationSet ? "ScheduleDeviation" : "Schedule", "Driver",
+                new { useLocalValues = true, weeksFromNow = model.WeeksFromNow });
+        }
+
+        private void UpdateSessionSchedule(List<ScheduleModel> newWeekSchedule, int weeksFromNow, bool isDeviationSet)
+        {
+            if (isDeviationSet)
+            {
+                var weeks = System.Web.HttpContext.Current.Session["ScheduleWeeks"] as List<List<ScheduleModel>>;
+                weeks[weeksFromNow] = newWeekSchedule;
+                System.Web.HttpContext.Current.Session["ScheduleWeeks"] = weeks;
+            }
+            else
+            {
+                System.Web.HttpContext.Current.Session["Schedule"] = newWeekSchedule;
+            }
         }
 
         [HttpGet]
@@ -72,31 +93,33 @@ namespace Moridge.Controllers
                 CurrentDate = thisFirstDay.Date.AddDays(7 * weeksFromNow),
                 WeeksFromNow = weeksFromNow
             };
+
+            var weeks = new List<List<ScheduleModel>>();
             if (!useLocalValues)
             {
                 for (var i = 0; i < 4; i++)
                 {
-                    weeksFromNow = i;
-                    var futureFirstDay = thisFirstDay.AddDays(weeksFromNow * 7);
+                    var futureFirstDay = thisFirstDay.AddDays(i * 7);
                     var futureLastDay = futureFirstDay.AddDays(6);
                     var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
-                    scheduleSet.ScheduleModels.Add(driverSchedule);
+                    //scheduleSet.ScheduleModels.Add(driverSchedule);
+                    weeks.Add(driverSchedule);
                 }
-                System.Web.HttpContext.Current.Session["Schedule"] = scheduleSet.ScheduleModels;
+                System.Web.HttpContext.Current.Session["ScheduleWeeks"] = weeks;
             }
             else
             {
-                var driverSchedule = System.Web.HttpContext.Current.Session["Schedule"] as List<List<ScheduleModel>>;
-                scheduleSet.ScheduleModels = driverSchedule;
+                weeks = System.Web.HttpContext.Current.Session["ScheduleWeeks"] as List<List<ScheduleModel>>;
             }
+            scheduleSet.TestModels = weeks[weeksFromNow];
             return View(scheduleSet);
         }
 
         [HttpGet]
-        public ActionResult ScheduleGotoNextWeek()
+        public ActionResult ScheduleGotoNextWeek(int weeksFromNow)
         {
-            //TODO weeks parameter
-            var weeksFromNow = 1;
+            //increase weeks from now
+            weeksFromNow++;
             return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = weeksFromNow });
         }
 

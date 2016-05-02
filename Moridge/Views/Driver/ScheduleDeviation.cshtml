@@ -21,8 +21,7 @@
     <div class="center-wrapper">
         <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline">Button</a>
         @Html.DisplayFor(m => m.CurrentWeek)
-        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline" href="@Url.Action("ScheduleGotoNextWeek", "Driver")"></a>
-        @*@Html.ActionLink("->", "ScheduleGotoNextWeek", "Driver", null, new { @class = "ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline" })*@
-        @*<a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline">Button</a>*@
+        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline"
+             href="@Url.Action("ScheduleGotoNextWeek", "Driver", new {weeksFromNow = Model.WeeksFromNow})"></a>
     </div>
 </div>
