@@ -50,7 +50,7 @@ namespace Moridge.Controllers
             {
                 IsDeviationSet = false,
                 WeeksFromNow = 0,
-                TestModels = driverSchedule
+                ScheduleModels = driverSchedule
             };
             System.Web.HttpContext.Current.Session["Schedule"] = driverSchedule;
             return View(scheduleSet);
@@ -60,7 +60,7 @@ namespace Moridge.Controllers
         public ActionResult Schedule(ScheduleModelSet model)
         {
             var schedule = new Schedule();
-            var newWeekSchedule = schedule.SaveDriverSchedule(model.TestModels, model.IsDeviationSet);
+            var newWeekSchedule = schedule.SaveDriverSchedule(model.ScheduleModels, model.IsDeviationSet);
 
             UpdateSessionSchedule(newWeekSchedule, model.WeeksFromNow, model.IsDeviationSet);
 
@@ -102,7 +102,6 @@ namespace Moridge.Controllers
                     var futureFirstDay = thisFirstDay.AddDays(i * 7);
                     var futureLastDay = futureFirstDay.AddDays(6);
                     var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
-                    //scheduleSet.ScheduleModels.Add(driverSchedule);
                     weeks.Add(driverSchedule);
                 }
                 System.Web.HttpContext.Current.Session["ScheduleWeeks"] = weeks;
@@ -111,7 +110,7 @@ namespace Moridge.Controllers
             {
                 weeks = System.Web.HttpContext.Current.Session["ScheduleWeeks"] as List<List<ScheduleModel>>;
             }
-            scheduleSet.TestModels = weeks[weeksFromNow];
+            scheduleSet.ScheduleModels = weeks[weeksFromNow];
             return View(scheduleSet);
         }
 

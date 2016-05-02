@@ -401,7 +401,6 @@
     <Content Include="Views\Driver\BookingDetails.cshtml" />
     <Content Include="Views\Driver\ScheduleDeviation.cshtml" />
     <Content Include="Views\Shared\_ScheduleForm.cshtml" />
-    <Content Include="Views\Shared\_HiddenSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

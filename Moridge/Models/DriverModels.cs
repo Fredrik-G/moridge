@@ -45,17 +45,16 @@ namespace Moridge.Models
     public class ScheduleModelSet
     {
         public bool IsDeviationSet { get; set; }
-        public List<ScheduleModel> TestModels { get; set; } 
 
         /// <summary>
-        /// List of all schedule models. The outer list is a set of schedule days representing a week.
+        /// List of all schedule models.
         /// </summary>
-        public List<List<ScheduleModel>> ScheduleModels { get; set; } = new List<List<ScheduleModel>>();
+        public List<ScheduleModel> ScheduleModels { get; set; } 
+
         public DateTime CurrentDate { get; set; }
         public string CurrentWeek => GetCurrentWeek();
         public int WeeksFromNow { get; set; }
-        //public List<ScheduleModel> GetScheduleModels() => ScheduleModels[WeeksFromNow];
-        public List<ScheduleModel> GetScheduleModels() => TestModels;
+        public List<ScheduleModel> GetScheduleModels() => ScheduleModels;
         public string GetTitle() => "Arbetsschema";
 
         private string GetCurrentWeek()
