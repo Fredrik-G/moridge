@@ -16,16 +16,22 @@
 
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     @{
-        //Adds content dynamically
-        foreach (var bookingEvent in Model.GetEventsThisOccassion)
+        for (var i = 0; i < Model.BookingsForDriver; i++)
         {
         <li>
-            <a href="#" class="popup-header">@bookingEvent.Location
-                <p>@bookingEvent.Start.DateTime.Value.Date.ToString("yyyy-M-d") @bookingEvent.Start.DateTime.Value.TimeOfDay</p>
-                <p>@bookingEvent.Summary</p>
-                <p>@bookingEvent.Start.DateTime.Value.ToUniversalTime().TimeOfDay</p>
-                <p>@bookingEvent.Description</p>
-            </a>
+            @if (i < Model.GetEventsThisOccassion.Count)
+            {
+                <a href="#" class="popup-header">@Model.GetEventsThisOccassion[i].Location
+                    <p>@Model.GetEventsThisOccassion[i].Start.DateTime.Value.Date.ToString("yyyy-M-d") @Model.GetEventsThisOccassion[i].Start.DateTime.Value.TimeOfDay</p>
+                    <p>@Model.GetEventsThisOccassion[i].Summary</p>
+                    <p>@Model.GetEventsThisOccassion[i].Start.DateTime.Value.ToUniversalTime().TimeOfDay</p>
+                    <p>@Model.GetEventsThisOccassion[i].Description</p>
+                </a>
+            }
+            else
+            {
+                <a href="#" class="popup-header">Tom</a>
+            }
         </li>
         }
     }

@@ -29,7 +29,8 @@
         foreach (var occassion in Model.GetOccassions())
         {
         <li>
-            <a href='@Url.Action("BookingDetails", "Driver", new { date = day.Date.ToString("yyyy-M-d"), occassion = occassion.Value.Name })'
+            <a href='@Url.Action("BookingDetails", "Driver",
+                new { date = day.Date.ToString("yyyy-M-d"), occassion = occassion.Value.Name, bookingsForDriver = occassion.Value.BookingsForDriver })'
                  data-transition="slidedown">
                 <p class="ui-li-aside ui-li-desc link-header">
                     <strong>

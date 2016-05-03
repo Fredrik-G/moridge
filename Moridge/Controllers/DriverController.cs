@@ -21,10 +21,10 @@ namespace Moridge.Controllers
             return View(new BookingModel(events.Items));
         }
 
-        public ActionResult BookingDetails(string date, string occassion)
+        public ActionResult BookingDetails(string date, string occassion, int bookingsForDriver)
         {
             var events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event>;
-            var bookingModel = new BookingModel(events);
+            var bookingModel = new BookingModel(events) { BookingsForDriver = bookingsForDriver };
             bookingModel.Booking.GetBookingsForOccasion(date, occassion);
             return View(bookingModel);
         }
@@ -33,7 +33,6 @@ namespace Moridge.Controllers
         {
             return PartialView();
         }
-
 
         //
         // GET: /Driver/Schedule

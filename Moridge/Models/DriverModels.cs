@@ -26,7 +26,8 @@ namespace Moridge.Models
         public string GetHeaderText(string date, string occassion) => Booking.GetHeaderText(date, occassion);
         public List<Day> GetDays() => Booking.DaysInfo.AllDays(startFromToday: true);
         public Dictionary<string, Occassion> GetOccassions() => Booking.Day.Occassions;
-        public IList<Event> GetEventsThisOccassion => Booking.Day.EventsThisDay.Items;     
+        public IList<Event> GetEventsThisOccassion => Booking.Day.EventsThisDay.Items;
+        public int BookingsForDriver { get; set; }
     }
 
     public class ScheduleModelSet
