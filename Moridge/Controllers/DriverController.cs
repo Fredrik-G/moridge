@@ -46,9 +46,10 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult Schedule(bool useLocalValues = false)
         {
-            var schedule = new Schedule();
-            var driverSchedule = useLocalValues ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
-                                                : schedule.GetDriverSchedule();
+            var driverSchedule = useLocalValues
+                ? System.Web.HttpContext.Current.Session["Schedule"] as List<ScheduleModel>
+                : new Schedule().GetDriverSchedule();
+
             var scheduleSet = new ScheduleModelSet
             {
                 IsDeviationSet = false,
@@ -76,7 +77,6 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult ScheduleDeviation(bool useLocalValues = false, int weeksFromNow = 0)
         {
-            var schedule = new Schedule();
             var thisFirstDay = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
             var scheduleSet = new ScheduleModelSet
             {
@@ -88,6 +88,7 @@ namespace Moridge.Controllers
             var weeks = new List<List<ScheduleModel>>();
             if (!useLocalValues)
             {
+                var schedule = new Schedule();
                 for (var i = 0; i < scheduleSet.NumberOfWeeks; i++)
                 {
                     var futureFirstDay = thisFirstDay.AddDays(i * 7);
