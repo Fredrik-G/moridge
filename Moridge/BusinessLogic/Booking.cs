@@ -75,16 +75,39 @@ namespace Moridge.BusinessLogic
         /// <returns></returns>
         public string GetMissingBookings(string date)
         {
+            int morning;
+            int afternoon;
+
+            //Get the number of scheduled bookings
+            var driverScheduleBookings = _schedule.GetDriverScheduleBookings(date, out morning, out afternoon);
+
             //Get total bookings for this date
-            var totalNumberOfBookings = 0;
-            foreach (var occassion in Day.Occassions)
-            {
-                occassion.Value.NumberOfBookings += GetBookingsForOccasion(date, occassion.Value.Name).Count;
-                totalNumberOfBookings += occassion.Value.NumberOfBookings;
-            }
+            Day.Occassions["Förmiddag"].NumberOfBookings += GetBookingsForOccasion(date, "Förmiddag").Count;
+            Day.Occassions["Förmiddag"].BookingsForDriver += morning;
+            Day.Occassions["Eftermiddag"].NumberOfBookings += GetBookingsForOccasion(date, "Eftermiddag").Count;
+            Day.Occassions["Eftermiddag"].BookingsForDriver += afternoon;
+
+            var totalNumberOfBookings = Day.Occassions["Förmiddag"].NumberOfBookings +
+                                        Day.Occassions["Eftermiddag"].NumberOfBookings;
+
             //Subtract those already booked
-            var driverScheduleBookings = _schedule.GetDriverScheduleBookings(date);
             return (driverScheduleBookings - totalNumberOfBookings).ToString();
+        }
+
+        /// <summary>
+        /// Gets the text for the header.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="occassion"></param>
+        /// <returns></returns>
+        public string GetHeaderText(string date, string occassion)
+        {
+            var upcomingOccassions = Day.Occassions[occassion].NumberOfBookings;
+            var numberOfBookingsForThisDriver = Day.Occassions[occassion].BookingsForDriver;
+
+            Day.Occassions[occassion].NumberOfBookings = 0;//reset it after done.
+            Day.Occassions[occassion].BookingsForDriver = 0;//reset it after done.
+            return $"{upcomingOccassions} av {numberOfBookingsForThisDriver} bokningar";
         }
 
     }

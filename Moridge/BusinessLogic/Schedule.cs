@@ -196,8 +196,10 @@ namespace Moridge.BusinessLogic
         /// Gets the number of scheduled bookings for this driver on a given date.
         /// </summary>
         /// <param name="date">date to check bookings on</param>
-        /// <returns>number of bookings</returns>
-        public int GetDriverScheduleBookings(string date)
+        /// <param name="morning">out value for the number of morning bookings</param>
+        /// <param name="afternoon">out value for the number of morning bookings</param>
+        /// <returns>total number of bookings (morning+afternoon)</returns>
+        public int GetDriverScheduleBookings(string date, out int morning, out int afternoon)
         {
             var day = Day.ConvertStringToDateTime(date);
             var scheduleDeviation = _user.ScheduleDeviation.FirstOrDefault(x => x.Date.Value.Date.Equals(day));
@@ -206,13 +208,13 @@ namespace Moridge.BusinessLogic
                 x => x.DayOfWeek.ToLower().Equals(
                     DaysInfo.SwedishCultureInfo.DateTimeFormat.GetDayName(day.DayOfWeek)));
 
-            var bookings = 0;
+            morning = afternoon = 0;
             var useDeviation = false;
             if (scheduleDeviation != null)
             {
                 //only add if the occassion is active
-                bookings += scheduleDeviation.MorningActive.Value ? scheduleDeviation.Morning.Value : 0;
-                bookings += scheduleDeviation.AfternoonActive.Value ? scheduleDeviation.Afternoon.Value : 0;
+                morning += scheduleDeviation.MorningActive.Value ? scheduleDeviation.Morning.Value : 0;
+                afternoon += scheduleDeviation.AfternoonActive.Value ? scheduleDeviation.Afternoon.Value : 0;
                 useDeviation = true;
             }
             //no deviations found => use normal schedule
@@ -220,14 +222,14 @@ namespace Moridge.BusinessLogic
             {
                 if (normalSchedule.MorningActive)
                 {
-                    bookings += normalSchedule.Morning;
+                    morning += normalSchedule.Morning;
                 }
                 if (normalSchedule.AfternoonActive)
                 {
-                    bookings += normalSchedule.Afternoon;
+                    afternoon += normalSchedule.Afternoon;
                 }
             }
-            return bookings;
+            return morning + afternoon;
         }
 
         /// <summary>
