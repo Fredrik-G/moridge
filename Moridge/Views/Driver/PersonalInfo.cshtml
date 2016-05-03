@@ -3,14 +3,16 @@
 @{
     ViewBag.Title = "Driver Page";
 }
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
-<script>
-    $(document).ready(function () {
-        setBackButton();
-    });
-</script>
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css"/>
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h1>@ViewBag.Title</h1>
+}
+
+
 @Html.ValidationSummary()
-hejsan :)
+
+todo
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">

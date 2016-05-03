@@ -4,11 +4,11 @@
     ViewBag.Title = "Log in";
 }
 
+<link rel="stylesheet" href="~/Content/themes/moridge/login_style.css"/>
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <h1></h1>
+    <h1>@ViewBag.Title</h1>
 }
-<link rel="stylesheet" href="~/Content/themes/moridge/login_style.css"/>
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { data_ajax = "false" }))
 {

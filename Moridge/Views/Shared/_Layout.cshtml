@@ -70,16 +70,6 @@
             {
                 @RenderSection("Header")
             }
-            else
-            {
-                <h1>
-                    <div id="page-indicator">
-                        <a href="#" id="page-indicator-1" class="activeSlide">Boka</a>
-                        <a href="#" id="page-indicator-2" class=""></a>
-                    </div>
-                </h1>
-                @Html.Partial("_LoginPartial")
-            }
         </div>
         <div data-role="content">
             @RenderBody()

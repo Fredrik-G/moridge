@@ -4,14 +4,16 @@
 @{
     ViewBag.Title = Model.GetTitle();
 }
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css"/>
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h1>@ViewBag.Title</h1>
+}
+
+
 <script>
-    $(":jqmData(role=page)").bind("pagebeforeshow", function () {
-        setSideBar();
-    });
     $(document).ready(function () {
         setPageIndicator(2);
-        setDeviationButton();
     });
 </script>
 
