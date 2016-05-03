@@ -25,5 +25,16 @@ namespace Moridge.BusinessLogic
                 [afternoon.Name] = afternoon
             };
         }
+
+        /// <summary>
+        /// Converts a date string to <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="date">date to convert</param>
+        /// <returns>the converted datetime object</returns>
+        public static DateTime ConvertStringToDateTime(string date)
+        {
+            var splittedDate = date.Split('-');
+            return new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
+        }
     }
 }

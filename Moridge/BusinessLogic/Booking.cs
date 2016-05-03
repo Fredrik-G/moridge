@@ -13,6 +13,8 @@ namespace Moridge.BusinessLogic
         public DaysInfo DaysInfo { get; } = new DaysInfo();
         public Day Day { get; } = new Day();
 
+        private readonly Schedule _schedule = new Schedule();
+
         public IList<Event> Events { get; set; }
 
         /// <summary>
@@ -24,9 +26,7 @@ namespace Moridge.BusinessLogic
         public IList<Event> GetBookingsForOccasion(string date, string occassion)
         {
             Day.CurrentOccassion = occassion;
-            var splittedDate = date.Split('-');
-            var day = new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
-
+            var day = Day.ConvertStringToDateTime(date);
             Day.EventsThisDay = new Events { Items = new List<Event>() };
             foreach (var bookingEvent in Events.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
             {
@@ -83,8 +83,9 @@ namespace Moridge.BusinessLogic
                 totalNumberOfBookings += occassion.Value.NumberOfBookings;
             }
             //Subtract those already booked
-            return (4 * 2 - totalNumberOfBookings).ToString();
-            //TODO
+            var driverScheduleBookings = _schedule.GetDriverScheduleBookings(date);
+            return (driverScheduleBookings - totalNumberOfBookings).ToString();
         }
+
     }
 }

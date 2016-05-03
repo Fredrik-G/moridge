@@ -192,7 +192,43 @@ namespace Moridge.BusinessLogic
                    normalDaySchedule.Afternoon == scheduleDayDeviation.Afternoon);
         }
 
+        /// <summary>
+        /// Gets the number of scheduled bookings for this driver on a given date.
+        /// </summary>
+        /// <param name="date">date to check bookings on</param>
+        /// <returns>number of bookings</returns>
+        public int GetDriverScheduleBookings(string date)
+        {
+            var day = Day.ConvertStringToDateTime(date);
+            var scheduleDeviation = _user.ScheduleDeviation.FirstOrDefault(x => x.Date.Value.Date.Equals(day));
 
+            var normalSchedule = _user.Schedule.FirstOrDefault(
+                x => x.DayOfWeek.ToLower().Equals(
+                    DaysInfo.SwedishCultureInfo.DateTimeFormat.GetDayName(day.DayOfWeek)));
+
+            var bookings = 0;
+            var useDeviation = false;
+            if (scheduleDeviation != null)
+            {
+                //only add if the occassion is active
+                bookings += scheduleDeviation.MorningActive.Value ? scheduleDeviation.Morning.Value : 0;
+                bookings += scheduleDeviation.AfternoonActive.Value ? scheduleDeviation.Afternoon.Value : 0;
+                useDeviation = true;
+            }
+            //no deviations found => use normal schedule
+            if (!useDeviation)
+            {
+                if (normalSchedule.MorningActive)
+                {
+                    bookings += normalSchedule.Morning;
+                }
+                if (normalSchedule.AfternoonActive)
+                {
+                    bookings += normalSchedule.Afternoon;
+                }
+            }
+            return bookings;
+        }
 
         /// <summary>
         /// Creates a default schedule for this driver.
