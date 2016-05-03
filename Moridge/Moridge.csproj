@@ -399,11 +399,12 @@
     <Content Include="Views\Driver\Booking.cshtml" />
     <Content Include="Views\Driver\Schedule.cshtml" />
     <Content Include="Views\Driver\PersonalInfo.cshtml" />
-    <Content Include="Views\Shared\_SidePanel.cshtml" />
+    <Content Include="Views\Shared\_SidePanelLoggedIn.cshtml" />
     <Content Include="Views\Driver\_PopupPartial.cshtml" />
     <Content Include="Views\Driver\BookingDetails.cshtml" />
     <Content Include="Views\Driver\ScheduleDeviation.cshtml" />
     <Content Include="Views\Shared\_ScheduleForm.cshtml" />
+    <Content Include="Views\Shared\_SidePanelDefault.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -56,7 +56,14 @@
 <body>
     <div data-role="page" data-theme="a">
 
-        @Html.Partial("_SidePanel")
+        @if (Request.IsAuthenticated)
+        {
+            @Html.Partial("_SidePanelLoggedIn")
+        }
+        else
+        {
+            @Html.Partial("_SidePanelDefault")
+        }
 
         <div data-role="header" data-theme="a">
             @if (IsSectionDefined("Header"))
