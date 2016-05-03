@@ -21,12 +21,6 @@ namespace Moridge.Controllers
             return View(new BookingModel(events.Items));
         }
 
-        public void SetClickedDate(string date, string occassion)
-        {
-            //var bookingModel = new BookingModel { Events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event> };
-            //System.Web.HttpContext.Current.Session["Events"] = bookingModel.GetBookingsForOccasion(date, occassion);
-        }
-
         public ActionResult BookingDetails(string date, string occassion)
         {
             var events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event>;
