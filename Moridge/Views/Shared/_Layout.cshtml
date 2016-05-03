@@ -17,53 +17,11 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script>
-        //Makes the header button open the sidebar.
-        function setSideBar() {
-            $('*#nav-btn').prop("href", "#nav-panel");
-            $('*#nav-btn').addClass("ui-icon-bars").removeClass("ui-icon-back");
-        }
-        //Makes the header button act as a back button.
-        function setBackButton() {
-            $('*#nav-btn').prop("href", '@Url.Action("Booking", "Driver")');
-        }
-        //Sets the given page as active in the page indicator.
-        function setPageIndicator(page) {
-            if (page === 1) {
-                $('*#page-indicator-1').attr("class", "activeSlide");
-                $('*#page-indicator-2').attr("class", "");
-            }
-            else if (page === 2) {
-                $('*#page-indicator-1').attr("class", "");
-                $('*#page-indicator-2').attr("class", "activeSlide");
-            }
-        }
-
-        function setDeviationButton() {
-            $('.header-btn-right').show();
-            $('*.header-btn-right').data("transition", "slideup");
-            $('.header-btn-right').attr("href", "@Url.Action("Schedule", "Driver")");
-            $('.header-btn-right').text("Tillbaka Till Schemat");
-        }
-        function setScheduleButton() {
-            $('.header-btn-right').show();
-            $('*.header-btn-right').data("transition", "slidedown");
-            $('.header-btn-right').attr("href", "@Url.Action("ScheduleDeviation", "Driver")");
-            $('.header-btn-right').text("Ange Avvikelse");
-        }
-    </script>
 </head>
 <body>
     <div data-role="page" data-theme="a">
 
-        @if (Request.IsAuthenticated)
-        {
-            @Html.Partial("_SidePanelLoggedIn")
-        }
-        else
-        {
-            @Html.Partial("_SidePanelDefault")
-        }
+        @(Request.IsAuthenticated ? Html.Partial("_SidePanelLoggedIn") : Html.Partial("_SidePanelDefault"))
 
         <div data-role="header" data-theme="a">
             @if (IsSectionDefined("Header"))

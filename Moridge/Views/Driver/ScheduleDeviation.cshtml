@@ -4,18 +4,17 @@
 @{
     ViewBag.Title = Model.GetTitle();
 }
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css"/>
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <h1>@ViewBag.Title</h1>
+    <h1>
+        <div id="page-indicator">
+            <a href="#" id="page-indicator-1" class="">Boka</a>
+            <a href="#" id="page-indicator-2" class="activeSlide"></a>
+        </div>
+    </h1>
+    @Html.ActionLink("Tillbaka Till Schemat", "Schedule", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition="slideup" })
 }
-
-
-<script>
-    $(document).ready(function () {
-        setPageIndicator(2);
-    });
-</script>
 
 @using (Html.BeginForm("ScheduleDeviation", "Driver"))
 {
@@ -33,12 +32,12 @@
     </div>
     <div data-role="navbar">
         <ul>
-            <li><a href="@Url.Action("Booking", "Driver")" onclick="setPageIndicator(1)" data-transition="slide" data-direction="reverse"><span>
+            <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
                 <i class="material-icons">assignment</i>
                 <span style="font-size: 12px; display: block;">Boka</span>
             </span></a>
             </li>
-            <li><a href="@Url.Action("Schedule", "Driver")" class="ui-btn-active" onclick="setPageIndicator(2)" data-transition="slideup"><span>
+            <li><a href="@Url.Action("Schedule", "Driver")" class="ui-btn-active" data-transition="slideup"><span>
                 <i class="material-icons">event</i>
                 <span style="font-size: 12px; display: block;">Arbetsschema</span>
             </span></a></li>

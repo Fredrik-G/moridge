@@ -9,7 +9,12 @@
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <h1>@ViewBag.Title</h1>
+    <h1>
+        <div id="page-indicator">
+            <a href="#" id="page-indicator-1" class="activeSlide">Boka</a>
+            <a href="#" id="page-indicator-2" class=""></a>
+        </div>
+    </h1>
 }
 
 @Html.ValidationSummary()
@@ -56,7 +61,7 @@
                     <span style="font-size: 12px; display: block;">Boka</span>
                 </span></a>
             </li>
-            <li><a href="@Url.Action("Schedule", "Driver")" onclick="setPageIndicator(2)" data-transition="slide"><span>
+            <li><a href="@Url.Action("Schedule", "Driver")" data-transition="slide"><span>
                 <i class="material-icons">event</i>
                 <span style="font-size: 12px; display: block;">Arbetsschema</span>
             </span></a></li>

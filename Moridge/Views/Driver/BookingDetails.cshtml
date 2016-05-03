@@ -4,10 +4,15 @@
     ViewBag.Title = Model.GetTitle(isDetails: true);
 }
 
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css"/>
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="@Url.Action("Booking", "Driver")" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <h1>@ViewBag.Title</h1>
+    <h1>
+        <div id="page-indicator">
+            <a href="#" id="page-indicator-1" class="activeSlide">Boka</a>
+            <a href="#" id="page-indicator-2" class=""></a>
+        </div>
+    </h1>
 }
 
 @Html.ValidationSummary()
