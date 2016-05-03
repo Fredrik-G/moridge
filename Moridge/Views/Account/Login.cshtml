@@ -5,40 +5,24 @@
 }
 
 @section Header {
-    @*@Html.ActionLink("Cancel", "Index", "Home", null, new { data_icon = "arrow-l", data_rel = "back" })*@
-    <h1>@ViewBag.Title</h1>
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h1></h1>
 }
+<link rel="stylesheet" href="~/Content/themes/moridge/login_style.css"/>
 
-@*<p>
-    Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
-</p>*@
-
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { data_ajax = "false" })) {
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { data_ajax = "false" }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
-    
-    <ul data-role="listview" data-inset="true">
-        <li data-role="list-divider">Details</li>
-
-        <li data-role="fieldcontain">
-            @Html.TextBoxFor(m => m.Email, new { placeholder = Model.EmailDisplay})         
-        </li>
-
-        <li data-role="fieldcontain">
-            @Html.PasswordFor(m => m.Password, new { placeholder = Model.PasswordDisplay })            
-        </li>
-
-        <li data-role="fieldcontain">
-            @Html.LabelFor(m => m.RememberMe)
-            @Html.CheckBoxFor(m => m.RememberMe)
-        </li>
-
-        <li data-role="fieldcontain">
-            <input type="submit" value="Log in" />
-        </li>
-    </ul>
+    <div class="login-block">
+        <h1>Logga In</h1>
+        @Html.TextBoxFor(m => m.Email, new { placeholder = Model.EmailDisplay, @data_role = "none", @type = "text", @id = "username" })
+        @Html.PasswordFor(m => m.Password, new { placeholder = Model.PasswordDisplay, @data_role = "none", @type = "password", @id = "password" })
+        <input type="submit" data-role="none" id="submit" value="Logga in"/>
+        <a href="#" data-role="none">Har du glömt lösenordet?</a>
+        <div class="logo"></div>
+    </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
