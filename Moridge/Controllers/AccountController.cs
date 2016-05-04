@@ -51,6 +51,7 @@ namespace Moridge.Controllers
                 //Gets the next page based off the user's role.
                 string actionName, controllerName;
                 RolesHelper.GetPageForUser(dbHelper.GetRoles(user.Id), out actionName, out controllerName);
+                SidePanelHelper.SaveUserToSession(user.Id);
 
                 //Create authentication cookie with user role.
                 CreateAuthenticationCookie(user.Id, controllerName, model.RememberMe);

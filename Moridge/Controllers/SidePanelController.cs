@@ -10,7 +10,8 @@ namespace Moridge.Controllers
         [ChildActionOnly]
         public ActionResult _SidePanelLoggedIn()
         {
-            var model = new SidePanelModel();
+            var user = System.Web.HttpContext.Current.Session["SidePanelUser"] as SidePanelUser;
+            var model = new SidePanelLoggedInModel { User = user };
             return PartialView(model);
         }
 
@@ -18,8 +19,7 @@ namespace Moridge.Controllers
         [ChildActionOnly]
         public ActionResult _SidePanelDefault()
         {
-            var model = new SidePanelModel();
-            return PartialView(model);
+            return PartialView();
         }
     }
 }

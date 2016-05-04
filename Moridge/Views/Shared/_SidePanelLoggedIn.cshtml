@@ -1,13 +1,15 @@
 ﻿@using Moridge.Models
-@model SidePanelModel
+@model SidePanelLoggedInModel
 
 <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
     <ul data-role="listview" class="ui-listview">
-        <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">Förnamn Efternamn</li>
+        <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
+            @Html.DisplayFor(m => m.User.Name)
+        </li>
         <li>
-            <h6>Väg 55</h6>
-            <h6>kalle@kalle.se</h6>
-            <h6>073-123456789</h6>
+            <h6>@Html.DisplayFor(m => m.User.Adress)</h6>
+            <h6>@Html.DisplayFor(m => m.User.Email)</h6>
+            <h6>@Html.DisplayFor(m => m.User.PhoneNumber)</h6>
         </li>
     </ul>
     <ul data-role="listview" class="ui-listview sidebar-footer">

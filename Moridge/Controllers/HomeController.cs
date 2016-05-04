@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Moridge.BusinessLogic;
+using Moridge.Models;
 
 namespace Moridge.Controllers
 {
@@ -13,8 +14,16 @@ namespace Moridge.Controllers
 
             //Gets the next page based off the user's role.
             string actionName, controllerName;
-            RolesHelper.GetPageForUser(HttpContext.User, out actionName, out controllerName);
-
+            if (Request.IsAuthenticated)
+            {
+                RolesHelper.GetPageForUser(HttpContext.User, out actionName, out controllerName);
+                SidePanelHelper.SaveUserToSession();
+            }
+            else
+            {
+                actionName = "Login";
+                controllerName = "Account";
+            }
             return RedirectToAction(actionName, controllerName);
         }
 
