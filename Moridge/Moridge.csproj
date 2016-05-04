@@ -236,6 +236,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\SidePanelController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="BusinessLogic\DaysInfo.cs" />
     <Compile Include="BusinessLogic\Occassion.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\DriverModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="BusinessLogic\Day.cs" />
+    <Compile Include="Models\SidePanelModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -388,7 +390,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Admin\About.cshtml" />

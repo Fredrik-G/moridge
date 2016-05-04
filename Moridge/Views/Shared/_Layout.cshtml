@@ -20,8 +20,9 @@
 </head>
 <body>
     <div data-role="page" data-theme="a">
-
-        @(Request.IsAuthenticated ? Html.Partial("_SidePanelLoggedIn") : Html.Partial("_SidePanelDefault"))
+        @{
+            Html.RenderAction(Request.IsAuthenticated ? "_SidePanelLoggedIn" : "_SidePanelDefault", "SidePanel");
+        }
 
         <div data-role="header" data-theme="a">
             @if (IsSectionDefined("Header"))
