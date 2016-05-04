@@ -1,0 +1,17 @@
+﻿@using Moridge.Models
+@model DriverRegisterModel
+@{
+    ViewBag.Title = "Förarregister";
+}
+
+<ul>
+@for (var i = 0; i < Model.Drivers.Count; i++)
+{
+    <li>
+        <a>
+            @Html.DisplayFor(m => m.Drivers[i].FirstName) @Html.DisplayFor(m => m.Drivers[i].LastName)
+        </a>
+    </li>
+}
+
+</ul>

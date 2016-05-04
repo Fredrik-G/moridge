@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -59,5 +60,17 @@ namespace Moridge.BusinessLogic
         /// <param name="id">user id</param>
         /// <param name="role">role</param>
         public void AddUserToRole(string id, string role) => _userManager.AddToRole(id, role);
+
+        /// <summary>
+        /// Gets all users in the given role.
+        /// </summary>
+        /// <param name="role">role to get</param>
+        /// <returns>list of users</returns>
+        public List<ApplicationUser> FindAllUsersInRole(string role)
+        {
+            return _userManager.Users.ToList()
+                .Where(x => _userManager.IsInRole(x.Id, RolesHelper.DRIVER_ROLE))
+                .ToList();
+        }
     }
 }
