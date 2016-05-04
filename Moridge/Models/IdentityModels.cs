@@ -10,6 +10,10 @@ namespace Moridge.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public string Adress { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         public virtual ICollection<DaySchedule> Schedule { get; set; }
         public virtual ICollection<ScheduleDeviation> ScheduleDeviation { get; set; }
     }

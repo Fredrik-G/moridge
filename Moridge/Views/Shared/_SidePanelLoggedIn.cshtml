@@ -4,7 +4,7 @@
 <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
     <ul data-role="listview" class="ui-listview">
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
-            @Html.DisplayFor(m => m.User.Name)
+            @Html.DisplayFor(m => m.User.FirstName) @Html.DisplayFor(m => m.User.LastName)
         </li>
         <li>
             <h6>@Html.DisplayFor(m => m.User.Adress)</h6>

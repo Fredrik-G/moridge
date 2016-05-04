@@ -9,7 +9,8 @@ namespace Moridge.Models
 
     public class SidePanelUser
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public string Adress { get; set; }
         public string PhoneNumber { get; set; }
@@ -24,9 +25,10 @@ namespace Moridge.Models
             var dbHelper = new DatabaseHelper();
             var user = dbHelper.FindUser(userId);
 
-            Name = user.UserName;//TODO add name to db
+            FirstName = user.FirstName;
+            LastName = user.LastName;
             Email = user.Email;
-            Adress = user.Id;//TODO add adress to db
+            Adress = user.Adress;
             PhoneNumber = user.PhoneNumber;
         }
     }
