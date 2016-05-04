@@ -236,6 +236,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BusinessLogic\DatabaseHelper.cs" />
     <Compile Include="Controllers\SidePanelController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="BusinessLogic\DaysInfo.cs" />

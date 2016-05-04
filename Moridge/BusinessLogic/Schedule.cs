@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.Extensions;
 using Moridge.Models;
 
@@ -15,16 +12,13 @@ namespace Moridge.BusinessLogic
     public class Schedule
     {
         public DaysInfo DaysInfo { get; } = new DaysInfo();
-
-        private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly DatabaseHelper _dbHelper;
         private readonly ApplicationUser _user;
 
         public Schedule(string userId = null)
         {
-            _dbContext = new ApplicationDbContext();
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_dbContext));
-            _user = _userManager.FindById(userId ?? HttpContext.Current.User.Identity.Name);
+            _dbHelper = new DatabaseHelper();
+            _user = _dbHelper.FindUser(userId);
         }
 
         /// <summary>
@@ -106,7 +100,7 @@ namespace Moridge.BusinessLogic
                     }
                 }
             }
-            _dbContext.SaveChanges();
+            _dbHelper.Save();
             return schedule;
         }
         
@@ -136,8 +130,7 @@ namespace Moridge.BusinessLogic
                     normalSchedule.Afternoon = newDay.AfternoonBookings;
                 }
             }
-            
-            _dbContext.SaveChanges();
+            _dbHelper.Save();
             return schedule;
         }
         
@@ -264,7 +257,7 @@ namespace Moridge.BusinessLogic
                         });
             }
             _user.Schedule = days;
-            _dbContext.SaveChanges();
+            _dbHelper.Save();
         }
     }
 }

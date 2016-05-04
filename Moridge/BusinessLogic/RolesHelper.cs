@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.Models;
 
@@ -26,8 +26,8 @@ namespace Moridge.BusinessLogic
         /// <param name="context">Application's database context</param>
         public static void SetupRoles(ApplicationDbContext context)
         {
-            var driverRole = context.Roles.Add(new IdentityRole("Driver"));
-            var adminRole = context.Roles.Add(new IdentityRole("Admin"));
+            var driverRole = context.Roles.Add(new IdentityRole(DRIVER_ROLE));
+            var adminRole = context.Roles.Add(new IdentityRole(ADMIN_ROLE));
         }
 
         /// <summary>
@@ -38,9 +38,8 @@ namespace Moridge.BusinessLogic
         /// <param name="id">user id</param>
         /// <param name="actionName">name for the next page</param>
         /// <param name="controllerName">controller for the next page</param>
-        public static void GetPageForUser(UserManager<ApplicationUser> userManager, string id, out string actionName, out string controllerName)
+        public static void GetPageForUser(IList<string> userActiveRoles, out string actionName, out string controllerName)
         {
-            var userActiveRoles = userManager.GetRoles(id);
             if (userActiveRoles.Count > 1)
             {
                 //More than one role = something is wrong. Log it.
@@ -82,7 +81,7 @@ namespace Moridge.BusinessLogic
             }
         }
 
-        public static void AddUserToRole(UserManager<ApplicationUser> userManager, string id, string role)
+        public static void AddUserToRole(DatabaseHelper dbHelper, string id, string role)
         {
             //nor admin or driver => error
             if(!(role.Equals(ADMIN_ROLE) || role.Equals(DRIVER_ROLE)))
@@ -92,7 +91,7 @@ namespace Moridge.BusinessLogic
                 return;
             }
 
-            userManager.AddToRole(id, role);
+            dbHelper.AddUserToRole(id, role);
         }
     }
 }

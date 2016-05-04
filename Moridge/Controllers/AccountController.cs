@@ -42,16 +42,15 @@ namespace Moridge.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var context = new ApplicationDbContext();
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var user = userManager.FindByEmail(model.Email, model.Password);
+            var dbHelper = new DatabaseHelper();
+            var user = dbHelper.FindUserByEmail(model.Email, model.Password);
 
             //user was found => correct login
             if (user != null)
             {
                 //Gets the next page based off the user's role.
                 string actionName, controllerName;
-                RolesHelper.GetPageForUser(userManager, user.Id, out actionName, out controllerName);
+                RolesHelper.GetPageForUser(dbHelper.GetRoles(user.Id), out actionName, out controllerName);
 
                 //Create authentication cookie with user role.
                 CreateAuthenticationCookie(user.Id, controllerName, model.RememberMe);
@@ -66,7 +65,7 @@ namespace Moridge.Controllers
         /// <summary>
         /// Creates an authentication cookie for the logged on user.
         /// </summary>
-        /// <param name="userName">user's name.</param>
+        /// <param name="userId">user's id</param>
         /// <param name="role">user's role.</param>
         /// <param name="isPersistent">indicates whether the cookie should be kept beyond the current session.</param>
         private void CreateAuthenticationCookie(string userId, string role, bool isPersistent)
@@ -107,15 +106,14 @@ namespace Moridge.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            // var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new UsersDbContext()));
+            var dbHelper = new DatabaseHelper();
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-            var creationResult = userManager.Create(user, model.Password);
+            var creationResult = dbHelper.CreateUser(user, model.Password);
 
             if (creationResult.Succeeded)
             {
                 //assign user a role and a default schedule
-                RolesHelper.AddUserToRole(userManager, user.Id, RolesHelper.DRIVER_ROLE);
+                RolesHelper.AddUserToRole(dbHelper, user.Id, RolesHelper.DRIVER_ROLE);
                 var schedule = new Schedule(user.Id);
                 schedule.CreateDefaultSchedule();
 
