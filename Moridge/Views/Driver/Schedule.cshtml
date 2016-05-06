@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = Model.GetTitle();
 }
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css"/>
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h1>
@@ -14,26 +14,28 @@
             <a href="#" id="page-indicator-2" class="activeSlide"></a>
         </div>
     </h1>
-    @Html.ActionLink("Ange Avvikelse", "ScheduleDeviation", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition="slidedown" })
+    @Html.ActionLink("Ange Avvikelse", "ScheduleDeviation", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition = "slidedown" })
 }
 
 @using (Html.BeginForm("Schedule", "Driver"))
 {
     @Html.Partial("_ScheduleForm", Model)
 }
-
-<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
-    <div data-role="navbar">
-        <ul>
-            <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
+@section Footer
+{
+    <ul>
+        <li><a href="@Url.Action("BookingDay", "Driver")" data-transition="slideup">
+            <span>
                 <i class="material-icons">assignment</i>
-                <span style="font-size: 12px; display: block;">Boka</span>
-            </span></a>
-            </li>
-            <li><a href="#" data-transition="slide"><span>
+                <span style="font-size: 12px; display: block;">Idag</span>
+            </span>
+        </a>
+        </li>
+        <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide">
+            <span>
                 <i class="material-icons">event</i>
-                <span style="font-size: 12px; display: block;">Arbetsschema</span>
-            </span></a></li>
-        </ul>
-    </div>
-</div>
+                <span style="font-size: 12px; display: block;">Vecka</span>
+            </span>
+        </a></li>
+    </ul>
+}

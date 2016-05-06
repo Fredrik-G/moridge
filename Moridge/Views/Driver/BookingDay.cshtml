@@ -44,18 +44,17 @@
     }
 </ul>
 
-<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
-    <div data-role="navbar">
-        <ul>
-            <li><a href="#" class="ui-btn-active ui-state-persist"><span>
-                <i class="material-icons">assignment</i>
-                <span style="font-size: 12px; display: block;">Idag</span>
-            </span></a>
-            </li>
-            <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide"><span>
-                <i class="material-icons">event</i>
-                <span style="font-size: 12px; display: block;">Vecka</span>
-            </span></a></li>
-        </ul>
-    </div>
-</div>
+@section Footer
+{
+    <ul>
+        <li><a href="#" class="ui-btn-active ui-state-persist"><span>
+            <i class="material-icons">assignment</i>
+            <span style="font-size: 12px; display: block;">Idag</span>
+        </span></a>
+        </li>
+        <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide"><span>
+            <i class="material-icons">event</i>
+            <span style="font-size: 12px; display: block;">Vecka</span>
+        </span></a></li>
+    </ul>
+}

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Driver Page";
 }
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css"/>
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h1>@ViewBag.Title</h1>
@@ -13,19 +13,17 @@
 @Html.ValidationSummary()
 
 todo
-
-<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
-    <div data-role="navbar">
-        <ul>
-            <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
-                <i class="material-icons">assignment</i>
-                <span style="font-size: 12px; display: block;">Boka</span>
-            </span></a>
-            </li>
-            <li><a href="@Url.Action("Schedule", "Driver")" data-transition="slide" data-direction="reverse"><span>
-                <i class="material-icons">event</i>
-                <span style="font-size: 12px; display: block;">Arbetsschema</span>
-            </span></a></li>
-        </ul>
-    </div>
-</div>
+@section Footer
+{
+    <ul>
+        <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
+            <i class="material-icons">assignment</i>
+            <span style="font-size: 12px; display: block;">Boka</span>
+        </span></a>
+        </li>
+        <li><a href="@Url.Action("Schedule", "Driver")" data-transition="slide" data-direction="reverse"><span>
+            <i class="material-icons">event</i>
+            <span style="font-size: 12px; display: block;">Arbetsschema</span>
+        </span></a></li>
+    </ul>
+}

@@ -13,15 +13,43 @@
             <a href="#" id="page-indicator-2" class="activeSlide"></a>
         </div>
     </h1>
-    @Html.ActionLink("Tillbaka Till Schemat", "Schedule", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition="slideup" })
+    @Html.ActionLink("Tillbaka Till Schemat", "Schedule", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition = "slideup" })
 }
 
 @using (Html.BeginForm("ScheduleDeviation", "Driver"))
 {
     @Html.Partial("_ScheduleForm", Model)
 }
+@section Footer
+{
+    <div class="center-wrapper">
+        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
+               href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false }) : "")></a>
+        @Html.DisplayFor(m => m.CurrentWeek)
 
-<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
+        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline @(Model.IsNextWeekAvailable() ? "" : "ui-state-disabled")"
+               href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true }) : "")></a>
+    </div>
+    <div data-role="navbar">
+            <ul>
+        <li><a href="@Url.Action("BookingDay", "Driver")" data-transition="slideup">
+            <span>
+                <i class="material-icons">assignment</i>
+                <span style="font-size: 12px; display: block;">Idag</span>
+            </span>
+        </a>
+        </li>
+        <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide">
+            <span>
+                <i class="material-icons">event</i>
+                <span style="font-size: 12px; display: block;">Vecka</span>
+            </span>
+        </a></li>
+    </ul>
+    </div>
+}
+
+@*<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div class="center-wrapper">
         <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
                href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false }) : "")></a>
@@ -43,4 +71,4 @@
             </span></a></li>
         </ul>
     </div>
-</div>
+</div>*@
