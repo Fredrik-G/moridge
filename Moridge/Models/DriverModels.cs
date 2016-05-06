@@ -54,6 +54,11 @@ namespace Moridge.Models
         public string Date { get; set; }
         public DateTime DateTime { get; set; }
 
+        /// <summary>
+        /// Determines if this is a model for this day.
+        /// </summary>
+        public bool IsToday { get; set; }
+
         #endregion
 
         public BookingDayModel(IList<Event> events, string date)

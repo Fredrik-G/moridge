@@ -142,5 +142,8 @@
     color: gray !important;
 }
 .header-heading {
-    font-size: 0.8em !important;
+    font-size: 0.73em !important;
+    height: 16px;
+    width: 50%;
+    margin-left: 20%!important;
 }

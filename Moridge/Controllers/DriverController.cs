@@ -27,9 +27,11 @@ namespace Moridge.Controllers
             var events = calendar.GetEventList();
             System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
 
+            //date is null => set today
+            var isToday = date == null;
             date = date ?? DateTime.Now.ToString("yyyy-M-d");
             var dateTime = Day.ConvertStringToDateTime(date);
-            var bookingModel = new BookingDayModel(events.Items, date) { DateTime = dateTime };
+            var bookingModel = new BookingDayModel(events.Items, date) { DateTime = dateTime, IsToday = isToday };
 
             bookingModel.Booking.GetBookingsForOccasion(date, "Förmiddag");
             bookingModel.Booking.GetBookingsForOccasion(date, "Eftermiddag");
