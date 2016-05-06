@@ -27,5 +27,10 @@ namespace Moridge.BusinessLogic
         /// Determines if this occassion is active.
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// All events on this occassion
+        /// </summary>
+        public Events EventsThisOccassion { get; set; }
     }
 }

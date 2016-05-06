@@ -28,6 +28,7 @@ namespace Moridge.BusinessLogic
 
         /// <summary>
         /// Converts a date string to <see cref="DateTime"/>.
+        /// date should be on format "yyyy-M-d".
         /// </summary>
         /// <param name="date">date to convert</param>
         /// <returns>the converted datetime object</returns>

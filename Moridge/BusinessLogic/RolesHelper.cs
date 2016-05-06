@@ -70,7 +70,7 @@ namespace Moridge.BusinessLogic
             else if (user != null && user.IsInRole(DRIVER_ROLE) ||
                 role.Equals(DRIVER_ROLE))
             {
-                actionName = "Booking";
+                actionName = "BookingDay";
                 controllerName = DRIVER_ROLE;
             }
             //nor admin or driver => error, show login page again.

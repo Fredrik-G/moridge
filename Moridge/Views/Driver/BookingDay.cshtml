@@ -1,0 +1,60 @@
+﻿@model Moridge.Models.BookingDayModel
+
+@{
+    ViewBag.Title = Model.GetTitle(isDetails: true);
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h1 style="font-size: 0.8em !important;">
+        @Model.GetDayString()
+    </h1>
+}
+@Html.ValidationSummary()
+<ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
+    @{
+        foreach (var occassion in @Model.GetOccassions())
+        {
+            <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
+                @occassion.Key
+                <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@Model.MissingBookings(occassion.Key)</span>
+            </li>
+            for (var i = 0; i < Model.BookingsForDriver(occassion.Key); i++)
+            {
+            <li>
+                @if (i < Model.GetEvents(occassion.Key).Count)
+                {
+                    <a href="#">@Model.GetEvents(occassion.Key)[i].Location
+                        <p>@Model.GetEvents(occassion.Key)[i].Summary</p>
+                        <p>@Model.GetEvents(occassion.Key)[i].Description</p>
+                    </a>
+                }
+                else
+                {
+                    var emptyBookings = Model.BookingsForDriver(occassion.Key) - i;
+                    <a href="#" class="empty">@emptyBookings tomma</a>
+                    break;
+                }
+            </li>
+            }
+        }
+    }
+</ul>
+
+<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("Booking", "Driver")"
+                class="ui-btn-active ui-state-persist" id="Booking" data-transition="slideup"><span>
+                    <i class="material-icons">assignment</i>
+                    <span style="font-size: 12px; display: block;">Boka</span>
+                </span></a>
+            </li>
+            <li><a href="@Url.Action("Schedule", "Driver")" data-transition="slide"><span>
+                <i class="material-icons">event</i>
+                <span style="font-size: 12px; display: block;">Arbetsschema</span>
+            </span></a></li>
+        </ul>
+    </div>
+</div>

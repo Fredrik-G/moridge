@@ -28,11 +28,14 @@ namespace Moridge.BusinessLogic
             Day.CurrentOccassion = occassion;
             var day = Day.ConvertStringToDateTime(date);
             Day.EventsThisDay = new Events { Items = new List<Event>() };
+            Day.Occassions[occassion].EventsThisOccassion = new Events { Items = new List<Event>() };
+            
             foreach (var bookingEvent in Events.Where(x => x.Start.DateTime.Value.Date.Equals(day.Date)))
             {
                 if (IsTimeDuringOccassion(occassion, bookingEvent.Start.DateTime.Value))
                 {
                     Day.EventsThisDay.Items.Add(bookingEvent);
+                    Day.Occassions[occassion].EventsThisOccassion.Items.Add(bookingEvent);
                 }
             }
             return Day.EventsThisDay.Items;

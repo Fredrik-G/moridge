@@ -410,6 +410,7 @@
     <Content Include="Views\Driver\ScheduleDeviation.cshtml" />
     <Content Include="Views\Shared\_ScheduleForm.cshtml" />
     <Content Include="Views\Shared\_SidePanelDefault.cshtml" />
+    <Content Include="Views\Driver\BookingDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

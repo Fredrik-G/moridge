@@ -21,6 +21,21 @@ namespace Moridge.Controllers
             return View(new BookingModel(events.Items));
         }
 
+        public ActionResult BookingDay(string date = null)
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            var events = calendar.GetEventList();
+            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
+
+            date = date ?? DateTime.Now.ToString("yyyy-M-d");
+            var dateTime = Day.ConvertStringToDateTime(date);
+            var bookingModel = new BookingDayModel(events.Items, date) { DateTime = dateTime };
+
+            bookingModel.Booking.GetBookingsForOccasion(date, "Förmiddag");
+            bookingModel.Booking.GetBookingsForOccasion(date, "Eftermiddag");
+            return View(bookingModel);
+        }
+
         public ActionResult BookingDetails(string date, string occassion, int bookingsForDriver)
         {
             var events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event>;
@@ -28,6 +43,7 @@ namespace Moridge.Controllers
             bookingModel.Booking.GetBookingsForOccasion(date, occassion);
             return View(bookingModel);
         }
+
 
         public ActionResult _PopupPartial()
         {

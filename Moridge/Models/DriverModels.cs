@@ -12,6 +12,7 @@ namespace Moridge.Models
         #region Data
 
         public Booking Booking { get; } = new Booking();
+        public int BookingsForDriver { get; set; }
 
         #endregion
 
@@ -27,7 +28,33 @@ namespace Moridge.Models
         public List<Day> GetDays() => Booking.DaysInfo.AllDays(startFromToday: true);
         public Dictionary<string, Occassion> GetOccassions() => Booking.Day.Occassions;
         public IList<Event> GetEventsThisOccassion => Booking.Day.EventsThisDay.Items;
-        public int BookingsForDriver { get; set; }
+    }
+
+    public class BookingDayModel
+    {        
+        #region Data
+
+        public Booking Booking { get; } = new Booking();
+        public string Date { get; set; }
+        public DateTime DateTime { get; set; }
+
+        #endregion
+
+        public BookingDayModel(IList<Event> events, string date)
+        {
+            Booking.Events = events;
+            Date = date;
+            Booking.GetMissingBookings(Date);
+        }
+
+        public string GetDayString() => Booking.DaysInfo.GetDayString(DateTime);
+        public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";
+        public IList<Event> GetEvents(string occassion) => Booking.Day.Occassions[occassion].EventsThisOccassion.Items;
+        public Dictionary<string, Occassion> GetOccassions() => Booking.Day.Occassions;
+        public int BookingsForDriver(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver;
+
+        public int MissingBookings(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver -
+                                                        Booking.Day.Occassions[occassion].NumberOfBookings;
     }
 
     public class ScheduleModelSet

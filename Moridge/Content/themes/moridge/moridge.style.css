@@ -136,3 +136,8 @@
 .center-wrapper * {
   margin: 0 auto;
 }
+
+#popup-listview .empty {
+        font-size: 90% !important;
+    color: gray !important;
+}
