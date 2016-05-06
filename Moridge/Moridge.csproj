@@ -412,6 +412,7 @@
     <Content Include="Views\Shared\_SidePanelDefault.cshtml" />
     <Content Include="Views\Driver\BookingDay.cshtml" />
     <Content Include="Views\Driver\BookingWeek.cshtml" />
+    <Content Include="Views\Driver\BookingEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

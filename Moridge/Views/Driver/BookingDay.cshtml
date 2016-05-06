@@ -16,27 +16,29 @@
     @{
         foreach (var occassion in @Model.GetOccassions())
         {
-            <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
-                @occassion.Key
-                <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@Model.MissingBookings(occassion.Key)</span>
-            </li>
+        <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
+            @occassion.Key
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@Model.MissingBookings(occassion.Key)</span>
+        </li>
             for (var i = 0; i < Model.BookingsForDriver(occassion.Key); i++)
             {
-            <li>
-                @if (i < Model.GetEvents(occassion.Key).Count)
-                {
-                    <a href="#">@Model.GetEvents(occassion.Key)[i].Location
-                        <p>@Model.GetEvents(occassion.Key)[i].Summary</p>
-                        <p>@Model.GetEvents(occassion.Key)[i].Description</p>
-                    </a>
-                }
-                else
-                {
-                    var emptyBookings = Model.BookingsForDriver(occassion.Key) - i;
-                    <a href="#" class="empty">@emptyBookings tomma</a>
-                    break;
-                }
-            </li>
+        <li>
+            @if (i < Model.GetEvents(occassion.Key).Count)
+            {
+                <a href="@Url.Action("BookingEvent", "Driver", new { eventId = Model.GetEvents(occassion.Key)[i].Id })"
+                     data-transition="slidedown">
+                    @Model.GetEvents(occassion.Key)[i].Location
+                    <p>@Model.GetEvents(occassion.Key)[i].Summary</p>
+                    <p>@Model.GetEvents(occassion.Key)[i].Description</p>
+                </a>
+            }
+            else
+            {
+                var emptyBookings = Model.BookingsForDriver(occassion.Key) - i;
+                <a href="#" class="empty">@emptyBookings tomma</a>
+                break;
+            }
+        </li>
             }
         }
     }
@@ -46,9 +48,9 @@
     <div data-role="navbar">
         <ul>
             <li><a href="#" class="ui-btn-active ui-state-persist"><span>
-                    <i class="material-icons">assignment</i>
-                    <span style="font-size: 12px; display: block;">Idag</span>
-                </span></a>
+                <i class="material-icons">assignment</i>
+                <span style="font-size: 12px; display: block;">Idag</span>
+            </span></a>
             </li>
             <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide"><span>
                 <i class="material-icons">event</i>

@@ -69,7 +69,13 @@ namespace Moridge.Models
         public int BookingsForDriver(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver;
         public int MissingBookings(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver -
                                                         Booking.Day.Occassions[occassion].NumberOfBookings;
+    }
 
+    public class BookingEventModel
+    {
+        public Event Event { get; set; }
+
+        public string GetTitle() => "Bokningsdetaljer";
     }
 
     public class ScheduleModelSet
