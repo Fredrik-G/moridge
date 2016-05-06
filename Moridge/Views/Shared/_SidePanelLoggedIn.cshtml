@@ -14,7 +14,13 @@
     </ul>
     <ul data-role="listview" class="ui-listview sidebar-footer">
         <li>
-            <a href="@Url.Action("PersonalInfo", "Driver")" class="ui-btn">
+            <a href="@Url.Action("Schedule", "Driver")" class="ui-btn" data-transition="pop">
+                <i class="material-icons">event</i>
+                <span class="align-super">Arbetsschema</span>
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("PersonalInfo", "Driver")" class="ui-btn" data-transition="pop">
                 <i class="material-icons">account_box</i>
                 <span class="align-super">Redigera Info</span>
             </a>
