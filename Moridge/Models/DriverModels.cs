@@ -13,6 +13,7 @@ namespace Moridge.Models
 
         public Booking Booking { get; } = new Booking();
         public int BookingsForDriver { get; set; }
+        public DateTime Date { get; set; }
 
         #endregion
 
@@ -24,10 +25,24 @@ namespace Moridge.Models
         public string GetDayString(DateTime day) => Booking.DaysInfo.GetDayString(day);
         public string GetMissingBookings(string date) => Booking.GetMissingBookings(date);
         public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";
-        public string GetHeaderText(string date, string occassion) => Booking.GetHeaderText(date, occassion);
+        public string GetHeaderText(string date, string occassion = "") => Booking.GetHeaderText(date, occassion);
         public List<Day> GetDays() => Booking.DaysInfo.AllDays(startFromToday: true);
         public Dictionary<string, Occassion> GetOccassions() => Booking.Day.Occassions;
         public IList<Event> GetEventsThisOccassion => Booking.Day.EventsThisDay.Items;
+        public string CurrentWeek => GetCurrentWeek();
+
+        private string GetCurrentWeek()
+        {
+            var swedishInfo = DaysInfo.SwedishCultureInfo;
+            var weekNumber = swedishInfo.Calendar.GetWeekOfYear(
+                            Date,
+                            swedishInfo.DateTimeFormat.CalendarWeekRule,
+                            swedishInfo.DateTimeFormat.FirstDayOfWeek);
+            var firstDayOfWeek = Date.StartOfWeek(swedishInfo.DateTimeFormat.FirstDayOfWeek);
+            var lastDayOfWeek = firstDayOfWeek.AddDays(6);
+
+            return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMMM", swedishInfo.DateTimeFormat)}";
+        }
     }
 
     public class BookingDayModel
@@ -52,9 +67,9 @@ namespace Moridge.Models
         public IList<Event> GetEvents(string occassion) => Booking.Day.Occassions[occassion].EventsThisOccassion.Items;
         public Dictionary<string, Occassion> GetOccassions() => Booking.Day.Occassions;
         public int BookingsForDriver(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver;
-
         public int MissingBookings(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver -
                                                         Booking.Day.Occassions[occassion].NumberOfBookings;
+
     }
 
     public class ScheduleModelSet

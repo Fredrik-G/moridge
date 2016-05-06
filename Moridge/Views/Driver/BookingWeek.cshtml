@@ -1,0 +1,55 @@
+﻿@using System.Globalization
+@using Moridge.Models
+@model BookingModel
+
+@{
+    ViewBag.Title = Model.GetTitle(isDetails: false);
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @Html.DisplayFor(m => m.CurrentWeek)
+    </h6>
+}
+
+@Html.ValidationSummary()
+
+<ul data-role="listview" class="ui-listview">
+
+    @foreach (var day in Model.GetDays())
+    {
+        var totalBookings = @Model.GetMissingBookings(day.Date.ToString("yyyy-M-d"));
+        <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">
+            @Model.GetDayString(day.Date)
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@totalBookings</span>
+        </li>
+
+        <li>
+            <a href='@Url.Action("BookingDay", "Driver", new { date = day.Date.ToString("yyyy-M-d") })'
+                 data-transition="slidedown">
+                <p class="ui-li-aside ui-li-desc link-header">
+                </p>
+                <h3 class="ui-li-heading ">@Model.GetHeaderText(day.Date.ToString("yyyy-M-d"))</h3>
+            </a>
+        </li>
+    }
+</ul>
+
+<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("BookingDay", "Driver")" data-transition="slide" data-direction="reverse"
+               ><span>
+                   <i class="material-icons">assignment</i>
+                   <span style="font-size: 12px; display: block;">Idag</span>
+               </span></a>
+            </li>
+            <li><a href="#" class="ui-btn-active ui-state-persist"><span>
+                <i class="material-icons">event</i>
+                <span style="font-size: 12px; display: block;">Vecka</span>
+            </span></a></li>
+        </ul>
+    </div>
+</div>

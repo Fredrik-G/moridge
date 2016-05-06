@@ -36,6 +36,15 @@ namespace Moridge.Controllers
             return View(bookingModel);
         }
 
+        public ActionResult BookingWeek()
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            var events = calendar.GetEventList();
+            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
+
+            return View(new BookingModel(events.Items) { Date = DateTime.Now});
+        }
+
         public ActionResult BookingDetails(string date, string occassion, int bookingsForDriver)
         {
             var events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event>;

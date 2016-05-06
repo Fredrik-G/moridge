@@ -103,13 +103,29 @@ namespace Moridge.BusinessLogic
         /// <param name="date"></param>
         /// <param name="occassion"></param>
         /// <returns></returns>
-        public string GetHeaderText(string date, string occassion)
+        public string GetHeaderText(string date, string occassion = "")
         {
-            var upcomingOccassions = Day.Occassions[occassion].NumberOfBookings;
-            var numberOfBookingsForThisDriver = Day.Occassions[occassion].BookingsForDriver;
+            var upcomingOccassions = 0;
+            var numberOfBookingsForThisDriver = 0;
+            if (occassion.Equals(string.Empty))
+            {
+                foreach(var setOccassion in Day.Occassions)
+                {
+                    upcomingOccassions += setOccassion.Value.NumberOfBookings;
+                    numberOfBookingsForThisDriver += setOccassion.Value.BookingsForDriver;
 
-            Day.Occassions[occassion].NumberOfBookings = 0;//reset it after done.
-            Day.Occassions[occassion].BookingsForDriver = 0;//reset it after done.
+                    setOccassion.Value.NumberOfBookings = 0;//reset it after done.
+                    setOccassion.Value.BookingsForDriver = 0;//reset it after done.
+                }
+            }
+            else
+            {
+                upcomingOccassions = Day.Occassions[occassion].NumberOfBookings;
+                numberOfBookingsForThisDriver = Day.Occassions[occassion].BookingsForDriver;
+                Day.Occassions[occassion].NumberOfBookings = 0;//reset it after done.
+                Day.Occassions[occassion].BookingsForDriver = 0;//reset it after done.
+            }
+
             return $"{upcomingOccassions} av {numberOfBookingsForThisDriver} bokningar";
         }
 
