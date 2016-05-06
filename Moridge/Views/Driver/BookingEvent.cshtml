@@ -16,11 +16,18 @@
 
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     <li>
-        <strong>@Model.Event.Location</strong>
-        <p>@Model.Event.Summary</p>
-        <p>@Model.Event.Description</p>
+        <strong>@Html.DisplayFor(m => m.Event.Location)</strong>
+        <p>@Html.DisplayFor(m => m.Event.Summary)</p>
+        <p>@Html.DisplayFor(m => m.Event.Description)</p>
     </li>
 </ul>
+
+@using (Html.BeginForm("BookingEventUpdate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
+{
+    @Html.EnumDropDownListFor(m => m.CurrentStatus)
+    @Html.HiddenFor(m => m.Event.Id)
+    <input type="submit" id="submit" value=" Uppdatera" />
+}
 
 <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
     <div data-role="navbar">

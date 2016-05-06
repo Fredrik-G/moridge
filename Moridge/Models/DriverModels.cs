@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
@@ -74,6 +75,21 @@ namespace Moridge.Models
     public class BookingEventModel
     {
         public Event Event { get; set; }
+
+        public enum EventStatus
+        {
+            [Display(Name = "Ej påbörjad")]
+            NotSet,
+            [Display(Name = "Fordon upphämtat")]
+            VehiclePickedUp,
+            [Display(Name = "Fordon tvättas")]
+            VehicleAtWash,
+            [Display(Name = "Fordon färdigt")]
+            VehicleDone,
+            [Display(Name = "Fordon levererat")]
+            VehicleDelivered,
+        }
+        public EventStatus CurrentStatus { get; set; } = EventStatus.NotSet;
 
         public string GetTitle() => "Bokningsdetaljer";
     }

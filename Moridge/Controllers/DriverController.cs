@@ -45,11 +45,16 @@ namespace Moridge.Controllers
             return View(new BookingModel(events.Items) { Date = DateTime.Now});
         }
 
-        public ActionResult BookingEvent(string eventId)
+        public ActionResult BookingEvent(string eventId, BookingEventModel.EventStatus eventStatus = BookingEventModel.EventStatus.NotSet)
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             var bookingEvent = calendar.GetEvent(eventId);
-            return View(new BookingEventModel() { Event = bookingEvent});
+            return View(new BookingEventModel { Event = bookingEvent, CurrentStatus = eventStatus});
+        }
+
+        public ActionResult BookingEventUpdate(BookingEventModel model)
+        {
+            return RedirectToAction("BookingEvent", "Driver", new { eventId = model.Event.Id, eventStatus = model.CurrentStatus } );
         }
 
         public ActionResult BookingDetails(string date, string occassion, int bookingsForDriver)
