@@ -29,7 +29,7 @@ namespace Moridge.Controllers
 
             //date is null => set today
             var isToday = date == null;
-            date = date ?? DateTime.Now.ToString("yyyy-M-d");
+            date = date ?? Day.GetSwedishTime(DateTime.Now).ToString("yyyy-M-d");
             var dateTime = Day.ConvertStringToDateTime(date);
             var bookingModel = new BookingDayModel(events.Items, date) { DateTime = dateTime, IsToday = isToday };
 

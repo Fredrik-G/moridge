@@ -37,5 +37,16 @@ namespace Moridge.BusinessLogic
             var splittedDate = date.Split('-');
             return new DateTime(Convert.ToInt16(splittedDate[0]), Convert.ToInt16(splittedDate[1]), Convert.ToInt16(splittedDate[2]));
         }
+
+        /// <summary>
+        /// Converts the given time to swedish time zone.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static DateTime GetSwedishTime(DateTime time)
+        {
+            var swedishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(time.ToUniversalTime(), swedishTimeZone);
+        }
     }
 }

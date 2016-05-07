@@ -49,8 +49,7 @@ namespace Moridge.BusinessLogic
         /// <returns></returns>
         private bool IsTimeDuringOccassion(string occassion, DateTime time)
         {
-            var swedishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-            var swedishTime = TimeZoneInfo.ConvertTimeFromUtc(time.ToUniversalTime(), swedishTimeZone);
+            var swedishTime = Day.GetSwedishTime(time);
             var start = new TimeSpan();
             var end = new TimeSpan();
             if (occassion.Equals("Förmiddag"))
