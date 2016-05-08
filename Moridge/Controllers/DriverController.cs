@@ -39,13 +39,26 @@ namespace Moridge.Controllers
             return View(bookingModel);
         }
 
+        //
+        // GET: /Driver/BookingCreate
+        [HttpGet]
         public ActionResult BookingCreate(string parentDate)
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             var events = calendar.GetEventList();
             System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
 
-            return View(new BookingCreate { ParentDate = parentDate });
+            return View(new BookingCreateModel { ParentDate = parentDate });
+        }
+
+        //
+        // POST: /Driver/BookingCreate
+        [HttpPost]
+        public ActionResult BookingCreate(BookingCreateModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            //do stuff
+            return RedirectToAction("BookingDay", "Driver", new { date = model.ParentDate});
         }
 
         public ActionResult BookingWeek()

@@ -77,9 +77,48 @@ namespace Moridge.Models
                                                         Booking.Day.Occassions[occassion].NumberOfBookings;
     }
 
-    public class BookingCreate
+    public class BookingCreateModel
     {
         public string ParentDate { get; set; }
+
+        public const string _customerOrgNoDisplay = "Kund org. nummer";
+        public string CustomerOrgNoDisplay => _customerOrgNoDisplay;
+        [Required]
+        [Display(Name = _customerOrgNoDisplay)]
+        public string CustomerOrgNo { get; set; }
+
+        private const string _vehicleRegNoDisplay = "Reg. nummer på fordon";
+        public string VehicleRegNoDisplay => _vehicleRegNoDisplay;
+        [Required]
+        [Display(Name = _vehicleRegNoDisplay)]
+        public string VehicleRegNo { get; set; }
+
+        private const string _customerAddressDisplay = "Adress att hämta fordon";
+        public string CustomerAddressDisplay => _customerAddressDisplay;
+        [Required]
+        [Display(Name = _customerAddressDisplay)]
+        public string CustomerAddress { get; set; }
+
+        private const string _messageDisplay = "Bokningsmeddelande";
+        public string MessageDisplay => _messageDisplay;
+        [Display(Name = _messageDisplay)]
+        public string BookingMessage { get; set; }
+
+        private const string _dateDisplay = "Datum";
+        public string DateDisplay => _dateDisplay;
+        [Required]
+        [Display(Name = _dateDisplay)]
+        public string Date { get; set; }
+        
+        public enum Occassions
+        {
+            [Display(Name = "Förmiddag")]
+            Morning,
+            [Display(Name = "Eftermiddag")]
+            Afternoon
+        }
+        public Occassions Occassion { get; set; }
+
         public string GetTitle() => "Boka";
     }
 

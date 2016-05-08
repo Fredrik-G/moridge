@@ -138,7 +138,7 @@
 }
 
 #popup-listview .empty {
-        font-size: 90% !important;
+    font-size: 90% !important;
     color: gray !important;
 }
 .header-heading {
@@ -146,13 +146,13 @@
     height: 20px;
     width: 50%;
     margin-left: 20%!important;
-    padding-top: 4% !important;
-    padding-bottom: 1% !important;
+    padding-top: 12px !important;
+    padding-bottom: 4px !important;
 }
 
 .header-btn-right2 {
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding-top: 2px;
+    padding-bottom: 4px;
     height: 22px;
     background-color: inherit !important;
 }

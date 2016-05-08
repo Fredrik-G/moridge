@@ -1,4 +1,4 @@
-﻿@model Moridge.Models.BookingCreate
+﻿@model Moridge.Models.BookingCreateModel
 
 @{
     ViewBag.Title = Model.GetTitle();
@@ -12,8 +12,19 @@
     </h6>
 }
 
-@Html.ValidationSummary()
-
+@using (Html.BeginForm("BookingCreate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
+{
+    @Html.ValidationSummary()
+    @Html.TextBoxFor(m => m.CustomerOrgNo, new { placeholder = Model.CustomerOrgNoDisplay, @type = "number" })
+    @Html.TextBoxFor(m => m.VehicleRegNo, new { placeholder = Model.VehicleRegNoDisplay, @type = "text" })
+    @Html.TextBoxFor(m => m.CustomerAddress, new { placeholder = Model.CustomerAddressDisplay, @type = "text" })
+    @Html.TextBoxFor(m => m.BookingMessage, new { placeholder = Model.MessageDisplay, @type = "text" })
+    @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DateDisplay, @type = "text" })
+    @Html.EnumDropDownListFor(m => m.Occassion)
+    @Html.HiddenFor(m => m.ParentDate)
+    
+    <input type="submit" id="submit" value="Skapa"/>
+}
 
 @section Footer
 {
