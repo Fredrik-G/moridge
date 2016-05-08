@@ -10,6 +10,10 @@
     <h6 class="header-heading">
         @Model.GetDayString()
     </h6>
+    <a href="@Url.Action("BookingCreate", "Driver", new { parentDate = Model.Date })" class="ui-btn header-btn-right2">
+        <i class="material-icons">event</i>
+        <span class="align-super">Boka</span>
+    </a>
 }
 @Html.ValidationSummary()
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
@@ -47,7 +51,7 @@
 @section Footer
 {
     <ul>
-        <li><a href=@(Model.IsToday ? "#" : Url.Action("BookingDay", "Driver")) class="@(Model.IsToday ? "ui-btn-active" : "")"><span>
+        <li><a href="@(Model.IsToday ? "#" : Url.Action("BookingDay", "Driver"))" class="@(Model.IsToday ? "ui-btn-active" : "")"><span>
             <i class="material-icons">assignment</i>
             <span style="font-size: 12px; display: block;">Idag</span>
         </span></a>

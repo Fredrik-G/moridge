@@ -413,6 +413,7 @@
     <Content Include="Views\Driver\BookingDay.cshtml" />
     <Content Include="Views\Driver\BookingWeek.cshtml" />
     <Content Include="Views\Driver\BookingEvent.cshtml" />
+    <Content Include="Views\Driver\BookingCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,31 @@
+﻿@model Moridge.Models.BookingCreate
+
+@{
+    ViewBag.Title = Model.GetTitle();
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+@section Header {
+    <a href="@Url.Action("BookingDay", "Driver", new { date = Model.ParentDate })" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @Model.GetTitle()
+    </h6>
+}
+
+@Html.ValidationSummary()
+
+
+@section Footer
+{
+    <ul>
+        <li><a href="@Url.Action("BookingDay", "Driver")"><span>
+            <i class="material-icons">assignment</i>
+            <span style="font-size: 12px; display: block;">Idag</span>
+        </span></a>
+        </li>
+        <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide"><span>
+            <i class="material-icons">event</i>
+            <span style="font-size: 12px; display: block;">Vecka</span>
+        </span></a></li>
+    </ul>
+}

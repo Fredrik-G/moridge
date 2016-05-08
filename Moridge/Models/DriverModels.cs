@@ -77,6 +77,12 @@ namespace Moridge.Models
                                                         Booking.Day.Occassions[occassion].NumberOfBookings;
     }
 
+    public class BookingCreate
+    {
+        public string ParentDate { get; set; }
+        public string GetTitle() => "Boka";
+    }
+
     public class BookingEventModel
     {
         public Event Event { get; set; }
