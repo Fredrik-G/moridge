@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
-    <a href="@Url.Action("BookingDay", "Driver", new { date = Model.ParentDate })" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <a href="#" data-rel="back" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h6 class="header-heading">
         @Model.GetTitle()
     </h6>
@@ -21,6 +21,7 @@
     @Html.TextBoxFor(m => m.BookingMessage, new { placeholder = Model.MessageDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DateDisplay, @type = "text" })
     @Html.EnumDropDownListFor(m => m.Occassion)
+    @Html.HiddenFor(m => m.ParentPage)
     @Html.HiddenFor(m => m.ParentDate)
     
     <input type="submit" id="submit" value="Skapa"/>
