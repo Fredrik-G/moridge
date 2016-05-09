@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
 using Moridge.Models;
@@ -13,15 +12,6 @@ namespace Moridge.Controllers
     [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
     public class DriverController : Controller
     {
-        public ActionResult Booking()
-        {
-            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            var events = calendar.GetEventList();
-            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
-
-            return View(new BookingModel(events.Items));
-        }
-
         public ActionResult BookingDay(string date = null)
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
@@ -94,19 +84,6 @@ namespace Moridge.Controllers
             calendar.UpdateEvent(model.Event.Id, model.CurrentStatus.ToString());
 
             return RedirectToAction("BookingEvent", "Driver", new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString() });
-        }
-
-        public ActionResult BookingDetails(string date, string occassion, int bookingsForDriver)
-        {
-            var events = System.Web.HttpContext.Current.Session["AllEvents"] as IList<Event>;
-            var bookingModel = new BookingModel(events) { BookingsForDriver = bookingsForDriver };
-            bookingModel.Booking.GetBookingsForOccasion(date, occassion);
-            return View(bookingModel);
-        }
-
-        public ActionResult _PopupPartial()
-        {
-            return PartialView();
         }
 
         //
@@ -188,6 +165,7 @@ namespace Moridge.Controllers
 
             return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = model.WeeksFromNow });
         }
+
         /// <summary>
         /// Loads the next/previous week for the schedule deviation.
         /// </summary>
