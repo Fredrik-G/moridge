@@ -6,6 +6,7 @@ using Moridge.BusinessLogic;
 using Moridge.Extensions;
 using Moridge.Models;
 using MyMoridgeServer.BusinessLogic;
+using Booking = Moridge.BusinessLogic.Booking;
 
 namespace Moridge.Controllers
 {
@@ -58,6 +59,9 @@ namespace Moridge.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             //do stuff
+
+            var booking = new Booking();
+            booking.BookEvent(model);
             return RedirectToAction("BookingDay", "Driver", new { date = model.ParentDate});
         }
 

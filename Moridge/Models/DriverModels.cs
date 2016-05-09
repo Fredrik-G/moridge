@@ -80,6 +80,7 @@ namespace Moridge.Models
     public class BookingCreateModel
     {
         public string ParentDate { get; set; }
+        public string DriverEmail { get; set; }
 
         public const string _customerOrgNoDisplay = "Kund org. nummer";
         public string CustomerOrgNoDisplay => _customerOrgNoDisplay;

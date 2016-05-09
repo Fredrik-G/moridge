@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
+using Moridge.Models;
+using MyMoridgeServer.Models;
 
 namespace Moridge.BusinessLogic
 {
@@ -13,7 +15,7 @@ namespace Moridge.BusinessLogic
         public DaysInfo DaysInfo { get; } = new DaysInfo();
         public Day Day { get; } = new Day();
 
-        private readonly Schedule _schedule = new Schedule();
+        private Schedule _schedule;
 
         public IList<Event> Events { get; set; }
 
@@ -81,6 +83,7 @@ namespace Moridge.BusinessLogic
             int afternoon;
 
             //Get the number of scheduled bookings
+            _schedule = _schedule ?? new Schedule();
             var driverScheduleBookings = _schedule.GetDriverScheduleBookings(date, out morning, out afternoon);
 
             //Get total bookings for this date
@@ -94,6 +97,35 @@ namespace Moridge.BusinessLogic
 
             //Subtract those already booked
             return (driverScheduleBookings - totalNumberOfBookings).ToString();
+        }
+
+        public void BookEvent(BookingCreateModel model)
+        {
+            BookingEvent bookingEvent = new BookingEvent();
+            var date = Day.ConvertStringToDateTime(model.Date);
+            bookingEvent.StartDateTime = date;
+            bookingEvent.EndDateTime = date;
+
+            bookingEvent.StartDateTime = bookingEvent.StartDateTime.AddHours(
+                model.Occassion == BookingCreateModel.Occassions.Morning ? 0 : 4);
+            bookingEvent.EndDateTime = bookingEvent.EndDateTime.AddHours(
+                model.Occassion == BookingCreateModel.Occassions.Morning ? 4 : 8);
+
+            bookingEvent.CustomerOrgNo = model.CustomerOrgNo;
+            bookingEvent.CustomerEmail = "fredrikgummus@gmail.com";//model.CustomerEmail;
+            bookingEvent.CustomerAddress = model.CustomerAddress;
+            bookingEvent.VehicleRegNo = model.VehicleRegNo;
+            bookingEvent.IsBooked = true;
+            bookingEvent.CompanyName = "CompanyName";//model.CompanyName;
+            bookingEvent.CustomerAddress = model.CustomerAddress;
+            bookingEvent.BookingHeader = "Header";//bookingEventDTO.BookingHeader;
+            bookingEvent.BookingMessage = model.BookingMessage;
+            bookingEvent.ResourceId = 2;
+            bookingEvent.SupplierEmailAddress = "fredrikgummus@gmail.com";//bookingEventDTO.SupplierEmailAddress;
+            bookingEvent.Attendees = new List<string> { "fredrikgummus@gmail.com" }; //bookingEventDTO.Attendees;
+
+            MyMoridgeServer.BusinessLogic.Booking booking = new MyMoridgeServer.BusinessLogic.Booking();
+            booking.BookEvent(bookingEvent);
         }
 
         /// <summary>
