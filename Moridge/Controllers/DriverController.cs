@@ -34,9 +34,11 @@ namespace Moridge.Controllers
             var isToday = date.Equals(today);
             var dateTime = Day.ConvertStringToDateTime(date);
 
+            //setup bookings
             var bookingModel = new BookingDayModel(events.Items, date) { DateTime = dateTime, IsToday = isToday };
             bookingModel.Booking.GetBookingsForOccasion(date, "Förmiddag");
             bookingModel.Booking.GetBookingsForOccasion(date, "Eftermiddag");
+
             return View(bookingModel);
         }
 

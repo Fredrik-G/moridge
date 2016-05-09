@@ -1,4 +1,5 @@
-﻿@model Moridge.Models.BookingDayModel
+﻿@using Moridge.Extensions
+@model Moridge.Models.BookingDayModel
 
 @{
     ViewBag.Title = Model.GetTitle(isDetails: true);
@@ -24,23 +25,23 @@
             @occassion.Key
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">@Model.MissingBookings(occassion.Key)</span>
         </li>
+            //Iterate all the bookings for this driver, show current bookings and lastly group up and display missing bookings.
             for (var i = 0; i < Model.BookingsForDriver(occassion.Key); i++)
             {
         <li>
             @if (i < Model.GetEvents(occassion.Key).Count)
             {
-                <a href="@Url.Action("BookingEvent", "Driver",
-                    new { eventId = Model.GetEvents(occassion.Key)[i].Id, 
-                        eventStatus = Model.GetEvents(occassion.Key)[i].Summary,
-                        parentDate = Model.Date })"
-                    data-transition="slidedown" style="background-color: @(Model.EventIsDone(occassion.Key, i) ? "lightgrey" : "inherit")">
-                    @Model.GetEvents(occassion.Key)[i].Location
-                    <p>@Model.GetEvents(occassion.Key)[i].Summary</p>
-                    <p>@Model.GetEvents(occassion.Key)[i].Description</p>
+                var thisEvent = Model.GetEvents(occassion.Key)[i];
+                <a href="@Url.Action("BookingEvent", "Driver", new { eventId = thisEvent.Id, eventStatus = thisEvent.Summary, parentDate = Model.Date })"
+                        data-transition="slidedown" style="background-color: @(Model.EventIsDone(occassion.Key, i) ? "#E0E0E0" : "inherit")">
+                    @thisEvent.Location
+                    <p>@thisEvent.Description</p>
+                    <p style="color: #2ad">@Model.GetCurrentStatus(thisEvent).GetDisplayName()</p>
                 </a>
             }
             else
             {
+                //Show total number of missing bookings and break loop.
                 var emptyBookings = Model.BookingsForDriver(occassion.Key) - i;
                 <a href="#" class="empty">@emptyBookings tomma</a>
                 break;

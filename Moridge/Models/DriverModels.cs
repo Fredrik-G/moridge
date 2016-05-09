@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
@@ -68,6 +67,7 @@ namespace Moridge.Models
             Booking.GetMissingBookings(Date);
         }
 
+        public EventStatus.Status GetCurrentStatus(Event bookingEvent) => EventStatus.StringToStatus(bookingEvent.Summary);
         public string GetDayString() => Booking.DaysInfo.GetDayString(DateTime);
         public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";
         public IList<Event> GetEvents(string occassion) => Booking.Day.Occassions[occassion].EventsThisOccassion.Items;

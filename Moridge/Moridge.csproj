@@ -243,6 +243,7 @@
     <Compile Include="BusinessLogic\DaysInfo.cs" />
     <Compile Include="BusinessLogic\Occassion.cs" />
     <Compile Include="BusinessLogic\Schedule.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
