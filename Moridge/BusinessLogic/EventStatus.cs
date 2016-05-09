@@ -24,10 +24,16 @@ namespace Moridge.BusinessLogic
         }
 
         /// <summary>
-        /// Converts a string to Status enum./>
+        /// Converts a string to Status enum.>
+        /// Returns Status.NotSet if string value is not found/defined./>
         /// </summary>
-        /// <param name="enumString"></param>
-        /// <returns></returns>
-        public Status StringToStatus(string enumString) => (Status)Enum.Parse(typeof(Status), enumString);
+        /// <param name="enumString">status string to convert</param>
+        /// <returns>Status value from string or default Status.NotSet</returns>
+        public static Status StringToStatus(string enumString)
+        {
+            Status status;
+            Enum.TryParse(enumString, out status);
+            return status;
+        }
     }
 }
