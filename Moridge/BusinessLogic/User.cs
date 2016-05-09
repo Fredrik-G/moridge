@@ -37,11 +37,12 @@ namespace Moridge.BusinessLogic
         /// Saves the current web user to the session storage.
         /// </summary>
         /// <param name="userId">user id or null</param>
-        public static void SaveUserToSession(string userId = null)
+        public static User SaveUserToSession(string userId = null)
         {
             var user = new User();
             user.GetUserFromDatabase(userId);
             System.Web.HttpContext.Current.Session["CurrentUser"] = user;
+            return user;
         }
     }
 }

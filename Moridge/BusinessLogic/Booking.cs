@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.Models;
+using MyMoridgeServer.BusinessLogic;
 using MyMoridgeServer.Models;
 
 namespace Moridge.BusinessLogic
@@ -160,5 +161,41 @@ namespace Moridge.BusinessLogic
             return $"{upcomingOccassions} av {numberOfBookingsForThisDriver} bokningar";
         }
 
+        /// <summary>
+        /// Read bookings for the current user from the calendar.
+        /// </summary>
+        /// <returns>list of bookings</returns>
+        public IList<Event> GetBookingsFromCalendar()
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+
+            //The session may be null if the web user access the page "in the wrong way", ie debugging
+            //in that case, re-assign session user. 
+            var user = System.Web.HttpContext.Current.Session["CurrentUser"] as User ?? UserHelper.SaveUserToSession();
+            var events = calendar.GetUpcomingEventsForDriver(user.Email);
+            return events;
+        }
+
+        /// <summary>
+        /// Reads an event from the calendar based on the given eventId.
+        /// </summary>
+        /// <param name="eventId">id for the event</param>
+        /// <returns>found event</returns>
+        public Event GetEvent(string eventId)
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            return calendar.GetEvent(eventId);
+        }
+
+        /// <summary>
+        /// Updates a given event with the given status.
+        /// </summary>
+        /// <param name="eventId">id for the event</param>
+        /// <param name="status">status message for the event</param>
+        public void UpdateEvent(string eventId, string status)
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            calendar.UpdateEvent(eventId, status);
+        }
     }
 }
