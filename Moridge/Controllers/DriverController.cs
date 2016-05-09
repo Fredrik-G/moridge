@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
 using Moridge.Models;
-using MyMoridgeServer.BusinessLogic;
 using Booking = Moridge.BusinessLogic.Booking;
 
 namespace Moridge.Controllers
@@ -14,9 +13,7 @@ namespace Moridge.Controllers
     {
         public ActionResult BookingDay(string date = null)
         {
-            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            var user = System.Web.HttpContext.Current.Session["CurrentUser"] as User;
-            var events = calendar.GetUpcomingEventsForDriver(user.Email);
+            var events = new Booking().GetBookingsFromCalendar();
             System.Web.HttpContext.Current.Session["AllEvents"] = events;
 
             //setup date
@@ -38,10 +35,6 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult BookingCreate(string parentPage, string parentDate = null)
         {
-            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            var events = calendar.GetEventList();
-            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
-
             return View(new BookingCreateModel { ParentPage = parentPage, ParentDate = parentDate });
         }
 
@@ -59,17 +52,15 @@ namespace Moridge.Controllers
 
         public ActionResult BookingWeek()
         {
-            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            var events = calendar.GetEventList();
-            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
+            var events = new Booking().GetBookingsFromCalendar();
+            System.Web.HttpContext.Current.Session["AllEvents"] = events;
 
-            return View(new BookingModel(events.Items) { Date = Day.GetSwedishTime(DateTime.Now) });
+            return View(new BookingModel(events) { Date = Day.GetSwedishTime(DateTime.Now) });
         }
 
         public ActionResult BookingEvent(string eventId, string eventStatus, string parentDate = null)
         {
-            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            var bookingEvent = calendar.GetEvent(eventId);
+            var bookingEvent = new Booking().GetEvent(eventId);
             return View(new BookingEventModel
             {
                 Event = bookingEvent,
@@ -80,8 +71,8 @@ namespace Moridge.Controllers
 
         public ActionResult BookingEventUpdate(BookingEventModel model)
         {
-            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            calendar.UpdateEvent(model.Event.Id, model.CurrentStatus.ToString());
+            //update the event
+            new Booking().UpdateEvent(model.Event.Id, model.CurrentStatus.ToString());
 
             return RedirectToAction("BookingEvent", "Driver", new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString() });
         }
