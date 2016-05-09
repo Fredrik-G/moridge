@@ -10,7 +10,7 @@ namespace Moridge.Controllers
         [ChildActionOnly]
         public ActionResult _SidePanelLoggedIn()
         {
-            var user = System.Web.HttpContext.Current.Session["SidePanelUser"] as SidePanelUser;
+            var user = System.Web.HttpContext.Current.Session["CurrentUser"] as User;
             var model = new SidePanelLoggedInModel { User = user };
             return PartialView(model);
         }

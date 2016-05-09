@@ -25,8 +25,9 @@ namespace Moridge.Controllers
         public ActionResult BookingDay(string date = null)
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
-            var events = calendar.GetEventList();
-            System.Web.HttpContext.Current.Session["AllEvents"] = events.Items;
+            var user = System.Web.HttpContext.Current.Session["CurrentUser"] as User;
+            var events = calendar.GetUpcomingEventsForDriver(user.Email);
+            System.Web.HttpContext.Current.Session["AllEvents"] = events;
 
             //setup date
             var today = Day.GetSwedishTime(DateTime.Now).ToString("yyyy-M-d");
@@ -35,7 +36,7 @@ namespace Moridge.Controllers
             var dateTime = Day.ConvertStringToDateTime(date);
 
             //setup bookings
-            var bookingModel = new BookingDayModel(events.Items, date) { DateTime = dateTime, IsToday = isToday };
+            var bookingModel = new BookingDayModel(events, date) { DateTime = dateTime, IsToday = isToday };
             bookingModel.Booking.GetBookingsForOccasion(date, "Förmiddag");
             bookingModel.Booking.GetBookingsForOccasion(date, "Eftermiddag");
 
@@ -60,7 +61,6 @@ namespace Moridge.Controllers
         public ActionResult BookingCreate(BookingCreateModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            //do stuff
 
             var booking = new Booking();
             booking.BookEvent(model);

@@ -238,6 +238,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessLogic\DatabaseHelper.cs" />
     <Compile Include="BusinessLogic\EventStatus.cs" />
+    <Compile Include="BusinessLogic\User.cs" />
     <Compile Include="Controllers\SidePanelController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="BusinessLogic\DaysInfo.cs" />

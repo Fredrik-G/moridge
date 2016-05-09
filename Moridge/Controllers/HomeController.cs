@@ -17,13 +17,14 @@ namespace Moridge.Controllers
             if (Request.IsAuthenticated)
             {
                 RolesHelper.GetPageForUser(HttpContext.User, out actionName, out controllerName);
-                SidePanelHelper.SaveUserToSession();
+                UserHelper.SaveUserToSession();
             }
             else
             {
                 actionName = "Login";
                 controllerName = "Account";
             }
+            return RedirectToAction("BookingDay", "Driver"); //TODO
             return RedirectToAction(actionName, controllerName);
         }
     }
