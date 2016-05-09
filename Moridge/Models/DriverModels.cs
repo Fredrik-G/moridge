@@ -75,6 +75,18 @@ namespace Moridge.Models
         public int BookingsForDriver(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver;
         public int MissingBookings(string occassion) => Booking.Day.Occassions[occassion].BookingsForDriver -
                                                         Booking.Day.Occassions[occassion].NumberOfBookings;
+
+        /// <summary>
+        /// Checks if an event is done.
+        /// </summary>
+        /// <param name="occassion">the event's occassion</param>
+        /// <param name="index">the event's index</param>
+        /// <returns>true if done, otherwise false</returns>
+        public bool EventIsDone(string occassion, int index)
+        {
+            var done = EventStatus.Status.VehicleDelivered.ToString();
+            return GetEvents(occassion)[index].Summary.Equals(done);
+        }
     }
 
     public class BookingCreateModel
@@ -128,20 +140,7 @@ namespace Moridge.Models
     {
         public Event Event { get; set; }
 
-        public enum EventStatus
-        {
-            [Display(Name = "Ej påbörjad")]
-            NotSet,
-            [Display(Name = "Fordon upphämtat")]
-            VehiclePickedUp,
-            [Display(Name = "Fordon tvättas")]
-            VehicleAtWash,
-            [Display(Name = "Fordon färdigt")]
-            VehicleDone,
-            [Display(Name = "Fordon levererat")]
-            VehicleDelivered,
-        }
-        public EventStatus CurrentStatus { get; set; } = EventStatus.NotSet;
+        public EventStatus.Status CurrentStatus { get; set; } = EventStatus.Status.NotSet;
 
         public string GetTitle() => "Bokningsdetaljer";
     }
