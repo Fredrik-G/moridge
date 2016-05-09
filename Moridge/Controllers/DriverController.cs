@@ -74,11 +74,16 @@ namespace Moridge.Controllers
             return View(new BookingModel(events.Items) { Date = Day.GetSwedishTime(DateTime.Now) });
         }
 
-        public ActionResult BookingEvent(string eventId, string eventStatus)
+        public ActionResult BookingEvent(string eventId, string eventStatus, string parentDate = null)
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             var bookingEvent = calendar.GetEvent(eventId);
-            return View(new BookingEventModel { Event = bookingEvent, CurrentStatus = EventStatus.StringToStatus(eventStatus) });
+            return View(new BookingEventModel
+            {
+                Event = bookingEvent,
+                CurrentStatus = EventStatus.StringToStatus(eventStatus),
+                ParentDate = parentDate
+            });
         }
 
         public ActionResult BookingEventUpdate(BookingEventModel model)

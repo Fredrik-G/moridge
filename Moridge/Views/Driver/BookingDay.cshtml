@@ -30,7 +30,9 @@
             @if (i < Model.GetEvents(occassion.Key).Count)
             {
                 <a href="@Url.Action("BookingEvent", "Driver",
-                    new { eventId = Model.GetEvents(occassion.Key)[i].Id, eventStatus = Model.GetEvents(occassion.Key)[i].Summary })"
+                    new { eventId = Model.GetEvents(occassion.Key)[i].Id, 
+                        eventStatus = Model.GetEvents(occassion.Key)[i].Summary,
+                        parentDate = Model.Date })"
                     data-transition="slidedown" style="background-color: @(Model.EventIsDone(occassion.Key, i) ? "lightgrey" : "inherit")">
                     @Model.GetEvents(occassion.Key)[i].Location
                     <p>@Model.GetEvents(occassion.Key)[i].Summary</p>

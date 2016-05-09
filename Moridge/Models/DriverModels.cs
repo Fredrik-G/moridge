@@ -139,8 +139,8 @@ namespace Moridge.Models
     public class BookingEventModel
     {
         public Event Event { get; set; }
-
         public EventStatus.Status CurrentStatus { get; set; } = EventStatus.Status.NotSet;
+        public string ParentDate { get; set; }
 
         public string GetTitle() => "Bokningsdetaljer";
     }
