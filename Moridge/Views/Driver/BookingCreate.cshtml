@@ -4,6 +4,58 @@
     ViewBag.Title = Model.GetTitle();
 }
 
+<script>
+    var test;
+    $(document).ready(function () {
+        $('#CompanyName').blur(function () {
+            console.log("tappade focus");
+
+            var customerId = '202100-6297';
+            $.getJSON("http://service.moridge.se/api/vehicle/" + customerId,
+            function (result) {
+                console.log(result);
+                var vehicles = $("#vehicle-select");
+                $.each(result, function () {
+                    vehicles.append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
+                });
+                vehicles.selectmenu('refresh');
+            });
+        });
+
+        $('#vehicle-select ').change(function () {
+            var selected = $("#vehicle-select option:selected").text();
+            console.log(selected);
+            if (selected === "--Ange egen--") {
+                var newInput = $('<div id="vehicle-input" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">' +
+                    '@Html.TextBoxFor(m => m.VehicleRegNo, new { placeholder = Model.VehicleRegNoDisplay, @type = "text" })' +
+                    '</div>');
+                $('#vehicle-select').after(newInput);
+            } else {
+                $('#vehicle-input').hide();
+            }
+        });
+        $('#vehicle-select').blur(function() {
+            console.log("new focus loss");
+        });
+        $('#vehicle-input').blur(function () {
+            console.log("new focus loss");
+        });
+        $('#VehicleRegNo').blur(function () {
+            console.log("new focus loss");
+        });
+
+        $('#vehicle-select').focusout(function () {
+            console.log("new focus loss");
+        });
+        $('#vehicle-input').focusout(function () {
+            console.log("new focus loss");
+        });
+        $('#VehicleRegNo').focusout(function () {
+            console.log("new focus loss");
+        });
+    });
+</script>
+
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#" data-rel="back" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
@@ -16,7 +68,13 @@
 {
     @Html.ValidationSummary()
     @Html.TextBoxFor(m => m.CompanyName, new { placeholder = Model.CompanyNameDisplay, @type = "text" })
-    @Html.TextBoxFor(m => m.VehicleRegNo, new { placeholder = Model.VehicleRegNoDisplay, @type = "text" })
+    <div class="ui-field-contain">
+        <select name="select-custom-21" id="vehicle-select" data-native-menu="false">
+            <option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>
+            <option value="1">--Ange egen--</option>
+        </select>
+    </div>
+    
     @Html.TextBoxFor(m => m.CustomerAddress, new { placeholder = Model.CustomerAddressDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.BookingMessage, new { placeholder = Model.MessageDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DateDisplay, @type = "text" })
@@ -24,7 +82,7 @@
     @Html.HiddenFor(m => m.ParentPage)
     @Html.HiddenFor(m => m.ParentDate)
     
-    <input type="submit" id="submit" value="Skapa"/>
+    <input type="submit" id="submit" value="Skapa" />
 }
 
 @section Footer
