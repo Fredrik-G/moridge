@@ -11,6 +11,8 @@ namespace Moridge.Controllers
     [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
     public class DriverController : Controller
     {
+        #region Booking Controllers
+
         public ActionResult BookingDay(string date = null)
         {
             var events = new Booking().GetBookingsFromCalendar();
@@ -74,8 +76,13 @@ namespace Moridge.Controllers
             //update the event
             new Booking().UpdateEvent(model.Event.Id, model.CurrentStatus.ToString());
 
-            return RedirectToAction("BookingEvent", "Driver", new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString() });
+            return RedirectToAction("BookingEvent", "Driver",
+                new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString() });
         }
+
+        #endregion
+
+        #region Schedule Controllers
 
         //
         // GET: /Driver/Schedule
@@ -154,7 +161,8 @@ namespace Moridge.Controllers
             weeks[model.WeeksFromNow] = newWeekSchedule;
             System.Web.HttpContext.Current.Session["ScheduleWeeks"] = weeks;
 
-            return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = model.WeeksFromNow });
+            return RedirectToAction("ScheduleDeviation", "Driver",
+                new { useLocalValues = true, weeksFromNow = model.WeeksFromNow });
         }
 
         /// <summary>
@@ -168,8 +176,11 @@ namespace Moridge.Controllers
         {
             //increase or decrease  week from now
             weeksFromNow = gotoNextWeek ? weeksFromNow + 1 : weeksFromNow - 1;
-            return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = true, weeksFromNow = weeksFromNow });
+            return RedirectToAction("ScheduleDeviation", "Driver",
+                new { useLocalValues = true, weeksFromNow = weeksFromNow });
         }
+
+        #endregion
 
         public ActionResult PersonalInfo()
         {

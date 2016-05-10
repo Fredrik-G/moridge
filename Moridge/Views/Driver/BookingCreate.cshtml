@@ -15,7 +15,7 @@
 @using (Html.BeginForm("BookingCreate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
 {
     @Html.ValidationSummary()
-    @Html.TextBoxFor(m => m.CustomerOrgNo, new { placeholder = Model.CustomerOrgNoDisplay, @type = "number" })
+    @Html.TextBoxFor(m => m.CompanyName, new { placeholder = Model.CompanyNameDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.VehicleRegNo, new { placeholder = Model.VehicleRegNoDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.CustomerAddress, new { placeholder = Model.CustomerAddressDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.BookingMessage, new { placeholder = Model.MessageDisplay, @type = "text" })

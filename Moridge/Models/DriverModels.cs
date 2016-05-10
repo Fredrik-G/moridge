@@ -97,9 +97,24 @@ namespace Moridge.Models
 
         public const string _customerOrgNoDisplay = "Kund org. nummer";
         public string CustomerOrgNoDisplay => _customerOrgNoDisplay;
-        [Required]
         [Display(Name = _customerOrgNoDisplay)]
         public string CustomerOrgNo { get; set; }
+        
+        public const string _customerEmailDisplay = "Kunds email";
+        public string CustomerEmailDisplay => _customerEmailDisplay;
+        [Display(Name = _customerEmailDisplay)]
+        public string CustomerEmail { get; set; }
+
+        public const string _companyNameDisplay = "Företagsnamn";
+        public string CompanyNameDisplay => _companyNameDisplay;
+        [Required]
+        [Display(Name = _companyNameDisplay)]
+        public string CompanyName { get; set; }
+
+        public const string _bookingHeaderDisplay = "Bokningsrubrik";
+        public string BookingHeaderDisplay => _bookingHeaderDisplay;
+        [Display(Name = _customerOrgNoDisplay)]
+        public string BookingHeader { get; set; }
 
         private const string _vehicleRegNoDisplay = "Reg. nummer på fordon";
         public string VehicleRegNoDisplay => _vehicleRegNoDisplay;

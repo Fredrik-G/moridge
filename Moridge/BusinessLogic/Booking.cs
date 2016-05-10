@@ -99,7 +99,11 @@ namespace Moridge.BusinessLogic
             //Subtract those already booked
             return (driverScheduleBookings - totalNumberOfBookings).ToString();
         }
-
+        
+        /// <summary>
+        /// Books a new event with values from the model.
+        /// </summary>
+        /// <param name="model">model containing event details</param>
         public void BookEvent(BookingCreateModel model)
         {
             BookingEvent bookingEvent = new BookingEvent();
@@ -112,21 +116,40 @@ namespace Moridge.BusinessLogic
             bookingEvent.EndDateTime = bookingEvent.EndDateTime.AddHours(
                 model.Occassion == BookingCreateModel.Occassions.Morning ? 4 : 8);
 
-            bookingEvent.CustomerOrgNo = model.CustomerOrgNo;
-            bookingEvent.CustomerEmail = "fredrikgummus@gmail.com";//model.CustomerEmail;
+            //Set up company information based off the name.
+            bookingEvent.CompanyName = model.CompanyName;
+            string customerOrgNo, customerEmail;
+            GetCustomerDetails(model.CompanyName, out customerOrgNo, out customerEmail);
+
+            bookingEvent.CustomerOrgNo = customerOrgNo;
+            bookingEvent.CustomerEmail = customerEmail;
+
             bookingEvent.CustomerAddress = model.CustomerAddress;
             bookingEvent.VehicleRegNo = model.VehicleRegNo;
+
             bookingEvent.IsBooked = true;
-            bookingEvent.CompanyName = "CompanyName";//model.CompanyName;
-            bookingEvent.CustomerAddress = model.CustomerAddress;
-            bookingEvent.BookingHeader = "Header";//bookingEventDTO.BookingHeader;
+            bookingEvent.BookingHeader = model.BookingHeader;
             bookingEvent.BookingMessage = model.BookingMessage;
             bookingEvent.ResourceId = 2;
-            bookingEvent.SupplierEmailAddress = "fredrikgummus@gmail.com";//bookingEventDTO.SupplierEmailAddress;
-            bookingEvent.Attendees = new List<string> { "fredrikgummus@gmail.com" }; //bookingEventDTO.Attendees;
+            bookingEvent.SupplierEmailAddress = UserHelper.GetCurrentUser().Email;
+            bookingEvent.Attendees = new List<string> { Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail") };
 
             MyMoridgeServer.BusinessLogic.Booking booking = new MyMoridgeServer.BusinessLogic.Booking();
             booking.BookEvent(bookingEvent);
+        }
+
+
+        /// <summary>
+        /// Gets customer details based of given company name. 
+        /// </summary>
+        /// <param name="companyName">name of company</param>
+        /// <param name="customerOrgNo">customer's orginsation number</param>
+        /// <param name="customerEmail">customer's email</param>
+        private void GetCustomerDetails(string companyName, out string customerOrgNo, out string customerEmail)
+        {
+            //TODO
+            customerOrgNo = "123";
+            customerEmail = "företagsemail@todo.notdone";
         }
 
         /// <summary>
@@ -169,9 +192,7 @@ namespace Moridge.BusinessLogic
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
 
-            //The session may be null if the web user access the page "in the wrong way", ie debugging
-            //in that case, re-assign session user. 
-            var user = System.Web.HttpContext.Current.Session["CurrentUser"] as User ?? UserHelper.SaveUserToSession();
+            var user = UserHelper.GetCurrentUser();
             var events = calendar.GetUpcomingEventsForDriver(user.Email);
             return events;
         }

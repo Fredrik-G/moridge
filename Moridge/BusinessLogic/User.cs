@@ -44,5 +44,17 @@ namespace Moridge.BusinessLogic
             System.Web.HttpContext.Current.Session["CurrentUser"] = user;
             return user;
         }
+
+        /// <summary>
+        /// Gets the current logged in user from the session store or from the database.
+        /// </summary>
+        /// <returns></returns>
+        public static User GetCurrentUser()
+        {
+            //The session may be null if the web user access the page "in the wrong way", ie debugging
+            //in that case, re-assign session user. 
+            return System.Web.HttpContext.Current.Session["CurrentUser"] as User ?? UserHelper.SaveUserToSession();
+        }
     }
+    
 }
