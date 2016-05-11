@@ -400,8 +400,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Admin\About.cshtml" />
-    <Content Include="Views\Admin\Contact.cshtml" />
     <Content Include="Views\Admin\DriverRegister.cshtml" />
     <Content Include="Views\Driver\Schedule.cshtml" />
     <Content Include="Views\Driver\PersonalInfo.cshtml" />
