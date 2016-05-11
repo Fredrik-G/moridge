@@ -114,7 +114,7 @@ namespace Moridge.Controllers
             if (creationResult.Succeeded)
             {
                 //assign user a role and a default schedule
-                RolesHelper.AddUserToRole(dbHelper, user.Id, RolesHelper.DRIVER_ROLE);
+                RolesHelper.AddUserToRole(dbHelper, user.Id, RolesHelper.DriverRole);
                 var schedule = new Schedule(user.Id);
                 schedule.CreateDefaultSchedule();
 

@@ -14,11 +14,21 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Admin role string
         /// </summary>
-        public const string ADMIN_ROLE = "Admin";
+        public const string AdminRole = "Admin";
+        /// <summary>
+        /// Admin's role Id. 
+        /// Hardcoded to optimize performance.
+        /// </summary>
+        public const string AdminRoleId = "1c7f0db3-11ee-45e3-a349-a99aaca8ae41";
         /// <summary>
         /// Driver role string
         /// </summary>
-        public const string DRIVER_ROLE = "Driver";
+        public const string DriverRole = "Driver";
+        /// <summary>
+        /// Driver's role Id. 
+        /// Hardcoded to optimize performance.
+        /// </summary>
+        public const string DriverRoleId = "90f3885d-b271-424d-9fdc-79392c60eefc";
 
         /// <summary>
         /// Sets up the roles used in this application
@@ -26,8 +36,8 @@ namespace Moridge.BusinessLogic
         /// <param name="context">Application's database context</param>
         public static void SetupRoles(ApplicationDbContext context)
         {
-            var driverRole = context.Roles.Add(new IdentityRole(DRIVER_ROLE));
-            var adminRole = context.Roles.Add(new IdentityRole(ADMIN_ROLE));
+            var driverRole = context.Roles.Add(new IdentityRole(DriverRole));
+            var adminRole = context.Roles.Add(new IdentityRole(AdminRole));
         }
 
         /// <summary>
@@ -61,17 +71,17 @@ namespace Moridge.BusinessLogic
         /// <param name="role">user's role. should be skipped if using <paramref name="user"/> </param>
         public static void GetPageForUser(IPrincipal user, out string actionName, out string controllerName, string role = "")
         {
-            if (user != null && user.IsInRole(ADMIN_ROLE) ||
-                role.Equals(ADMIN_ROLE))
+            if (user != null && user.IsInRole(AdminRole) ||
+                role.Equals(AdminRole))
             {
                 actionName = "DriverRegister";
-                controllerName = ADMIN_ROLE;
+                controllerName = AdminRole;
             }
-            else if (user != null && user.IsInRole(DRIVER_ROLE) ||
-                role.Equals(DRIVER_ROLE))
+            else if (user != null && user.IsInRole(DriverRole) ||
+                role.Equals(DriverRole))
             {
                 actionName = "BookingDay";
-                controllerName = DRIVER_ROLE;
+                controllerName = DriverRole;
             }
             //nor admin or driver => error, show login page again.
             else
@@ -84,7 +94,7 @@ namespace Moridge.BusinessLogic
         public static void AddUserToRole(DatabaseHelper dbHelper, string id, string role)
         {
             //nor admin or driver => error
-            if(!(role.Equals(ADMIN_ROLE) || role.Equals(DRIVER_ROLE)))
+            if(!(role.Equals(AdminRole) || role.Equals(DriverRole)))
             {
                 //log.log($"Error adding role {role} to userID {id}.");
                 //TODO logga

@@ -8,7 +8,7 @@ using Booking = Moridge.BusinessLogic.Booking;
 
 namespace Moridge.Controllers
 {
-    [Authorize(Roles = RolesHelper.DRIVER_ROLE + "," + RolesHelper.ADMIN_ROLE)]
+    [Authorize(Roles = RolesHelper.DriverRole + "," + RolesHelper.AdminRole)]
     public class DriverController : Controller
     {
         #region Booking Controllers

@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using Moridge.BusinessLogic;
 using Moridge.Models;
 
 namespace Moridge.Controllers
 {
-    [Authorize(Roles = RolesHelper.ADMIN_ROLE)]
+    [Authorize(Roles = RolesHelper.AdminRole)]
     public class AdminController : Controller
     {
         public ActionResult DriverRegister()
         {
             var dbHandler = new DatabaseHelper();
-            var drivers = dbHandler.FindAllUsersInRole(RolesHelper.DRIVER_ROLE);
+            var drivers = System.Web.HttpContext.Current.Session["Drivers"] as List<ApplicationUser>;
+            if (drivers == null)
+            {
+                drivers = dbHandler.FindAllUsersInRole(RolesHelper.DriverRoleId);
+                System.Web.HttpContext.Current.Session["Drivers"] = drivers;
+            }
             var model = new DriverRegisterModel { Drivers = drivers };
             return View(model);
         }

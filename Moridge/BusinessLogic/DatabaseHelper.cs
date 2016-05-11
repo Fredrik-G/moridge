@@ -64,12 +64,12 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Gets all users in the given role.
         /// </summary>
-        /// <param name="role">role to get</param>
+        /// <param name="roleId">id of role to get</param>
         /// <returns>list of users</returns>
-        public List<ApplicationUser> FindAllUsersInRole(string role)
+        public List<ApplicationUser> FindAllUsersInRole(string roleId)
         {
             return _userManager.Users.ToList()
-                .Where(x => _userManager.IsInRole(x.Id, RolesHelper.DRIVER_ROLE))
+                .Where(user => user.Roles.Count > 0 && user.Roles.First().RoleId.Equals(roleId))
                 .ToList();
         }
     }
