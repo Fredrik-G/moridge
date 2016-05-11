@@ -11,6 +11,7 @@ namespace Moridge.Models
     public class DriverDetailsModel
     {
         public ApplicationUser Driver { get; set; } = new ApplicationUser();
+        public int Index { get; set; }
 
         [Display(Name = "Förnamn")]
         public string FirstName
@@ -50,5 +51,6 @@ namespace Moridge.Models
             get { return Driver.PhoneNumber; }
             set { Driver.PhoneNumber = value; }
         }
+
     }
 }

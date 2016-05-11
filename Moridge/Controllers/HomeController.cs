@@ -21,8 +21,8 @@ namespace Moridge.Controllers
                 actionName = "Login";
                 controllerName = "Account";
             }
-            return RedirectToAction("BookingDay", "Driver"); //TODO
             return RedirectToAction(actionName, controllerName);
+            return RedirectToAction("BookingDay", "Driver"); //TODO
         }
     }
 }

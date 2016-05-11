@@ -6,6 +6,7 @@
 
 @Html.ValidationSummary()
 @Html.HiddenFor(m => m.Driver.Id)
+@Html.HiddenFor(m => m.Index)
 
 @Html.MaterialDesignInput(m => m.FirstName, Html.DisplayNameFor(m => m.FirstName).ToString(), true)
 @Html.MaterialDesignInput(m => m.LastName, Html.DisplayNameFor(m => m.LastName).ToString(), true)

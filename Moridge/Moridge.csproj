@@ -289,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\account-plus.svg" />
+    <Content Include="Content\images\account-remove.svg" />
     <Content Include="Content\themes\moridge\login_style.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\email.png" />

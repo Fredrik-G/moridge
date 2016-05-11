@@ -75,6 +75,17 @@ namespace Moridge.BusinessLogic
         }
 
         /// <summary>
+        /// Deletes a user based off given id.
+        /// </summary>
+        /// <param name="userId">id of user to remove</param>
+        /// <returns>result</returns>
+        public IdentityResult DeleteUser(string userId)
+        {
+            var user = FindUser(userId);
+            return _userManager.Delete(user);
+        }
+
+        /// <summary>
         /// Adds a user to a role.
         /// </summary>
         /// <param name="id">user id</param>
@@ -92,5 +103,6 @@ namespace Moridge.BusinessLogic
                 .Where(user => user.Roles.Count > 0 && user.Roles.First().RoleId.Equals(roleId))
                 .ToList();
         }
+
     }
 }

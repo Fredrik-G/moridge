@@ -10,8 +10,8 @@
     <h6 class="header-heading">
         @ViewBag.Title
     </h6>
-    <a href="#" class="ui-btn header-btn-right2">
-        <img src="/Content/images/account-plus.svg" alt="Lägg till ny" />
+    <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn header-btn-right2">
+        <img src="/Content/images/account-remove.svg" alt="Lägg till ny" />
         <span class="align-super">Ta bort</span>
     </a>
 }
@@ -20,3 +20,18 @@
 {
     @Html.Partial("_DriverInfoForm", Model)
 }
+<div data-role="popup" id="popupDialog" style="max-width: 400px;">
+    <div role="main" class="ui-content">
+        <h3 class="ui-title">Är du säker?</h3>
+        <p>Vill du verkligen ta bort denna användare?</p>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow" data-rel="back">Avbryt</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="@Url.Action("DriverDelete", "Admin", new { userId = Model.Driver.Id, index = Model.Index })"
+                     class="ui-btn ui-corner-all ui-shadow" data-transition="flow">Ta bort</a>
+            </div>
+        </div>
+    </div>
+</div>

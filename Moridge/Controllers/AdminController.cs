@@ -36,7 +36,7 @@ namespace Moridge.Controllers
                 System.Web.HttpContext.Current.Session["Drivers"] = drivers;
             }
             var driver = drivers[index.Value];
-            return View(new DriverDetailsModel { Driver = driver });
+            return View(new DriverDetailsModel { Driver = driver, Index = index.Value });
         }
 
         //
@@ -81,6 +81,18 @@ namespace Moridge.Controllers
 
             //errors => re-show page.
             return View(model);
+        }
+
+        public ActionResult DriverDelete(string userId, string index)
+        {
+            var result = new DatabaseHelper().DeleteUser(userId);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("DriverRegister", "Admin");
+            }
+
+            //errors => re-show page.
+            return RedirectToAction("DriverDetails", "Admin", new { index = index });
         }
     }
 }
