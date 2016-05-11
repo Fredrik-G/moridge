@@ -1,0 +1,22 @@
+﻿@using Moridge.Models
+@model DriverDetailsModel
+@{
+    ViewBag.Title = "Förardetaljer";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @ViewBag.Title
+    </h6>
+    <a href="#" class="ui-btn header-btn-right2">
+        <img src="/Content/images/account-plus.svg" alt="Lägg till ny" />
+        <span class="align-super">Ta bort</span>
+    </a>
+}
+
+@using (Html.BeginForm("DriverDetails", "Admin"))
+{
+    @Html.Partial("_DriverInfoForm", Model)
+}

@@ -1,0 +1,18 @@
+﻿@using Moridge.Models
+@model DriverDetailsModel
+@{
+    ViewBag.Title = "Lägg till ny";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @ViewBag.Title
+    </h6>
+}
+
+@using (Html.BeginForm("DriverCreate", "Admin"))
+{
+    @Html.Partial("_DriverInfoForm", Model)
+}

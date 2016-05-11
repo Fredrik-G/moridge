@@ -3,15 +3,27 @@
 @{
     ViewBag.Title = "Förarregister";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 
-<ul>
-@for (var i = 0; i < Model.Drivers.Count; i++)
-{
-    <li>
-        <a>
-            @Html.DisplayFor(m => m.Drivers[i].FirstName) @Html.DisplayFor(m => m.Drivers[i].LastName)
-        </a>
-    </li>
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @ViewBag.Title
+    </h6>
+    <a href="@Url.Action("DriverCreate", "Admin")" class="ui-btn header-btn-right2">
+        <img src="/Content/images/account-plus.svg" alt="Lägg till ny" />
+        <span class="align-super">Lägg till ny</span>
+    </a>
 }
 
+<ul data-role="listview" data-inset="true" style="min-width: 210px;">
+    @for (var i = 0; i < Model.Drivers.Count; i++)
+    {
+        <li>
+            <a href="@Url.Action("DriverDetails", "Admin", new { index = i })">
+                @Html.DisplayFor(m => m.Drivers[i].FirstName) @Html.DisplayFor(m => m.Drivers[i].LastName)
+                @Html.DisplayFor(m => m.Drivers[i].Email)
+            </a>
+        </li>
+    }
 </ul>
