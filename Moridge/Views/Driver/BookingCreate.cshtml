@@ -1,59 +1,44 @@
-﻿@model Moridge.Models.BookingCreateModel
+﻿@using Moridge.Models
+@model BookingCreateModel
 
 @{
     ViewBag.Title = Model.GetTitle();
 }
 
 <script>
-    var test;
     $(document).ready(function () {
-        $('#CompanyName').blur(function () {
-            console.log("tappade focus");
-
-            var customerId = '202100-6297';
-            $.getJSON("http://service.moridge.se/api/vehicle/" + customerId,
-            function (result) {
-                console.log(result);
-                var vehicles = $("#vehicle-select");
-                $.each(result, function () {
-                    vehicles.append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
-                });
-                vehicles.selectmenu('refresh');
-            });
+        $('#CustomerOrgNo').blur(function() {
+            readRegNo();
         });
 
         $('#vehicle-select ').change(function () {
             var selected = $("#vehicle-select option:selected").text();
-            console.log(selected);
-            if (selected === "--Ange egen--") {
+            //Show new input if user chose to enter new vehicle.
+            if (selected === "--Ange ny--") {
                 var newInput = $('<div id="vehicle-input" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">' +
                     '@Html.TextBoxFor(m => m.VehicleRegNo, new { placeholder = Model.VehicleRegNoDisplay, @type = "text" })' +
                     '</div>');
                 $('#vehicle-select').after(newInput);
             } else {
                 $('#vehicle-input').hide();
+                $("#VehicleRegNo").val(selected);
             }
         });
-        $('#vehicle-select').blur(function() {
-            console.log("new focus loss");
-        });
-        $('#vehicle-input').blur(function () {
-            console.log("new focus loss");
-        });
-        $('#VehicleRegNo').blur(function () {
-            console.log("new focus loss");
-        });
-
-        $('#vehicle-select').focusout(function () {
-            console.log("new focus loss");
-        });
-        $('#vehicle-input').focusout(function () {
-            console.log("new focus loss");
-        });
-        $('#VehicleRegNo').focusout(function () {
-            console.log("new focus loss");
-        });
     });
+    function readRegNo() {
+        var customerId = $('#CustomerOrgNo').val();
+        $.getJSON("http://service.moridge.se/api/vehicle/" + customerId,
+            function (result) {
+                var vehicles = $("#vehicle-select");
+                vehicles.empty();
+                vehicles.append('<option value="1">--Ange ny--</option>');
+
+                $.each(result, function () {
+                    vehicles.append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
+                });
+                vehicles.selectmenu('refresh');
+            });
+    }
 </script>
 
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
@@ -67,13 +52,22 @@
 @using (Html.BeginForm("BookingCreate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
 {
     @Html.ValidationSummary()
-    @Html.TextBoxFor(m => m.CompanyName, new { placeholder = Model.CompanyNameDisplay, @type = "text" })
+    @Html.TextBoxFor(m => m.CustomerOrgNo, new { placeholder = Model.CustomerOrgNoDisplay, @type = "text" })
     <div class="ui-field-contain">
         <select name="select-custom-21" id="vehicle-select" data-native-menu="false">
             <option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>
-            <option value="1">--Ange egen--</option>
+            <option value="1">--Ange ny--</option>
         </select>
     </div>
+    @Html.HiddenFor(m => m.VehicleRegNo)
+
+    //Populate the dropdownlist if the CustomerOrgNo is already set
+    if (!string.IsNullOrEmpty(Model.CustomerOrgNo))
+    {
+        <script type="text/javascript">
+            readRegNo()
+        </script>
+    }
     
     @Html.TextBoxFor(m => m.CustomerAddress, new { placeholder = Model.CustomerAddressDisplay, @type = "text" })
     @Html.TextBoxFor(m => m.BookingMessage, new { placeholder = Model.MessageDisplay, @type = "text" })

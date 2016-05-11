@@ -113,7 +113,7 @@ namespace Moridge.Models
 
         public const string _bookingHeaderDisplay = "Bokningsrubrik";
         public string BookingHeaderDisplay => _bookingHeaderDisplay;
-        [Display(Name = _customerOrgNoDisplay)]
+        [Display(Name = _bookingHeaderDisplay)]
         public string BookingHeader { get; set; }
 
         private const string _vehicleRegNoDisplay = "Reg. nummer på fordon";
