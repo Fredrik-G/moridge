@@ -10,18 +10,14 @@ namespace Moridge.Extensions
     public static class HtmlExtensions
     {
         public static MvcHtmlString MaterialDesignInput<TModel, TValue>(this HtmlHelper<TModel> helper,
-            Expression<Func<TModel, TValue>> expression, string labelText, bool isRequired, string value = null, object htmlAttributes = null)
+            Expression<Func<TModel, TValue>> expression, string labelText, bool isRequired, string type = "text", object htmlAttributes = null)
         {
             IDictionary<string, object> attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
-            attributes.Add("type", "text");
+            attributes.Add("type", type);
             attributes.Add("data-role", "none");
             if (isRequired)
             {
                 attributes.Add("required", string.Empty);
-            }
-            if (!string.IsNullOrEmpty(value))
-            {
-                attributes.Add("value", value);
             }
             var content = "<div data-role='none' class='group'>" +
                           helper.TextBoxFor(expression, attributes) +

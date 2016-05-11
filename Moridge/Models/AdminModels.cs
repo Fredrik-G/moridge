@@ -10,21 +10,45 @@ namespace Moridge.Models
 
     public class DriverDetailsModel
     {
-        public ApplicationUser Driver { get; set; }
-         
-        [Display(Name="Förnamn")]
-        public string FirstName => Driver.FirstName;
+        public ApplicationUser Driver { get; set; } = new ApplicationUser();
+
+        [Display(Name = "Förnamn")]
+        public string FirstName
+        {
+            get { return Driver.FirstName; }
+            set { Driver.FirstName = value; }
+        }
 
         [Display(Name="Efternamn")]
-        public string LastName => Driver.LastName;
+        public string LastName
+        {
+            get { return Driver.LastName; }
+            set { Driver.LastName = value; }
+        }
 
         [Display(Name="E-post")]
-        public string Email => Driver.Email;
+        public string Email 
+        {
+            get { return Driver.Email; }
+            set
+            {
+                Driver.Email = value;
+                Driver.UserName = value;
+            }
+        }
 
         [Display(Name="Adress")]
-        public string Adress => Driver.Adress;
+        public string Adress 
+        {
+            get { return Driver.Adress; }
+            set { Driver.Adress = value; }
+        }
 
         [Display(Name="Telefonnummer")]
-        public string PhoneNumber => Driver.PhoneNumber;
+        public string PhoneNumber 
+        {
+            get { return Driver.PhoneNumber; }
+            set { Driver.PhoneNumber = value; }
+        }
     }
 }

@@ -115,7 +115,7 @@ namespace Moridge.Controllers
             {
                 //assign user a role and a default schedule
                 RolesHelper.AddUserToRole(dbHelper, user.Id, RolesHelper.DriverRole);
-                var schedule = new Schedule(user.Id);
+                var schedule = new Schedule(user.Id, dbHelper);
                 schedule.CreateDefaultSchedule();
 
                 FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);

@@ -15,9 +15,9 @@ namespace Moridge.BusinessLogic
         private readonly DatabaseHelper _dbHelper;
         private readonly ApplicationUser _user;
 
-        public Schedule(string userId = null)
+        public Schedule(string userId = null, DatabaseHelper dbHelper = null)
         {
-            _dbHelper = new DatabaseHelper();
+            _dbHelper = dbHelper ?? new DatabaseHelper();
             _user = _dbHelper.FindUser(userId);
         }
 

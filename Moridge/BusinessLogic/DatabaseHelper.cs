@@ -17,6 +17,7 @@ namespace Moridge.BusinessLogic
         {
             _dbContext = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_dbContext));
+            _userManager.UserValidator = new UserValidator<ApplicationUser>(_userManager) { AllowOnlyAlphanumericUserNames = false };
         }
 
         /// <summary>
@@ -53,6 +54,25 @@ namespace Moridge.BusinessLogic
         /// <param name="password">user password</param>
         /// <returns>creation result</returns>
         public IdentityResult CreateUser(ApplicationUser user, string password) => _userManager.Create(user, password);
+
+        /// <summary>
+        /// Updates a user with given data.
+        /// </summary>
+        /// <param name="modelUser">model user containing new data</param>
+        /// <returns>update result</returns>
+        public IdentityResult UpdateUser(ApplicationUser modelUser)
+        {
+            //need to read the user from the database to be able to modifiy it
+            var user = FindUser(modelUser.Id);
+
+            //apply any modifications
+            user.FirstName = modelUser.FirstName;
+            user.LastName = modelUser.LastName;
+            user.Email = modelUser.Email;
+            user.Adress = modelUser.Adress;
+            user.PhoneNumber = modelUser.PhoneNumber;
+            return _userManager.Update(user);
+        }
 
         /// <summary>
         /// Adds a user to a role.
