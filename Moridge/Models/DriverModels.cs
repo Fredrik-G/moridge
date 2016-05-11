@@ -97,6 +97,7 @@ namespace Moridge.Models
 
         public const string _customerOrgNoDisplay = "Kund org. nummer";
         public string CustomerOrgNoDisplay => _customerOrgNoDisplay;
+        [Required]
         [Display(Name = _customerOrgNoDisplay)]
         public string CustomerOrgNo { get; set; }
         
@@ -107,7 +108,6 @@ namespace Moridge.Models
 
         public const string _companyNameDisplay = "Företagsnamn";
         public string CompanyNameDisplay => _companyNameDisplay;
-        [Required]
         [Display(Name = _companyNameDisplay)]
         public string CompanyName { get; set; }
 

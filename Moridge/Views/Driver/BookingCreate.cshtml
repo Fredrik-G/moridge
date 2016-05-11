@@ -1,13 +1,14 @@
-﻿@using Moridge.Models
+﻿@using System.Activities.Expressions
+@using Moridge.Extensions
+@using Moridge.Models
 @model BookingCreateModel
 
 @{
     ViewBag.Title = Model.GetTitle();
 }
-
 <script>
     $(document).ready(function () {
-        $('#CustomerOrgNo').blur(function() {
+        $('#CustomerOrgNo').blur(function () {
             readRegNo();
         });
 
@@ -15,33 +16,60 @@
             var selected = $("#vehicle-select option:selected").text();
             //Show new input if user chose to enter new vehicle.
             if (selected === "--Ange ny--") {
-                var newInput = $('<div id="vehicle-input" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">' +
-                    '@Html.TextBoxFor(m => m.VehicleRegNo, new { placeholder = Model.VehicleRegNoDisplay, @type = "text" })' +
-                    '</div>');
-                $('#vehicle-select').after(newInput);
+                if ($('#vehicle-input').length) {
+                    $('#vehicle-input').show();
+                } else {
+                    var newInput = $("<div data-role='none' class='group' id='vehicle-input'>" +
+                         '@Html.TextBoxFor(m => m.VehicleRegNo, new { type = "text", data_role = "none", required = "" })' +
+                          "<span data-role='none' class='highlight'></span>" +
+                          "<span data-role='none' class='bar'></span>" +
+                          "<label data-role='none'>" + '@Model.VehicleRegNoDisplay' + "</label>" +
+                          "</div>");
+                    $('#vehicle-select').after(newInput);
+                }
             } else {
                 $('#vehicle-input').hide();
                 $("#VehicleRegNo").val(selected);
             }
         });
+        $('input#BookingMessage').blur(function () {
+            var value = $(this).val();
+            if (value === '') {
+                $(this).addClass('empty');
+                $(this).removeClass('not-empty');
+            } else {
+                $(this).addClass('not-empty');
+                $(this).removeClass('empty');
+            }
+        });
+        $('input#BookingMessage').focus(function () {
+            $(this).addClass('not-empty');
+            $(this).removeClass('empty');
+        });
     });
     function readRegNo() {
         var customerId = $('#CustomerOrgNo').val();
+        if (customerId.length === 0) {
+            return;
+        }
         $.getJSON("http://service.moridge.se/api/vehicle/" + customerId,
             function (result) {
                 var vehicles = $("#vehicle-select");
                 vehicles.empty();
+                vehicles.append('<option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>');
                 vehicles.append('<option value="1">--Ange ny--</option>');
 
                 $.each(result, function () {
                     vehicles.append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
+                    $('#BookingHeader').append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
                 });
                 vehicles.selectmenu('refresh');
             });
-    }
+        }
 </script>
 
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
 @section Header {
     <a href="#" data-rel="back" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h6 class="header-heading">
@@ -49,12 +77,12 @@
     </h6>
 }
 
-@using (Html.BeginForm("BookingCreate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
+@Html.ValidationSummary()
+@using (Html.BeginForm("BookingCreate", "Driver", FormMethod.Post, new { data_ajax = "false", @class = "bookingCreate" }))
 {
-    @Html.ValidationSummary()
-    @Html.TextBoxFor(m => m.CustomerOrgNo, new { placeholder = Model.CustomerOrgNoDisplay, @type = "text" })
+    @Html.MaterialDesignInput(m => m.CustomerOrgNo, Model.CustomerOrgNoDisplay, true)
     <div class="ui-field-contain">
-        <select name="select-custom-21" id="vehicle-select" data-native-menu="false">
+        <select id="vehicle-select" data-native-menu="false">
             <option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>
             <option value="1">--Ange ny--</option>
         </select>
@@ -64,15 +92,14 @@
     //Populate the dropdownlist if the CustomerOrgNo is already set
     if (!string.IsNullOrEmpty(Model.CustomerOrgNo))
     {
-        <script type="text/javascript">
-            readRegNo()
-        </script>
+    <script type="text/javascript">readRegNo()</script>
     }
     
-    @Html.TextBoxFor(m => m.CustomerAddress, new { placeholder = Model.CustomerAddressDisplay, @type = "text" })
-    @Html.TextBoxFor(m => m.BookingMessage, new { placeholder = Model.MessageDisplay, @type = "text" })
-    @Html.TextBoxFor(m => m.Date, new { placeholder = Model.DateDisplay, @type = "text" })
+    @Html.MaterialDesignInput(m => m.CustomerAddress, Model.CustomerAddressDisplay, true)
+    @Html.MaterialDesignInput(m => m.BookingMessage, Model.MessageDisplay, false, htmlAttributes: new {@class="empty"})
+    @Html.MaterialDesignInput(m => m.Date, Model.DateDisplay, true)
     @Html.EnumDropDownListFor(m => m.Occassion)
+    @Html.HiddenFor(m => m.Occassion)
     @Html.HiddenFor(m => m.ParentPage)
     @Html.HiddenFor(m => m.ParentDate)
     
