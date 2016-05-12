@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 
 namespace Moridge.BusinessLogic
 {
@@ -12,6 +9,7 @@ namespace Moridge.BusinessLogic
         public string Email { get; set; }
         public string Adress { get; set; }
         public string PhoneNumber { get; set; }
+        public string Role { get; set; }
 
         /// <summary>
         /// Gets the web user's information from the database
@@ -20,14 +18,15 @@ namespace Moridge.BusinessLogic
         /// <param name="userId">user id or null</param>
         public void GetUserFromDatabase(string userId)
         {
+            userId = userId ?? HttpContext.Current.User.Identity.Name;
             var dbHelper = new DatabaseHelper();
             var user = dbHelper.FindUser(userId);
-
             FirstName = user.FirstName;
             LastName = user.LastName;
             Email = user.Email;
             Adress = user.Adress;
             PhoneNumber = user.PhoneNumber;
+            Role = dbHelper.GetUserRole(userId);
         }
     }
 

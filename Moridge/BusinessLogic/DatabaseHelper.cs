@@ -93,6 +93,13 @@ namespace Moridge.BusinessLogic
         public void AddUserToRole(string id, string role) => _userManager.AddToRole(id, role);
 
         /// <summary>
+        /// Gets the user's role.
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>user's role</returns>
+        public string GetUserRole(string id) => _userManager.GetRoles(id)?.First();
+
+        /// <summary>
         /// Gets all users in the given role.
         /// </summary>
         /// <param name="roleId">id of role to get</param>
