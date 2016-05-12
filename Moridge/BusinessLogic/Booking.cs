@@ -99,29 +99,29 @@ namespace Moridge.BusinessLogic
             //Subtract those already booked
             return (driverScheduleBookings - totalNumberOfBookings).ToString();
         }
-        
+
         /// <summary>
         /// Books a new event with values from the model.
         /// </summary>
         /// <param name="model">model containing event details</param>
-        public void BookEvent(BookingCreateModel model)
+        /// <param name="companyName">out parameter for the company name</param>
+        public void BookEvent(BookingCreateModel model, out string companyName)
         {
             BookingEvent bookingEvent = new BookingEvent();
-            var date = Day.ConvertStringToDateTime(model.Date);
-            bookingEvent.StartDateTime = date;
-            bookingEvent.EndDateTime = date;
+            bookingEvent.StartDateTime = model.Date;
+            bookingEvent.EndDateTime = model.Date;
 
             bookingEvent.StartDateTime = bookingEvent.StartDateTime.AddHours(
                 model.Occassion == BookingCreateModel.Occassions.Morning ? 0 : 4);
             bookingEvent.EndDateTime = bookingEvent.EndDateTime.AddHours(
                 model.Occassion == BookingCreateModel.Occassions.Morning ? 4 : 8);
 
-            //Set up company information based off the name.
-            bookingEvent.CompanyName = model.CompanyName;
-            string customerOrgNo, customerEmail;
-            GetCustomerDetails(model.CompanyName, out customerOrgNo, out customerEmail);
+            //Set up company information based off the org number.
+            string customerEmail;
+            GetCustomerDetails(model.CustomerOrgNo, out companyName, out customerEmail);
 
-            bookingEvent.CustomerOrgNo = customerOrgNo;
+            bookingEvent.CustomerOrgNo = model.CustomerOrgNo;
+            bookingEvent.CompanyName = model.CompanyName;
             bookingEvent.CustomerEmail = customerEmail;
 
             bookingEvent.CustomerAddress = model.CustomerAddress;
@@ -134,21 +134,20 @@ namespace Moridge.BusinessLogic
             bookingEvent.SupplierEmailAddress = UserHelper.GetCurrentUser().Email;
             bookingEvent.Attendees = new List<string> { Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail") };
 
-            MyMoridgeServer.BusinessLogic.Booking booking = new MyMoridgeServer.BusinessLogic.Booking();
+            var booking = new MyMoridgeServer.BusinessLogic.Booking();
             booking.BookEvent(bookingEvent);
         }
-
 
         /// <summary>
         /// Gets customer details based of given company name. 
         /// </summary>
+        /// <param name="orgNumber">customer's orginsation number</param>
         /// <param name="companyName">name of company</param>
-        /// <param name="customerOrgNo">customer's orginsation number</param>
         /// <param name="customerEmail">customer's email</param>
-        private void GetCustomerDetails(string companyName, out string customerOrgNo, out string customerEmail)
+        private void GetCustomerDetails(string orgNumber, out string companyName, out string customerEmail)
         {
             //TODO
-            customerOrgNo = "123";
+            companyName = "Företag AB";
             customerEmail = "företagsemail@todo.notdone";
         }
 

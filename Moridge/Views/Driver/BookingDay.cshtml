@@ -4,7 +4,13 @@
 @{
     ViewBag.Title = Model.GetTitle(isDetails: true);
 }
-
+<script>
+    $(document).ready(function() {
+        $('#message').delay(4000).animate({ 'opacity': 0 }, 500, function() {
+            $(this).text('');
+        });
+    });
+</script>
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
@@ -16,7 +22,10 @@
         <span class="align-super">Boka</span>
     </a>
 }
+
 @Html.ValidationSummary()
+<p id="message">@Model.Message</p>
+
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     @{
         foreach (var occassion in @Model.GetOccassions())
@@ -34,7 +43,7 @@
                 var thisEvent = Model.GetEvents(occassion.Key)[i];
                 <a href="@Url.Action("BookingEvent", "Driver", new { eventId = thisEvent.Id, eventStatus = thisEvent.Summary, parentDate = Model.Date })"
                         data-transition="slidedown" style="background-color: @(Model.EventIsDone(occassion.Key, i) ? "#E0E0E0" : "inherit")">
-                    @thisEvent.Location
+                    @thisEvent.Location @Model.GetVehicleRegNo(thisEvent)
                     <p>@thisEvent.Description</p>
                     <p style="color: #2ad">@Model.GetCurrentStatus(thisEvent).GetDisplayName()</p>
                 </a>

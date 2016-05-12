@@ -13,7 +13,7 @@ namespace Moridge.Controllers
     {
         #region Booking Controllers
 
-        public ActionResult BookingDay(string date = null)
+        public ActionResult BookingDay(string date = null, string message = null)
         {
             var events = new Booking().GetBookingsFromCalendar();
             System.Web.HttpContext.Current.Session["AllEvents"] = events;
@@ -28,6 +28,9 @@ namespace Moridge.Controllers
             var bookingModel = new BookingDayModel(events, date) { DateTime = dateTime, IsToday = isToday };
             bookingModel.Booking.GetBookingsForOccasion(date, "Förmiddag");
             bookingModel.Booking.GetBookingsForOccasion(date, "Eftermiddag");
+
+            //save any message
+            bookingModel.Message = message;
 
             return View(bookingModel);
         }
@@ -48,16 +51,18 @@ namespace Moridge.Controllers
             if (!ModelState.IsValid) return View(model);
 
             var booking = new Booking();
-            booking.BookEvent(model);
-            return RedirectToAction(model.ParentPage, "Driver", new { date = model.ParentDate });
+            string companyName;
+            booking.BookEvent(model, out companyName);
+            var message = $"Skapade en ny körning {model.Date.ToShortDateString()} för {companyName}";
+            return RedirectToAction(model.ParentPage, "Driver", new { date = model.ParentDate, message = message });
         }
 
-        public ActionResult BookingWeek()
+        public ActionResult BookingWeek(string message = null)
         {
             var events = new Booking().GetBookingsFromCalendar();
             System.Web.HttpContext.Current.Session["AllEvents"] = events;
 
-            return View(new BookingModel(events) { Date = Day.GetSwedishTime(DateTime.Now) });
+            return View(new BookingModel(events) { Date = Day.GetSwedishTime(DateTime.Now), Message = message });
         }
 
         public ActionResult BookingEvent(string eventId, string eventStatus, string parentDate = null)

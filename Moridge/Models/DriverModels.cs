@@ -14,6 +14,7 @@ namespace Moridge.Models
         public Booking Booking { get; } = new Booking();
         public int BookingsForDriver { get; set; }
         public DateTime Date { get; set; }
+        public string Message { get; set; }
 
         #endregion
 
@@ -58,6 +59,8 @@ namespace Moridge.Models
         /// </summary>
         public bool IsToday { get; set; }
 
+        public string Message { get; set; }
+
         #endregion
 
         public BookingDayModel(IList<Event> events, string date)
@@ -67,6 +70,16 @@ namespace Moridge.Models
             Booking.GetMissingBookings(Date);
         }
 
+        /// <summary>
+        /// Gets vehicle reg no for event.
+        /// </summary>
+        /// <param name="bookingEvent">event to use</param>
+        /// <returns>vehicle reg no or empty string</returns>
+        public string GetVehicleRegNo(Event bookingEvent)
+        {
+            var summary = bookingEvent.Summary.Split('-');
+            return summary?[1] ?? string.Empty;
+        }
         public EventStatus.Status GetCurrentStatus(Event bookingEvent) => EventStatus.StringToStatus(bookingEvent.Summary);
         public string GetDayString() => Booking.DaysInfo.GetDayString(DateTime);
         public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";
@@ -133,12 +146,10 @@ namespace Moridge.Models
         [Display(Name = _messageDisplay)]
         public string BookingMessage { get; set; }
 
-        private const string _dateDisplay = "Datum";
-        public string DateDisplay => _dateDisplay;
-        [Required]
-        [Display(Name = _dateDisplay)]
-        public string Date { get; set; }
-        
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime Date { get; set; } = Day.GetSwedishTime(DateTime.Now);
+
         public enum Occassions
         {
             [Display(Name = "Förmiddag")]

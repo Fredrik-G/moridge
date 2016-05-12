@@ -1,5 +1,4 @@
-﻿@using System.Activities.Expressions
-@using Moridge.Extensions
+﻿@using Moridge.Extensions
 @using Moridge.Models
 @model BookingCreateModel
 
@@ -97,8 +96,9 @@
     
     @Html.MaterialDesignInput(m => m.CustomerAddress, Model.CustomerAddressDisplay, true)
     @Html.MaterialDesignInput(m => m.BookingMessage, Model.MessageDisplay, false)
-    @Html.MaterialDesignInput(m => m.Date, Model.DateDisplay, true)
+    @Html.EditorFor(m => m.Date)
     @Html.EnumDropDownListFor(m => m.Occassion)
+
     @Html.HiddenFor(m => m.Occassion)
     @Html.HiddenFor(m => m.ParentPage)
     @Html.HiddenFor(m => m.ParentDate)
