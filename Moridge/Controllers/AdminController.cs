@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Models;
@@ -54,7 +55,7 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult DriverCreate()
         {
-            return View(new DriverDetailsModel());
+            return View(new DriverDetailsModel { IsCreatingNew = true });
         }
 
         //
@@ -71,10 +72,20 @@ namespace Moridge.Controllers
 
             if (creationResult.Succeeded)
             {
-                //assign user a role and a default schedule
-                RolesHelper.AddUserToRole(dbHelper, model.Driver.Id, RolesHelper.DriverRole);
-                var schedule = new Schedule(model.Driver.Id, dbHelper);
-                schedule.CreateDefaultSchedule();
+                //assign role to user and give default schedule if driver
+                switch (model.Roles)
+                {
+                    case RolesHelper.Roles.Driver:
+                        RolesHelper.AddUserToRole(dbHelper, model.Driver.Id, RolesHelper.DriverRole);
+                        var schedule = new Schedule(model.Driver.Id, dbHelper);
+                        schedule.CreateDefaultSchedule();
+                        break;
+                    case RolesHelper.Roles.Admin:
+                        RolesHelper.AddUserToRole(dbHelper, model.Driver.Id, RolesHelper.AdminRole);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
                 return RedirectToAction("DriverRegister", "Admin", new { forceUpdate = true });
             }

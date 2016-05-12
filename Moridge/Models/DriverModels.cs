@@ -71,7 +71,6 @@ namespace Moridge.Models
             Booking.GetMissingBookings(Date);
         }
 
-
         public EventStatus.Status GetCurrentStatus(Event bookingEvent) => EventStatus.StringToStatus(bookingEvent.Summary);
         public string GetDayString() => Booking.DaysInfo.GetDayString(DateTime);
         public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";
@@ -101,7 +100,7 @@ namespace Moridge.Models
         public string ParentPage { get; set; }
         public string DriverEmail { get; set; }
 
-        public const string _customerOrgNoDisplay = "Kund org. nummer";
+        public const string _customerOrgNoDisplay = "Kund org. nummer (123456-7890)";
         public string CustomerOrgNoDisplay => _customerOrgNoDisplay;
         [Required]
         [Display(Name = _customerOrgNoDisplay)]

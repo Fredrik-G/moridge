@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Moridge.BusinessLogic;
 
 namespace Moridge.Models
 {
@@ -12,6 +13,13 @@ namespace Moridge.Models
     {
         public ApplicationUser Driver { get; set; } = new ApplicationUser();
         public int Index { get; set; }
+
+        /// <summary>
+        /// Determines if this model is for creating a new user.
+        /// </summary>
+        public bool IsCreatingNew { get; set; } = false;
+
+        public RolesHelper.Roles Roles { get; set; }
 
         [Display(Name = "Förnamn")]
         public string FirstName

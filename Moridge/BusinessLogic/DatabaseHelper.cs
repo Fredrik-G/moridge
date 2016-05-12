@@ -101,7 +101,12 @@ namespace Moridge.BusinessLogic
         /// </summary>
         /// <param name="id">user id</param>
         /// <param name="role">role</param>
-        public void AddUserToRole(string id, string role) => _userManager.AddToRole(id, role);
+        public void AddUserToRole(string id, string role)
+        {
+            //remove any current roles
+            _userManager.RemoveFromRoles(id, RolesHelper.AdminRole, RolesHelper.DriverRole);
+            _userManager.AddToRole(id, role);
+        } 
 
         /// <summary>
         /// Gets the user's role.

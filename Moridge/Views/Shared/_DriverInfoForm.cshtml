@@ -30,6 +30,9 @@
 @Html.MaterialDesignInput(m => m.Email, Html.DisplayNameFor(m => m.Email).ToString(), true)
 @Html.MaterialDesignInput(m => m.Adress, Html.DisplayNameFor(m => m.Adress).ToString(), false)
 @Html.MaterialDesignInput(m => m.PhoneNumber, Html.DisplayNameFor(m => m.PhoneNumber).ToString(), false, type: "number")
-@* TODO visa roller? *@
+@if (Model.IsCreatingNew)
+{
+    @Html.EnumDropDownListFor(m => m.Roles)
+}
 
 <input type="submit" value="Spara" />

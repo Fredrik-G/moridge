@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Principal;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -29,6 +30,14 @@ namespace Moridge.BusinessLogic
         /// Hardcoded to optimize performance.
         /// </summary>
         public const string DriverRoleId = "90f3885d-b271-424d-9fdc-79392c60eefc";
+
+        public enum Roles
+        {
+            [Display(Name = "Förare")]
+            Driver,
+            [Display(Name = "Administratör")]
+            Admin
+        }
 
         /// <summary>
         /// Sets up the roles used in this application

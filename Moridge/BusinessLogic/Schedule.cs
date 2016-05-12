@@ -211,7 +211,7 @@ namespace Moridge.BusinessLogic
                 useDeviation = true;
             }
             //no deviations found => use normal schedule
-            if (!useDeviation)
+            if (!useDeviation && normalSchedule != null)
             {
                 if (normalSchedule.MorningActive)
                 {
