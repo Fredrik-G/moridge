@@ -1,7 +1,24 @@
 ﻿@using Moridge.Extensions
 @using Moridge.Models
 @model DriverDetailsModel
-
+<script>
+    $(document).ready(function () {
+        $('input.not-required').blur(function () {
+            var value = $(this).val();
+            if (value === '') {
+                $(this).addClass('empty');
+                $(this).removeClass('not-empty');
+            } else {
+                $(this).addClass('not-empty');
+                $(this).removeClass('empty');
+            }
+        });
+        $('input.not-required').focus(function () {
+            $(this).addClass('not-empty');
+            $(this).removeClass('empty');
+        });
+    });
+</script>
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
 
 @Html.ValidationSummary()
@@ -11,8 +28,8 @@
 @Html.MaterialDesignInput(m => m.FirstName, Html.DisplayNameFor(m => m.FirstName).ToString(), true)
 @Html.MaterialDesignInput(m => m.LastName, Html.DisplayNameFor(m => m.LastName).ToString(), true)
 @Html.MaterialDesignInput(m => m.Email, Html.DisplayNameFor(m => m.Email).ToString(), true)
-@Html.MaterialDesignInput(m => m.Adress, Html.DisplayNameFor(m => m.Adress).ToString(), true)
-@Html.MaterialDesignInput(m => m.PhoneNumber, Html.DisplayNameFor(m => m.PhoneNumber).ToString(), true, type: "number")
+@Html.MaterialDesignInput(m => m.Adress, Html.DisplayNameFor(m => m.Adress).ToString(), false)
+@Html.MaterialDesignInput(m => m.PhoneNumber, Html.DisplayNameFor(m => m.PhoneNumber).ToString(), false, type: "number")
 @* TODO visa roller? *@
 
 <input type="submit" value="Spara" />

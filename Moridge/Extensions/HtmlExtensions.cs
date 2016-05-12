@@ -19,6 +19,13 @@ namespace Moridge.Extensions
             {
                 attributes.Add("required", string.Empty);
             }
+            else
+            {
+                //get expression value
+                var value = (ModelMetadata.FromLambdaExpression(expression, helper.ViewData).Model ?? string.Empty).ToString();
+                //add not-empty class if not empty, otherwise add empty
+                attributes.Add("class", (string.IsNullOrEmpty(value) ? "empty" : "not-empty") + " not-required");
+            }
             var content = "<div data-role='none' class='group'>" +
                           helper.TextBoxFor(expression, attributes) +
                           "<span data-role='none' class='highlight'></span>" +

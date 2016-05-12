@@ -96,7 +96,7 @@
     }
     
     @Html.MaterialDesignInput(m => m.CustomerAddress, Model.CustomerAddressDisplay, true)
-    @Html.MaterialDesignInput(m => m.BookingMessage, Model.MessageDisplay, false, htmlAttributes: new {@class="empty"})
+    @Html.MaterialDesignInput(m => m.BookingMessage, Model.MessageDisplay, false)
     @Html.MaterialDesignInput(m => m.Date, Model.DateDisplay, true)
     @Html.EnumDropDownListFor(m => m.Occassion)
     @Html.HiddenFor(m => m.Occassion)
