@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
@@ -123,23 +124,26 @@ namespace Moridge.Controllers
         //
         // GET: /Driver/ScheduleDeviation
         [HttpGet]
-        public ActionResult ScheduleDeviation(bool useLocalValues = false, int weeksFromNow = 0)
+        public ActionResult ScheduleDeviation(bool useLocalValues = false, int weeksFromNow = 0, string date = null)
         {
-            var thisFirstDay = DateTime.Now.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek);
+            var today = Day.GetSwedishTime(DateTime.Now);
             var scheduleSet = new ScheduleModelSet
             {
                 IsDeviationSet = true,
-                CurrentDate = thisFirstDay.Date.AddDays(7 * weeksFromNow),
+                CurrentDate = today.Date.AddDays(7 * weeksFromNow),
                 WeeksFromNow = weeksFromNow
             };
-
+            if (!string.IsNullOrEmpty(date))
+            {
+                scheduleSet.CurrentDate = Day.ConvertStringToDateTime(date);
+            }
             var weeks = new List<List<ScheduleModel>>();
             if (!useLocalValues)
             {
                 var schedule = new Schedule();
                 for (var i = 0; i < scheduleSet.NumberOfWeeks; i++)
                 {
-                    var futureFirstDay = thisFirstDay.AddDays(i * 7);
+                    var futureFirstDay = scheduleSet.CurrentDate.StartOfWeek(DaysInfo.SwedishCultureInfo.DateTimeFormat.FirstDayOfWeek).AddDays(i * 7);
                     var futureLastDay = futureFirstDay.AddDays(6);
                     var driverSchedule = schedule.GetDriverSchedule(futureFirstDay, futureLastDay);
                     weeks.Add(driverSchedule);
@@ -150,7 +154,7 @@ namespace Moridge.Controllers
             {
                 weeks = System.Web.HttpContext.Current.Session["ScheduleWeeks"] as List<List<ScheduleModel>>;
             }
-            scheduleSet.ScheduleModels = weeks[weeksFromNow];
+            scheduleSet.ScheduleModels = weeks[weeksFromNow >= 4 ? 0 : weeksFromNow];
             return View(scheduleSet);
         }
 
@@ -167,7 +171,7 @@ namespace Moridge.Controllers
             System.Web.HttpContext.Current.Session["ScheduleWeeks"] = weeks;
 
             return RedirectToAction("ScheduleDeviation", "Driver",
-                new { useLocalValues = true, weeksFromNow = model.WeeksFromNow });
+                new { useLocalValues = true, weeksFromNow = model.WeeksFromNow, date = model.CurrentDate.ToString("yyyy-M-d") });
         }
 
         /// <summary>
@@ -177,12 +181,23 @@ namespace Moridge.Controllers
         /// <param name="gotoNextWeek">true if load next week, false if previous week</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScheduleLoadWeek(int weeksFromNow, bool gotoNextWeek)
+        public ActionResult ScheduleLoadWeek(int weeksFromNow, bool gotoNextWeek, string date)
         {
             //increase or decrease  week from now
             weeksFromNow = gotoNextWeek ? weeksFromNow + 1 : weeksFromNow - 1;
             return RedirectToAction("ScheduleDeviation", "Driver",
-                new { useLocalValues = true, weeksFromNow = weeksFromNow });
+                new { useLocalValues = true, weeksFromNow = weeksFromNow, date = date });
+        }
+
+        /// <summary>
+        /// Loads the next/previous week for the schedule deviation.
+        /// </summary>
+        /// <param name="model">schedule model containing new date</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ScheduleLoadDate(ScheduleModelSet model)
+        {
+            return RedirectToAction("ScheduleDeviation", "Driver", new { useLocalValues = false, date = model.NewDate.ToString("yyyy-M-d") });
         }
 
         #endregion

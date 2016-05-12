@@ -156,3 +156,7 @@
     height: 22px;
     background-color: inherit !important;
 }
+.popup-date {
+    padding: 20px !important;
+    padding-top: 0 !important;
+}

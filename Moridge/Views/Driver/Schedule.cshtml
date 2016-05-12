@@ -9,10 +9,7 @@
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h1>
-        <div id="page-indicator">
-            <a href="#" id="page-indicator-1" class="">Boka</a>
-            <a href="#" id="page-indicator-2" class="activeSlide"></a>
-        </div>
+        @Model.GetTitle()
     </h1>
     @Html.ActionLink("Ange Avvikelse", "ScheduleDeviation", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition = "slidedown" })
 }

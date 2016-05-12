@@ -182,9 +182,14 @@ namespace Moridge.Models
         public int NumberOfWeeks { get; set; } = 4;
 
         public DateTime CurrentDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime NewDate { get; set; } = Day.GetSwedishTime(DateTime.Now);
         public string CurrentWeek => GetCurrentWeek();
+
         public List<ScheduleModel> GetScheduleModels() => ScheduleModels;
-        public string GetTitle() => "Arbetsschema";
+        public string GetTitle() => IsDeviationSet ? "Schemaavikelse" : "Arbetsschema";
 
         private string GetCurrentWeek()
         {
@@ -196,7 +201,7 @@ namespace Moridge.Models
             var firstDayOfWeek = CurrentDate.StartOfWeek(swedishInfo.DateTimeFormat.FirstDayOfWeek);
             var lastDayOfWeek = firstDayOfWeek.AddDays(6);
 
-            return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMMM", swedishInfo.DateTimeFormat)}";
+            return $"Vecka {weekNumber} - {firstDayOfWeek.Day}-{lastDayOfWeek.ToString("dd MMM", swedishInfo.DateTimeFormat)}";
         }
 
         public bool IsNextWeekAvailable() => WeeksFromNow + 1 < NumberOfWeeks;

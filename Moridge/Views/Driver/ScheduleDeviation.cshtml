@@ -7,12 +7,7 @@
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <h1>
-        <div id="page-indicator">
-            <a href="#" id="page-indicator-1" class="">Boka</a>
-            <a href="#" id="page-indicator-2" class="activeSlide"></a>
-        </div>
-    </h1>
+    <h6></h6>
     @Html.ActionLink("Tillbaka Till Schemat", "Schedule", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition = "slideup" })
 }
 
@@ -22,53 +17,48 @@
 }
 @section Footer
 {
-    <div class="center-wrapper">
-        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
-               href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false }) : "")></a>
-        @Html.DisplayFor(m => m.CurrentWeek)
+    <div class="center-wrapper" style="height: 50px; background-color: #f9f9f9; color: #333; text-shadow: 0 1px 0 #f3f3f3;" data-theme="a">
+        <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
+               href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
+                new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")></a>
+        @Html.DisplayFor(m => m.CurrentWeek, new { data_theme = "a" })
+        <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline @(Model.IsNextWeekAvailable() ? "" : "ui-state-disabled")"
+           href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
+                new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")></a>
 
-        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline @(Model.IsNextWeekAvailable() ? "" : "ui-state-disabled")"
-               href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true }) : "")></a>
-    </div>
-    <div data-role="navbar">
-            <ul>
-        <li><a href="@Url.Action("BookingDay", "Driver")" data-transition="slideup">
+        <a data-theme="a" style="border: 0;" href="#popupLogin" data-rel="popup" data-position-to="window" data-transition="pop">
             <span>
-                <i class="material-icons">assignment</i>
-                <span style="font-size: 12px; display: block;">Idag</span>
+                <i class="material-icons">date_range</i>
+                <span style="font-size: 12px; display: block;">Datum</span>
             </span>
         </a>
-        </li>
-        <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide">
-            <span>
-                <i class="material-icons">event</i>
-                <span style="font-size: 12px; display: block;">Vecka</span>
-            </span>
-        </a></li>
-    </ul>
-    </div>
-}
 
-@*<div data-role="footer" data-theme="b" data-position="fixed" data-id="footer" data-tap-toggle="false">
-    <div class="center-wrapper">
-        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
-               href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false }) : "")></a>
-        @Html.DisplayFor(m => m.CurrentWeek)
-
-        <a class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline @(Model.IsNextWeekAvailable() ? "" : "ui-state-disabled")"
-               href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver", new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true }) : "")></a>
     </div>
     <div data-role="navbar">
         <ul>
-            <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
-                <i class="material-icons">assignment</i>
-                <span style="font-size: 12px; display: block;">Boka</span>
-            </span></a>
+            <li><a href="@Url.Action("BookingDay", "Driver")" data-transition="slideup">
+                <span>
+                    <i class="material-icons">assignment</i>
+                    <span style="font-size: 12px; display: block;">Idag</span>
+                </span>
+            </a>
             </li>
-            <li><a href="@Url.Action("Schedule", "Driver")" class="ui-btn-active" data-transition="slideup"><span>
-                <i class="material-icons">event</i>
-                <span style="font-size: 12px; display: block;">Arbetsschema</span>
-            </span></a></li>
+            <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide">
+                <span>
+                    <i class="material-icons">event</i>
+                    <span style="font-size: 12px; display: block;">Vecka</span>
+                </span>
+            </a></li>
         </ul>
     </div>
-</div>*@
+}
+<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+    @using (Html.BeginForm("ScheduleLoadDate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
+    {
+        <div class="popup-date">
+            <h3>Välj datum</h3>
+            @Html.EditorFor(m => m.NewDate)
+        </div>
+        <input type="submit" value="Gå till datum" />
+    }
+</div>
