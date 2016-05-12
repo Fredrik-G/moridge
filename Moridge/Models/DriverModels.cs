@@ -70,16 +70,7 @@ namespace Moridge.Models
             Booking.GetMissingBookings(Date);
         }
 
-        /// <summary>
-        /// Gets vehicle reg no for event.
-        /// </summary>
-        /// <param name="bookingEvent">event to use</param>
-        /// <returns>vehicle reg no or empty string</returns>
-        public string GetVehicleRegNo(Event bookingEvent)
-        {
-            var summary = bookingEvent.Summary.Split('-');
-            return summary?[1] ?? string.Empty;
-        }
+
         public EventStatus.Status GetCurrentStatus(Event bookingEvent) => EventStatus.StringToStatus(bookingEvent.Summary);
         public string GetDayString() => Booking.DaysInfo.GetDayString(DateTime);
         public string GetTitle(bool isDetails) => isDetails ? Booking.Day.CurrentOccassion : "Boka";

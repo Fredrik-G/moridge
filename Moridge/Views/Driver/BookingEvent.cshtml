@@ -1,4 +1,5 @@
-﻿@model Moridge.Models.BookingEventModel
+﻿@using Moridge.Extensions
+@model Moridge.Models.BookingEventModel
 
 @{
     ViewBag.Title = Model.GetTitle();
@@ -17,6 +18,7 @@
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     <li>
         <strong>@Html.DisplayFor(m => m.Event.Location)</strong>
+        <p>@Model.Event.GetVehicleRegNo()</p>
         <p>@Html.DisplayFor(m => m.Event.Description)</p>
     </li>
 </ul>

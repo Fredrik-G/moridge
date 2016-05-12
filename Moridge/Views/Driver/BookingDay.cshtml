@@ -43,7 +43,7 @@
                 var thisEvent = Model.GetEvents(occassion.Key)[i];
                 <a href="@Url.Action("BookingEvent", "Driver", new { eventId = thisEvent.Id, eventStatus = thisEvent.Summary, parentDate = Model.Date })"
                         data-transition="slidedown" style="background-color: @(Model.EventIsDone(occassion.Key, i) ? "#E0E0E0" : "inherit")">
-                    @thisEvent.Location @Model.GetVehicleRegNo(thisEvent)
+                    @thisEvent.Location @thisEvent.GetVehicleRegNo()
                     <p>@thisEvent.Description</p>
                     <p style="color: #2ad">@Model.GetCurrentStatus(thisEvent).GetDisplayName()</p>
                 </a>

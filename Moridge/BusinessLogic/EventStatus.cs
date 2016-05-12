@@ -28,7 +28,15 @@ namespace Moridge.BusinessLogic
         public static Status StringToStatus(string enumString)
         {
             Status status;
-            Enum.TryParse(enumString, out status);
+            var splitted = enumString.Split('-');
+            if (splitted.Length == 3)
+            {
+                Enum.TryParse(splitted[2], out status);
+            }
+            else
+            {
+                Enum.TryParse(enumString, out status);
+            }
             return status;
         }
     }
