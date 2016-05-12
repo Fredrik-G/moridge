@@ -1,4 +1,4 @@
-﻿@model Moridge.Models.PersonalInfoModel
+﻿@model Moridge.Models.DriverDetailsModel
 
 @{
     ViewBag.Title = "Driver Page";
@@ -9,21 +9,22 @@
     <h1>@ViewBag.Title</h1>
 }
 
-
 @Html.ValidationSummary()
-
-todo
+@using (Html.BeginForm("PersonalInfo", "Driver", FormMethod.Post))
+{
+    @Html.Partial("_DriverInfoForm", Model)
+}
 @section Footer
 {
     <ul>
-        <li><a href="@Url.Action("Booking", "Driver")" data-transition="slide" data-direction="reverse"><span>
+        <li><a href="@Url.Action("BookingDay", "Driver")"><span>
             <i class="material-icons">assignment</i>
-            <span style="font-size: 12px; display: block;">Boka</span>
+            <span style="font-size: 12px; display: block;">Idag</span>
         </span></a>
         </li>
-        <li><a href="@Url.Action("Schedule", "Driver")" data-transition="slide" data-direction="reverse"><span>
+        <li><a href="@Url.Action("BookingWeek", "Driver")" data-transition="slide"><span>
             <i class="material-icons">event</i>
-            <span style="font-size: 12px; display: block;">Arbetsschema</span>
+            <span style="font-size: 12px; display: block;">Vecka</span>
         </span></a></li>
     </ul>
 }

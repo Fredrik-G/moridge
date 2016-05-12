@@ -202,9 +202,24 @@ namespace Moridge.Controllers
 
         #endregion
 
+        #region PersonalInfo Controllers
+
+        [HttpGet]
         public ActionResult PersonalInfo()
         {
-            return View();
+            var user = new DatabaseHelper().FindUser();
+            return View(new DriverDetailsModel { Driver = user });
         }
+
+        [HttpPost]
+        public ActionResult PersonalInfo(DriverDetailsModel model)
+        {
+            //update user
+            var updateResult = new DatabaseHelper().UpdateUser(model.Driver);
+            return View(model);
+        }
+
+        #endregion
+
     }
 }
