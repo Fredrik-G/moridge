@@ -217,5 +217,15 @@ namespace Moridge.BusinessLogic
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             calendar.UpdateEvent(eventId, status);
         }
+
+        /// <summary>
+        /// Deletes a given event.
+        /// </summary>
+        /// <param name="id">event id</param>
+        public void DeleteEvent(string id)
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            calendar.DeleteEvent(id);
+        }
     }
 }

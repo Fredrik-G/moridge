@@ -54,8 +54,7 @@ namespace Moridge.Controllers
             var booking = new Booking();
             string companyName;
             booking.BookEvent(model, out companyName);
-            var message = $"Skapade en ny körning {model.Date.ToShortDateString()} för {companyName}";
-            return RedirectToAction(model.ParentPage, "Driver", new { date = model.ParentDate, message = message });
+            return RedirectToAction(model.ParentPage, "Driver", new { date = model.ParentDate });
         }
 
         public ActionResult BookingWeek(string message = null)
@@ -68,6 +67,10 @@ namespace Moridge.Controllers
 
         public ActionResult BookingEvent(string eventId, string eventStatus, string parentDate = null)
         {
+            if (string.IsNullOrEmpty(eventId))
+            {
+                return RedirectToAction("BookingDay", "Driver", new { parentDate = parentDate });
+            }
             var bookingEvent = new Booking().GetEvent(eventId);
             return View(new BookingEventModel
             {
@@ -84,6 +87,13 @@ namespace Moridge.Controllers
 
             return RedirectToAction("BookingEvent", "Driver",
                 new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString() });
+        }
+
+        public ActionResult BookingEventDelete(string id, string parentDate)
+        {
+            //delete the event
+            new Booking().DeleteEvent(id);
+            return RedirectToAction("BookingDay", "Driver", new { date = parentDate });
         }
 
         #endregion
@@ -220,6 +230,7 @@ namespace Moridge.Controllers
         }
 
         #endregion
+
 
     }
 }

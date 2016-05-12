@@ -285,6 +285,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\calendar-remove.svg" />
     <Content Include="Content\images\account-plus.svg" />
     <Content Include="Content\images\account-remove.svg" />
     <Content Include="Content\themes\moridge\login_style.css" />

@@ -11,6 +11,10 @@
     <h6 class="header-heading">
         @Model.GetTitle()
     </h6>
+    <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn header-btn-right2">
+        <img src="/Content/images/calendar-remove.svg" alt="Ta bort" />
+        <span class="align-super">Ta bort</span>
+    </a>
 }
 
 @Html.ValidationSummary()
@@ -29,7 +33,6 @@
     @Html.HiddenFor(m => m.Event.Id)
     <input type="submit" id="submit" value=" Uppdatera" />
 }
-
 @section Footer
 {
     <ul>
@@ -48,3 +51,18 @@
         </a></li>
     </ul>
 }
+<div data-role="popup" id="popupDialog" style="max-width: 400px;">
+    <div role="main" class="ui-content">
+        <h3 class="ui-title">Är du säker?</h3>
+        <p>Vill du verkligen ta bort denna körning?</p>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow" data-rel="back">Avbryt</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="@Url.Action("BookingEventDelete", "Driver", new { id = Model.Event.Id, parentDate = Model.ParentDate, data_ajax = "false" })"
+                     class="ui-btn ui-corner-all ui-shadow" data-transition="flow">Ta bort</a>
+            </div>
+        </div>
+    </div>
+</div>
