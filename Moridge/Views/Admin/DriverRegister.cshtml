@@ -22,7 +22,6 @@
         <li>
             <a href="@Url.Action("DriverDetails", "Admin", new { index = i })">
                 @Html.DisplayFor(m => m.Drivers[i].FirstName) @Html.DisplayFor(m => m.Drivers[i].LastName)
-                @Html.DisplayFor(m => m.Drivers[i].Email)
             </a>
         </li>
     }

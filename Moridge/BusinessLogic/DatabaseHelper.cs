@@ -82,7 +82,18 @@ namespace Moridge.BusinessLogic
         public IdentityResult DeleteUser(string userId)
         {
             var user = FindUser(userId);
-            return _userManager.Delete(user);
+            return user == null ? IdentityResult.Failed($"User with id {userId} was not found.") : _userManager.Delete(user);
+
+            //Manually remove references if cascade delete failed.
+            foreach (var daySchedule in user.Schedule.ToList())
+            {
+                user.Schedule.Remove(daySchedule);
+            }
+            foreach (var scheduleDeviation in user.ScheduleDeviation.ToList())
+            {
+                user.ScheduleDeviation.Remove(scheduleDeviation);
+            }
+            _dbContext.SaveChanges();
         }
 
         /// <summary>

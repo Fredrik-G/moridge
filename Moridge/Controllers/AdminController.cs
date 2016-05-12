@@ -88,7 +88,7 @@ namespace Moridge.Controllers
             var result = new DatabaseHelper().DeleteUser(userId);
             if (result.Succeeded)
             {
-                return RedirectToAction("DriverRegister", "Admin");
+                return RedirectToAction("DriverRegister", "Admin", new { forceUpdate = true });
             }
 
             //errors => re-show page.
