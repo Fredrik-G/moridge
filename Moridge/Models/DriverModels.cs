@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
@@ -88,8 +89,9 @@ namespace Moridge.Models
         /// <returns>true if done, otherwise false</returns>
         public bool EventIsDone(string occassion, int index)
         {
-            var done = EventStatus.Status.VehicleDelivered.ToString();
-            return GetEvents(occassion)[index].Summary.Equals(done);
+            var done = " " +EventStatus.Status.VehicleDelivered.ToString();
+            var currentSummary = GetEvents(occassion)[index].Summary.Split('-');
+            return currentSummary.Last().Equals(done);
         }
     }
 
