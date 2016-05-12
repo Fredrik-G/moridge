@@ -415,8 +415,8 @@
     <Content Include="Views\Driver\BookingEvent.cshtml" />
     <Content Include="Views\Driver\BookingCreate.cshtml" />
     <Content Include="Views\Shared\_DriverInfoForm.cshtml" />
-    <None Include="Views\Admin\DriverCreate.cshtml" />
-    <None Include="Views\Admin\DriverDetails.cshtml" />
+    <Content Include="Views\Admin\DriverCreate.cshtml" />
+    <Content Include="Views\Admin\DriverDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -476,6 +476,9 @@
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Target Name="BeforeBuild">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

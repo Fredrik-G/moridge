@@ -16,7 +16,7 @@
     </a>
 }
 
-@using (Html.BeginForm("DriverDetails", "Admin"))
+@using (Html.BeginForm("DriverDetails", "Admin", FormMethod.Post, new { data_ajax = "false" }))
 {
     @Html.Partial("_DriverInfoForm", Model)
 }
