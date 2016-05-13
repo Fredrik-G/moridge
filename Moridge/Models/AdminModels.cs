@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Moridge.BusinessLogic;
@@ -72,6 +73,8 @@ namespace Moridge.Models
         public List<BookingEvent> BookingEvents { get; set; }
         public string CompanyName { get; set; }
         public int NumberOfEvents { get; set; }
+        public string Debug { get; set; }
+        public int Index { get; set; }
 
         public StatisticsModel(List<BookingEvent> events)
         {
@@ -79,5 +82,15 @@ namespace Moridge.Models
             CompanyName = events.First().CompanyName;
             NumberOfEvents = events.Count;
         }
+    }
+    public class StatisticsChart
+    {
+        public string[] Dates { get; set; }
+        public string[] EventCount { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime FirstDate { get; set; }
+        public DateTime LastDate { get; set; }
+
+        public string GetTitle() => $"{CompanyName} {FirstDate.ToString("yyyy-M-d")} - {LastDate.ToString("yyyy-M-d")}";
     }
 }

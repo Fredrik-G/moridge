@@ -1,5 +1,6 @@
-﻿@using Moridge.Models
-@model StatisticsSetModel
+﻿@using Moridge.BusinessLogic
+@using Moridge.Models
+@model StatisticsModel
 @{
     ViewBag.Title = "Statistik";
 }
@@ -13,13 +14,14 @@
 }
 
 <ul data-role="listview" data-inset="true" style="min-width: 210px;">
-    @for (var i = 0; i < Model.StatisticsModels.Count; i++)
+    @for (var i = 0; i < Model.BookingEvents.Count; i++)
     {
         <li>
-            <a href="@Url.Action("StatisticsDetails", "Admin", new { index = i })">
-                <span>@Html.DisplayFor(m => m.StatisticsModels[i].CompanyName)</span>
-                <span style="float:right">@Html.DisplayFor(m => m.StatisticsModels[i].NumberOfEvents)</span>
-            </a>
+            <span>@Html.DisplayFor(m => m.BookingEvents[i].CompanyName)</span>
+            <span style="float: right">@Html.DisplayFor(m => m.BookingEvents[i].StartDateTime)</span>
         </li>
     }
 </ul>
+<p>
+    <img src="@Url.Action("StatisticsChart", "Admin", new { index = Model.Index })" />
+</p>

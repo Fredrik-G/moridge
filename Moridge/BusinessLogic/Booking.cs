@@ -49,28 +49,30 @@ namespace Moridge.BusinessLogic
         /// </summary>
         /// <param name="occassion"></param>
         /// <param name="time"></param>
+        /// <param name="isFromDatabase">wheter to use database time or default (calendar)</param>
         /// <returns></returns>
-        private bool IsTimeDuringOccassion(string occassion, DateTime time)
+        public static bool IsTimeDuringOccassion(string occassion, DateTime time, bool isFromDatabase = false)
         {
             var swedishTime = Day.GetSwedishTime(time);
             var start = new TimeSpan();
             var end = new TimeSpan();
             if (occassion.Equals("Förmiddag"))
             {
-                start = new TimeSpan(8, 0, 0);
-                end = new TimeSpan(12, 0, 0);
+                start = new TimeSpan(isFromDatabase ? 0 : 8, 0, 0);
+                end = new TimeSpan(isFromDatabase ? 4 : 12, 0, 0);
             }
             else if (occassion.Equals("Eftermiddag"))
             {
-                start = new TimeSpan(13, 0, 0);
-                end = new TimeSpan(17, 0, 0);
+                start = new TimeSpan(isFromDatabase ? 4 : 13, 0, 0);
+                end = new TimeSpan(isFromDatabase ? 8 : 17, 0, 0);
             }
             else
             {
                 //both false => is debug or some error
                 //if(!debug) { database.logError(); }
+                //TODO
             }
-            return swedishTime.TimeOfDay >= start && swedishTime.TimeOfDay <= end;
+            return swedishTime.TimeOfDay >= start && swedishTime.TimeOfDay < end;
         }
 
         /// <summary>

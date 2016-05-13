@@ -109,15 +109,29 @@ namespace Moridge.Controllers
 
         public ActionResult Statistics()
         {
-            var statistics = new Statistics();
-            var companiesBookings = statistics.ReadBookingEvents();
-            var model = new StatisticsSetModel();
-            foreach (var company in companiesBookings)
-            {
-                model.StatisticsModels.Add(new StatisticsModel(company));
-            }
-
+            var model = new Statistics().SetupModels();
+            System.Web.HttpContext.Current.Session["StatisticsModels"] = model.StatisticsModels;
             return View(model);
+        }
+
+        public ActionResult StatisticsDetails(int index)
+        {
+            var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
+            if (models == null)
+            {
+                models = new Statistics().SetupModels().StatisticsModels;
+                System.Web.HttpContext.Current.Session["StatisticsModels"] = models;
+            }
+            var model = models[index];
+            model.Index = index;
+            return View(model);
+        }
+
+        public ActionResult StatisticsChart(int index)
+        {
+            var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
+            var chartModel = new Statistics().SetupChart(models[index]);
+            return View(chartModel);
         }
     }
 }
