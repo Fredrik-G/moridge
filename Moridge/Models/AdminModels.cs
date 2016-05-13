@@ -67,30 +67,55 @@ namespace Moridge.Models
     public class StatisticsSetModel
     {
         public List<StatisticsModel> StatisticsModels { get; set; } = new List<StatisticsModel>();
+        public int BookingCount { get; set; }
+
+        public string InfoText => $"Totalt {StatisticsModels.Count} olika företag och totalt {BookingCount} bokningar.";
+
+        public enum ChartModes
+        {
+            [Display(Name = "Datum")]
+            Date,
+            [Display(Name = "Veckodagar")]
+            DayOfWeek
+        }
+        public ChartModes ChartMode { get; set; } = ChartModes.Date;
     }
+
     public class StatisticsModel
     {
         public List<BookingEvent> BookingEvents { get; set; }
         public string CompanyName { get; set; }
-        public int NumberOfEvents { get; set; }
+        public int BookingCount { get; set; }
         public string Debug { get; set; }
         public int Index { get; set; }
+
+        public string InfoText => $"Totalt {BookingCount} bokningar.";
+
+        public enum ChartModes
+        {
+            [Display(Name = "Datum")]
+            Date,
+            [Display(Name = "Veckodagar")]
+            DayOfWeek
+        }
+        public ChartModes ChartMode { get; set; } = ChartModes.Date;
 
         public StatisticsModel(List<BookingEvent> events)
         {
             BookingEvents = events;
             CompanyName = events.First().CompanyName;
-            NumberOfEvents = events.Count;
+            BookingCount = events.Count;
         }
     }
     public class StatisticsChart
     {
         public string[] Dates { get; set; }
         public string[] EventCount { get; set; }
-        public string CompanyName { get; set; }
+        public string Header { get; set; }
+        public string XAxis { get; set; }
         public DateTime FirstDate { get; set; }
         public DateTime LastDate { get; set; }
 
-        public string GetTitle() => $"{CompanyName} {FirstDate.ToString("yyyy-M-d")} - {LastDate.ToString("yyyy-M-d")}";
+        public string GetTitle() => $"{Header} {FirstDate.ToString("yyyy-M-d")} - {LastDate.ToString("yyyy-M-d")}";
     }
 }

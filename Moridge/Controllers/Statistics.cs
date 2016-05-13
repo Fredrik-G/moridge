@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Models;
 using MyMoridgeServer.Models;
@@ -17,25 +15,29 @@ namespace Moridge.Controllers
         public List<List<BookingEvent>> ReadBookingEvents()
         {
             var bookings = new MyMoridgeServer.BusinessLogic.Booking().GetAllBookings();
-            var groupedBookings = bookings.GroupBy(x => x.CustomerOrgNo)
+            var groupedBookings = bookings
+                .GroupBy(x => x.CustomerOrgNo)
                 .Select(group => group.ToList())
                 .OrderByDescending(events => events.Count)
                 .ToList();
 
             return groupedBookings;
         }
-        
+
         /// <summary>
         /// Sets up the statistics models by calculating companies bookings.
         /// </summary>
+        /// <param name="bookingCount"></param>
         /// <returns>statistic model containing information about companies booking</returns>
-        public StatisticsSetModel SetupModels()
+        public StatisticsSetModel SetupModels(out int bookingCount)
         {
             var companiesBookings = ReadBookingEvents();
             var model = new StatisticsSetModel();
+            bookingCount = 0;
             foreach (var company in companiesBookings)
             {
                 model.StatisticsModels.Add(new StatisticsModel(company));
+                bookingCount += company.Count;
             }
             return model;
         }
@@ -43,45 +45,107 @@ namespace Moridge.Controllers
         /// <summary>
         /// Sets up the statistic chart.
         /// </summary>
-        /// <param name="statisticsModel">statistic model containing data</param>
+        /// <param name="model">statistic model containing data</param>
         /// <returns>chart model</returns>
-        public StatisticsChart SetupChart(StatisticsModel statisticsModel)
+        public StatisticsChart SetupChart(StatisticsModel model = null, List<StatisticsModel> models = null, bool useDates = true)
         {
             //group up events on the same date
-            var groupedEvents = statisticsModel.BookingEvents.GroupBy(e => e.StartDateTime)
-                .Select(group => group.ToList())
-                .ToList();
+            //model not null => chart is for one company
+            if (model != null)
+            {
+                if (useDates)
+                {
+                    var groupedEvents = model.BookingEvents
+                        .GroupBy(e => e.StartDateTime)
+                        .Select(group => group.ToList())
+                        .OrderByDescending(d => d.Count)
+                        .ToList();
+                    return GetChartValues(groupedEvents, "Datum för " + model.CompanyName, "Datum", true);
+                }
+                else
+                {
+                     var groupedEvents = model.BookingEvents
+                        .GroupBy(e => e.StartDateTime.DayOfWeek)
+                        .Select(group => group.ToList())
+                        .ToList();
+                    return GetChartValues(groupedEvents, "Dagar för " + model.CompanyName, "Dag", false);
+                }
+            }
+            //chart is for total bookings
+            else
+            {
+                if (useDates)
+                {
+                    var groupedEvents = models
+                        .SelectMany(e => e.BookingEvents)
+                        .GroupBy(x => x.StartDateTime)
+                        .Select(group => group.ToList())
+                        .ToList();
 
-            //iterate grouped events and assign values
-            var eventsCount = groupedEvents.Count;
+                    return GetChartValues(groupedEvents, "Datum för totalt", "Datum", true);
+                }
+                else
+                {
+                    var groupedEvents = models
+                        .SelectMany(e => e.BookingEvents)
+                        .GroupBy(x => x.StartDateTime.DayOfWeek)
+                        .Select(group => group.ToList())
+                        .OrderByDescending(d => d.Count)
+                        .ToList();
+
+                    return GetChartValues(groupedEvents, "Dagar för totalt", "Dag", false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets values for the chart.
+        /// </summary>
+        /// <param name="bookingEvents">list of booking events</param>
+        /// <param name="header">header text for the chart</param>
+        /// <param name="xAxis">x-axis text for the c hart</param>
+        /// <param name="useDates">true will show dates, false shows day of week</param>
+        /// <returns>statistic chart</returns>
+        private StatisticsChart GetChartValues(List<List<BookingEvent>> bookingEvents, string header, string xAxis, bool useDates = true)
+        {
+            var eventsCount = bookingEvents.Count;
             var xValue = new string[eventsCount];
             var yValues = new string[eventsCount];
-            var firstDate = groupedEvents.First().First().StartDateTime;
-            var lastDate = groupedEvents.Last().Last().EndDateTime;
+            var firstDate = bookingEvents.First().First().StartDateTime;
+            var lastDate = bookingEvents.Last().Last().EndDateTime;
+            //iterate grouped events and assign values
             for (var i = 0; i < eventsCount; i++)
             {
                 //assign x/y-values
-                var isMorning = Booking.IsTimeDuringOccassion("Förmiddag", groupedEvents[i].First().StartDateTime, true);
-                xValue[i] = groupedEvents[i].First().StartDateTime.ToString("yyyy-M-d") + $"{(isMorning ? "FM" : "EM")}";
-                yValues[i] = groupedEvents[i].Count.ToString();
+                if (useDates)
+                {
+                    var isMorning = Booking.IsTimeDuringOccassion("Förmiddag", bookingEvents[i].First().StartDateTime,
+                        true);
+                    xValue[i] = bookingEvents[i].First().StartDateTime.ToString("yyyy-M-d") +
+                                $"{(isMorning ? "FM" : "EM")}";
+                }
+                else
+                {
+                    xValue[i] = bookingEvents[i].First().StartDateTime.DayOfWeek.ToString(); //todo svenska namn
+                }
+                yValues[i] = bookingEvents[i].Count.ToString();
 
                 //check dates
-                if (groupedEvents[i].First().StartDateTime < firstDate)
+                if (bookingEvents[i].First().StartDateTime < firstDate)
                 {
-                    firstDate = groupedEvents[i].First().StartDateTime;
-                    Debug.WriteLine("Ändrar firstdate");
+                    firstDate = bookingEvents[i].First().StartDateTime;
                 }
-                if (groupedEvents[i].First().EndDateTime > lastDate)
+                if (bookingEvents[i].First().EndDateTime > lastDate)
                 {
-                    Debug.WriteLine("Ändrar lastdate");
-                    lastDate = groupedEvents[i].First().StartDateTime;
+                    lastDate = bookingEvents[i].First().StartDateTime;
                 }
             }
             return new StatisticsChart
             {
                 Dates = xValue,
                 EventCount = yValues,
-                CompanyName = statisticsModel.CompanyName,
+                Header = header,
+                XAxis = xAxis,
                 FirstDate = firstDate,
                 LastDate = lastDate
             };

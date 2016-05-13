@@ -18,8 +18,10 @@
         <li>
             <a href="@Url.Action("StatisticsDetails", "Admin", new { index = i })">
                 <span>@Html.DisplayFor(m => m.StatisticsModels[i].CompanyName)</span>
-                <span style="float:right">@Html.DisplayFor(m => m.StatisticsModels[i].NumberOfEvents)</span>
+                <span style="float: right">@Html.DisplayFor(m => m.StatisticsModels[i].BookingCount)</span>
             </a>
         </li>
     }
 </ul>
+
+@Html.ActionLink("Visa totalt", "StatisticsTotal", "Admin", new { @class = "ui-btn" })

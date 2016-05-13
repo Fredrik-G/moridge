@@ -1,11 +1,13 @@
 ﻿@model Moridge.Models.StatisticsChart
 
 @{
-    var myChart = new Chart(width: 300, height: 450)
+    var chart = new Chart(width: 300, height: 450)
         .AddTitle(@Model.GetTitle())
         .AddSeries(
-            name: "Employee",
+            name: "Bookings",
             xValue: @Model.Dates,
             yValues: @Model.EventCount)
+        .SetXAxis(title: @Model.XAxis)
+        .SetYAxis(title: "Antal bokningar")
         .Write();
 }

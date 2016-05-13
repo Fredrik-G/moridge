@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Models;
+using MyMoridgeServer.BusinessLogic;
 
 namespace Moridge.Controllers
 {
     [Authorize(Roles = RolesHelper.AdminRole)]
     public class AdminController : Controller
     {
+        #region Driver Related
+
         public ActionResult DriverRegister(bool forceUpdate = false)
         {
             var drivers = System.Web.HttpContext.Current.Session["Drivers"] as List<ApplicationUser>;
@@ -66,7 +68,9 @@ namespace Moridge.Controllers
         {
             //create user
             //TODO hur göra med lösenord?
-            var password = MyMoridgeServer.BusinessLogic.Common.GeneratePassword(model.FirstName.ToLower() + model.LastName.ToLower());
+            var password =
+                Common.GeneratePassword(model.FirstName.ToLower() +
+                                                                      model.LastName.ToLower());
 
             var dbHelper = new DatabaseHelper();
             var creationResult = dbHelper.CreateUser(model.Driver, password);
@@ -107,10 +111,16 @@ namespace Moridge.Controllers
             return RedirectToAction("DriverDetails", "Admin", new { index = index });
         }
 
+        #endregion
+
+        #region Statistics
+
         public ActionResult Statistics()
         {
-            var model = new Statistics().SetupModels();
+            int bookingCount;
+            var model = new Statistics().SetupModels(out bookingCount);
             System.Web.HttpContext.Current.Session["StatisticsModels"] = model.StatisticsModels;
+            System.Web.HttpContext.Current.Session["BookingCount"] = bookingCount;
             return View(model);
         }
 
@@ -119,19 +129,38 @@ namespace Moridge.Controllers
             var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
             if (models == null)
             {
-                models = new Statistics().SetupModels().StatisticsModels;
+                int bookingCount;
+                models = new Statistics().SetupModels(out bookingCount).StatisticsModels;
                 System.Web.HttpContext.Current.Session["StatisticsModels"] = models;
             }
+
             var model = models[index];
             model.Index = index;
             return View(model);
         }
 
-        public ActionResult StatisticsChart(int index)
+        public ActionResult StatisticsChart(int? index, bool showTotal = false, bool useDates = true)
         {
             var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
-            var chartModel = new Statistics().SetupChart(models[index]);
+            var chartModel = new Statistics().SetupChart(showTotal ? null : models[index.Value],
+                showTotal ? models : null, useDates);
             return View(chartModel);
         }
+
+        public ActionResult StatisticsTotal()
+        {
+            var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
+            var bookingCount = System.Web.HttpContext.Current.Session["BookingCount"] is int
+                ? (int) System.Web.HttpContext.Current.Session["BookingCount"]
+                : 0;
+            if (models == null)
+            {
+                models = new Statistics().SetupModels(out bookingCount).StatisticsModels;
+                System.Web.HttpContext.Current.Session["StatisticsModels"] = models;
+            }
+            return View(new StatisticsSetModel { StatisticsModels = models, BookingCount = bookingCount });
+        }
+
+        #endregion
     }
 }

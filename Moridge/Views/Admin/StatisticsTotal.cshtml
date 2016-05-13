@@ -1,29 +1,26 @@
 ﻿@using Moridge.Models
-@model StatisticsModel
+@model StatisticsSetModel
 @{
-    ViewBag.Title = "Statistik";
+    ViewBag.Title = "Statistik - Totalt";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
-
+<script></script>
 @section Header {
     <a href="#" id="nav-btn" data-rel="back" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h6 class="header-heading">
         @ViewBag.Title
     </h6>
 }
-
 <ul data-role="listview" data-inset="true" style="min-width: 210px;">
-    <li>@Html.DisplayFor(m => m.BookingEvents.First().CompanyName)</li>
-    <li>@Html.DisplayFor(m => m.BookingEvents.First().CustomerOrgNo)</li>
-    <li>@Html.DisplayFor(m => m.BookingEvents.First().CustomerEmail)</li>
-    <li data-role="list-divider">
-    <li>@Html.DisplayFor(m => m.InfoText)</li>
+    <li>
+        <p>@Html.DisplayFor(m => m.InfoText)</p>
+    </li>
 </ul>
-
 @Html.EnumDropDownListFor(m => m.ChartMode, new
 {
     onchange = "url=this.value == 0 ? '/Admin/StatisticsChart?showTotal=True&useDates=True' : '/Admin/StatisticsChart?showTotal=True&useDates=False'; $('#chart').attr('src',url)"
 })
+
 <p>
-    <img id="chart" src="@Url.Action("StatisticsChart", "Admin", new { showTotal = true, useDates = Model.ChartMode == StatisticsModel.ChartModes.Date })"/>
+    <img id="chart" src="@Url.Action("StatisticsChart", "Admin", new { showTotal = true, useDates = Model.ChartMode == StatisticsSetModel.ChartModes.Date })"/>
 </p>
