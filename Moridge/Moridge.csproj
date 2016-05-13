@@ -236,6 +236,7 @@
     <Compile Include="BusinessLogic\EventStatus.cs" />
     <Compile Include="BusinessLogic\User.cs" />
     <Compile Include="Controllers\SidePanelController.cs" />
+    <Compile Include="Controllers\Statistics.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="BusinessLogic\DaysInfo.cs" />
     <Compile Include="BusinessLogic\Occassion.cs" />
@@ -380,6 +381,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\Shared\_DriverInfoForm.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -411,10 +413,10 @@
     <Content Include="Views\Driver\BookingWeek.cshtml" />
     <Content Include="Views\Driver\BookingEvent.cshtml" />
     <Content Include="Views\Driver\BookingCreate.cshtml" />
-    <Content Include="Views\Shared\_DriverInfoForm.cshtml" />
     <Content Include="Views\Admin\DriverCreate.cshtml" />
     <Content Include="Views\Admin\DriverDetails.cshtml" />
     <Content Include="Views\Driver\GoogleMaps.cshtml" />
+    <Content Include="Views\Admin\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

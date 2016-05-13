@@ -1,0 +1,25 @@
+﻿@using Moridge.Models
+@model StatisticsSetModel
+@{
+    ViewBag.Title = "Statistik";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @ViewBag.Title
+    </h6>
+}
+
+<ul data-role="listview" data-inset="true" style="min-width: 210px;">
+    @for (var i = 0; i < Model.StatisticsModels.Count; i++)
+    {
+        <li>
+            <a href="@Url.Action("DriverDetails", "Admin", new { index = i })">
+                @Html.DisplayFor(m => m.StatisticsModels[i].CompanyName)
+                @Html.DisplayFor(m => m.StatisticsModels[i].NumberOfEvents)
+            </a>
+        </li>
+    }
+</ul>

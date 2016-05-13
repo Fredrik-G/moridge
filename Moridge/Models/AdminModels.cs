@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Moridge.BusinessLogic;
+using MyMoridgeServer.Models;
 
 namespace Moridge.Models
 {
@@ -59,6 +61,23 @@ namespace Moridge.Models
             get { return Driver.PhoneNumber; }
             set { Driver.PhoneNumber = value; }
         }
+    }
 
+    public class StatisticsSetModel
+    {
+        public List<StatisticsModel> StatisticsModels { get; set; } = new List<StatisticsModel>();
+    }
+    public class StatisticsModel
+    {
+        public List<BookingEvent> BookingEvents { get; set; }
+        public string CompanyName { get; set; }
+        public int NumberOfEvents { get; set; }
+
+        public StatisticsModel(List<BookingEvent> events)
+        {
+            BookingEvents = events;
+            CompanyName = events.First().CompanyName;
+            NumberOfEvents = events.Count;
+        }
     }
 }

@@ -121,7 +121,7 @@ namespace Moridge.BusinessLogic
             GetCustomerDetails(model.CustomerOrgNo, out companyName, out customerEmail);
 
             bookingEvent.CustomerOrgNo = model.CustomerOrgNo;
-            bookingEvent.CompanyName = model.CompanyName;
+            bookingEvent.CompanyName = companyName;
             bookingEvent.CustomerEmail = customerEmail;
 
             bookingEvent.CustomerAddress = model.CustomerAddress;
@@ -130,7 +130,7 @@ namespace Moridge.BusinessLogic
             bookingEvent.IsBooked = true;
             bookingEvent.BookingHeader = model.BookingHeader;
             bookingEvent.BookingMessage = model.BookingMessage;
-            bookingEvent.ResourceId = 2;
+            bookingEvent.ResourceId = 1; //TODO
             bookingEvent.SupplierEmailAddress = UserHelper.GetCurrentUser().Email;
             bookingEvent.Attendees = new List<string> { Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail") };
 

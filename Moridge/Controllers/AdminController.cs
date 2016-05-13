@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Models;
@@ -104,6 +105,19 @@ namespace Moridge.Controllers
 
             //errors => re-show page.
             return RedirectToAction("DriverDetails", "Admin", new { index = index });
+        }
+
+        public ActionResult Statistics()
+        {
+            var statistics = new Statistics();
+            var companiesBookings = statistics.ReadBookingEvents();
+            var model = new StatisticsSetModel();
+            foreach (var company in companiesBookings)
+            {
+                model.StatisticsModels.Add(new StatisticsModel(company));
+            }
+
+            return View(model);
         }
     }
 }
