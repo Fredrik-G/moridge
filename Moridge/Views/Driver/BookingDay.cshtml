@@ -17,10 +17,6 @@
     <h6 class="header-heading">
         @Model.GetDayString()
     </h6>
-    <a href="@Url.Action("BookingCreate", "Driver", new { parentPage = "BookingDay", parentDate = Model.Date })" class="ui-btn header-btn-right2">
-        <i class="material-icons">event</i>
-        <span class="align-super">Boka</span>
-    </a>
 }
 
 @Html.ValidationSummary()
