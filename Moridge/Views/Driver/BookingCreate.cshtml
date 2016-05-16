@@ -2,9 +2,7 @@
 @using Moridge.Models
 @model BookingCreateModel
 
-@{
-    ViewBag.Title = Model.GetTitle();
-}
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
 <script>
     $(document).ready(function () {
         $('#CustomerOrgNo').blur(function () {
@@ -24,51 +22,51 @@
                           "<span data-role='none' class='bar'></span>" +
                           "<label data-role='none'>" + '@Model.VehicleRegNoDisplay' + "</label>" +
                           "</div>");
-                    $('#vehicle-select').after(newInput);
-                }
-            } else {
-                $('#vehicle-input').hide();
-                $("#VehicleRegNo").val(selected);
-            }
-        });
-        $('input#BookingMessage').blur(function () {
-            var value = $(this).val();
-            if (value === '') {
-                $(this).addClass('empty');
-                $(this).removeClass('not-empty');
-            } else {
-                $(this).addClass('not-empty');
-                $(this).removeClass('empty');
-            }
-        });
-        $('input#BookingMessage').focus(function () {
-            $(this).addClass('not-empty');
-            $(this).removeClass('empty');
-        });
-    });
-    function readRegNo() {
-        var customerId = $('#CustomerOrgNo').val();
-        if (customerId.length === 0) {
-            return;
-        }
-        $.getJSON("http://service.moridge.se/api/vehicle/" + customerId,
-            function (result) {
-                var vehicles = $("#vehicle-select");
-                vehicles.empty();
-                vehicles.append('<option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>');
-                vehicles.append('<option value="1">--Ange ny--</option>');
+                       $('#vehicle-select').after(newInput);
+                   }
+               } else {
+                   $('#vehicle-input').hide();
+                   $("#VehicleRegNo").val(selected);
+               }
+           });
+           $('input#BookingMessage').blur(function () {
+               var value = $(this).val();
+               if (value === '') {
+                   $(this).addClass('empty');
+                   $(this).removeClass('not-empty');
+               } else {
+                   $(this).addClass('not-empty');
+                   $(this).removeClass('empty');
+               }
+           });
+           $('input#BookingMessage').focus(function () {
+               $(this).addClass('not-empty');
+               $(this).removeClass('empty');
+           });
+       });
+       function readRegNo() {
+           var customerId = $('#CustomerOrgNo').val();
+           if (customerId.length === 0) {
+               return;
+           }
+           $.getJSON("http://service.moridge.se/api/vehicle/" + customerId,
+               function (result) {
+                   var vehicles = $("#vehicle-select");
+                   vehicles.empty();
+                   vehicles.append('<option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>');
+                    vehicles.append('<option value="1">--Ange ny--</option>');
 
-                $.each(result, function () {
-                    vehicles.append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
-                    $('#BookingHeader').append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
+                    $.each(result, function () {
+                        vehicles.append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
+                        $('#BookingHeader').append($("<option />").val(this.VehicleRegNo).text(this.VehicleRegNo));
+                    });
+                    vehicles.selectmenu('refresh');
                 });
-                vehicles.selectmenu('refresh');
-            });
-        }
+            }
 </script>
-
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
+@{
+    ViewBag.Title = Model.GetTitle();
+}
 @section Header {
     <a href="#" data-rel="back" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h6 class="header-heading">

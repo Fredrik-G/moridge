@@ -1,6 +1,8 @@
 ﻿@using Moridge.Extensions
 @using Moridge.Models
 @model DriverDetailsModel
+
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
 <script>
     $(document).ready(function () {
         $('input.not-required').blur(function () {
@@ -19,7 +21,6 @@
         });
     });
 </script>
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
 
 @Html.ValidationSummary()
 @Html.HiddenFor(m => m.Driver.Id)

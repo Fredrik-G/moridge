@@ -1,20 +1,9 @@
 ﻿@using Moridge.Models
 @model BookingModel
-<link rel="stylesheet" type="text/css" href="~/Content/toastr.css" />
-<script src="/Scripts/toastr.min.js"></script>
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+
 @{
     ViewBag.Title = Model.GetTitle(isDetails: false);
 }
-<script>
-    $(document).ready(function () {
-        toastr.options.timeOut = 3500;
-        if ('@Model.Message'.length) {
-                toastr.success('@Model.Message');
-            }
-        $('.floating-booking').attr('href', '@Url.Action("BookingCreate", "Driver", new { parentPage = "BookingWeek" })');
-    });
-</script>
 
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
@@ -60,4 +49,20 @@
             <span style="font-size: 12px; display: block;">Vecka</span>
         </span></a></li>
     </ul>
+}
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/toastr.css" />
+}
+@section scripts {
+    <script src="/Scripts/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            toastr.options.timeOut = 3500;
+            if ('@Model.Message'.length) {
+                toastr.success('@Model.Message');
+            }
+            $('.floating-booking').attr('href', '@Url.Action("BookingCreate", "Driver", new { parentPage = "BookingWeek" })');
+        });
+    </script>
 }
