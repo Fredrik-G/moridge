@@ -52,9 +52,9 @@ namespace Moridge.Controllers
             if (!ModelState.IsValid) return View(model);
 
             var booking = new Booking();
-            string companyName;
-            booking.BookEvent(model, out companyName);
-            return RedirectToAction(model.ParentPage, "Driver", new { date = model.ParentDate });
+            var companyName =  booking.BookEvent(model);
+            var message = $"Skapade en bokning för {companyName} den {model.Date.ToString("yyyy-M-d")}.";
+            return RedirectToAction(model.ParentPage ?? "BookingDay", "Driver", new { date = model.ParentDate, message = message });
         }
 
         public ActionResult BookingWeek(string message = null)

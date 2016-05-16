@@ -107,7 +107,7 @@ namespace Moridge.BusinessLogic
         /// </summary>
         /// <param name="model">model containing event details</param>
         /// <param name="companyName">out parameter for the company name</param>
-        public void BookEvent(BookingCreateModel model, out string companyName)
+        public string BookEvent(BookingCreateModel model)
         {
             BookingEvent bookingEvent = new BookingEvent();
             bookingEvent.StartDateTime = model.Date;
@@ -119,7 +119,7 @@ namespace Moridge.BusinessLogic
                 model.Occassion == BookingCreateModel.Occassions.Morning ? 4 : 8);
 
             //Set up company information based off the org number.
-            string customerEmail;
+            string customerEmail, companyName;
             GetCustomerDetails(model.CustomerOrgNo, out companyName, out customerEmail);
 
             bookingEvent.CustomerOrgNo = model.CustomerOrgNo;
@@ -138,6 +138,7 @@ namespace Moridge.BusinessLogic
 
             var booking = new MyMoridgeServer.BusinessLogic.Booking();
             booking.BookEvent(bookingEvent);
+            return companyName;
         }
 
         /// <summary>

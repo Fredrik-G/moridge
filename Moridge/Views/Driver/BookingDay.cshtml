@@ -1,17 +1,21 @@
 ﻿@using Moridge.Extensions
 @model Moridge.Models.BookingDayModel
-
+<link rel="stylesheet" type="text/css" href="~/Content/toastr.css" />
+<script src="/Scripts/toastr.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
 @{
     ViewBag.Title = Model.GetTitle(isDetails: true);
 }
 <script>
     $(document).ready(function () {
-        $('#message').delay(4000).animate({ 'opacity': 0 }, 500, function () {
-            $(this).text('');
-        });
+        toastr.options.timeOut = 3500;
+        if ('@Model.Message'.length) {
+            toastr.success('@Model.Message');
+        }
+        $('.floating-booking').attr('href', '@Url.Action("BookingCreate", "Driver", new { parentPage = "BookingDay", parentDate = Model.Date })');
     });
 </script>
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/moridge.style.css" />
+
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h6 class="header-heading">
@@ -20,8 +24,6 @@
 }
 
 @Html.ValidationSummary()
-<p id="message">@Model.Message</p>
-
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     @{
         foreach (var occassion in @Model.GetOccassions())
