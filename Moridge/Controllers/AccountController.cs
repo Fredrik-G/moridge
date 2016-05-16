@@ -3,11 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Moridge.Models;
-
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Moridge.BusinessLogic;
-using Moridge.Extensions;
 
 namespace Moridge.Controllers
 {
@@ -59,7 +55,7 @@ namespace Moridge.Controllers
                 return RedirectToAction(actionName, controllerName);
             }
             //incorrect login.
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("", "Fel e-postadress eller lösenord");
             return View(model);
         }
 

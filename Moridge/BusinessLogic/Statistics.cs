@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Moridge.BusinessLogic;
 using Moridge.Models;
 using MyMoridgeServer.Models;
 
-namespace Moridge.Controllers
+namespace Moridge.BusinessLogic
 {
     public class Statistics
     {
