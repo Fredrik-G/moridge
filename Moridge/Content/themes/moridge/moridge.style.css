@@ -169,3 +169,28 @@
     text-decoration: none;
     margin-top: 0;
 }
+.floating-booking {
+    position: fixed !important;
+    bottom: 70px !important;
+    right: 16px !important;
+    background-color: #FC3 !important;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    z-index: 1000;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
+.booking {
+    font-size: 28px !important;
+    color: black;
+    padding-top: 0;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

@@ -235,6 +235,7 @@
     <Compile Include="BusinessLogic\DatabaseHelper.cs" />
     <Compile Include="BusinessLogic\EventStatus.cs" />
     <Compile Include="BusinessLogic\User.cs" />
+    <Compile Include="Controllers\FloatingActionButtonController.cs" />
     <Compile Include="Controllers\SidePanelController.cs" />
     <Compile Include="Controllers\Statistics.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -286,6 +287,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\calendar-remove.svg" />
     <Content Include="Content\images\account-plus.svg" />
     <Content Include="Content\images\account-remove.svg" />
@@ -364,8 +366,14 @@
     <Content Include="Content\themes\moridge\moridge.min.css" />
     <Content Include="Content\themes\moridge\moridge.style.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\themes\moridge\materialDesign.input.css" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -420,6 +428,7 @@
     <Content Include="Views\Admin\StatisticsDetails.cshtml" />
     <Content Include="Views\Admin\StatisticsChart.cshtml" />
     <Content Include="Views\Admin\StatisticsTotal.cshtml" />
+    <Content Include="Views\Shared\_FloatingActionButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
