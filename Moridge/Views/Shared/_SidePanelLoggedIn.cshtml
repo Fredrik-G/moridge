@@ -30,8 +30,8 @@
         }
         @if (!Model.UserIsDriver())
         {
-            <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
             @* model is for admin *@
+            <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
             <li>
                 <a href="@Url.Action("Statistics", "Admin")" class="ui-btn" data-transition="pop">
                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
