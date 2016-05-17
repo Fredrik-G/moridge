@@ -59,7 +59,7 @@ namespace Moridge.BusinessLogic
         public StatisticsChart SetupChart(StatisticsModel model = null, List<StatisticsModel> models = null, bool useDates = true)
         {
             //group up events on the same date
-            //model not null => chart is for one company
+            //model not null => chart is for one company/driver
             if (model != null)
             {
                 if (useDates)
@@ -74,6 +74,7 @@ namespace Moridge.BusinessLogic
                 else
                 {
                      var groupedEvents = model.BookingEvents
+                        .OrderBy(x => ((int) x.StartDateTime.DayOfWeek + 6) % 7)
                         .GroupBy(e => e.StartDateTime.DayOfWeek)
                         .Select(group => group.ToList())
                         .ToList();
