@@ -7,7 +7,7 @@ using MyMoridgeServer.Models;
 
 namespace Moridge.Models
 {
-    public class DriverRegisterModel
+    public class DriverRegistryModel
     {
         public List<ApplicationUser> Drivers { get; set; } 
     }

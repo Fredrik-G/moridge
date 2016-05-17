@@ -82,7 +82,7 @@ namespace Moridge.BusinessLogic
             if (user != null && user.IsInRole(AdminRole) ||
                 role.Equals(AdminRole))
             {
-                actionName = "DriverRegister";
+                actionName = "DriverRegistry";
                 controllerName = AdminRole;
             }
             else if (user != null && user.IsInRole(DriverRole) ||

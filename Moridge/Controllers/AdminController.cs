@@ -12,7 +12,7 @@ namespace Moridge.Controllers
     {
         #region Driver Related
 
-        public ActionResult DriverRegister(bool forceUpdate = false)
+        public ActionResult DriverRegistry(bool forceUpdate = false)
         {
             var drivers = System.Web.HttpContext.Current.Session["Drivers"] as List<ApplicationUser>;
             if (drivers == null || forceUpdate)
@@ -20,7 +20,7 @@ namespace Moridge.Controllers
                 drivers = new DatabaseHelper().FindAllUsersInRole(RolesHelper.DriverRoleId);
                 System.Web.HttpContext.Current.Session["Drivers"] = drivers;
             }
-            var model = new DriverRegisterModel { Drivers = drivers };
+            var model = new DriverRegistryModel { Drivers = drivers };
             return View(model);
         }
 
@@ -31,7 +31,7 @@ namespace Moridge.Controllers
         {
             if (index == null)
             {
-                return RedirectToAction("DriverRegister", "Admin");
+                return RedirectToAction("DriverRegistry", "Admin");
             }
             var drivers = System.Web.HttpContext.Current.Session["Drivers"] as List<ApplicationUser>;
             if (drivers == null)
@@ -92,7 +92,7 @@ namespace Moridge.Controllers
                         throw new ArgumentOutOfRangeException();
                 }
 
-                return RedirectToAction("DriverRegister", "Admin", new { forceUpdate = true });
+                return RedirectToAction("DriverRegistry", "Admin", new { forceUpdate = true });
             }
 
             //errors => re-show page.
@@ -104,7 +104,7 @@ namespace Moridge.Controllers
             var result = new DatabaseHelper().DeleteUser(userId);
             if (result.Succeeded)
             {
-                return RedirectToAction("DriverRegister", "Admin", new { forceUpdate = true });
+                return RedirectToAction("DriverRegistry", "Admin", new { forceUpdate = true });
             }
 
             //errors => re-show page.
@@ -160,7 +160,6 @@ namespace Moridge.Controllers
 
         public ActionResult StatisticsTotal(bool isForDrivers)
         {
-            //todo session för förare
             var models = System.Web.HttpContext.Current.Session[isForDrivers ? "DriverModels" : "CompanyModels"] as List<StatisticsModel>;
             var bookingCount = System.Web.HttpContext.Current.Session["BookingCount"] is int
                 ? (int)System.Web.HttpContext.Current.Session["BookingCount"]
