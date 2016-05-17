@@ -23,4 +23,19 @@
     }
 </ul>
 
-@Html.ActionLink("Visa totalt", "StatisticsTotal", "Admin", new { @class = "ui-btn" })
+@Html.ActionLink("Visa totalt", "StatisticsTotal", "Admin", new { isForDrivers = false }, new { @class = "ui-btn" })
+
+@section Footer
+{
+    <ul>
+        <li><a href="#" class="ui-btn-active"><span>
+            <i class="material-icons">assignment</i>
+            <span style="font-size: 12px; display: block;">Företag</span>
+        </span></a>
+        </li>
+        <li><a href="@Url.Action("StatisticsDrivers", "Admin")" data-transition="slide"><span>
+            <i class="material-icons">event</i>
+            <span style="font-size: 12px; display: block;">Förare</span>
+        </span></a></li>
+    </ul>
+}

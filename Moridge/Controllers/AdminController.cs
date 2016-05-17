@@ -115,23 +115,34 @@ namespace Moridge.Controllers
 
         #region Statistics
 
-        public ActionResult Statistics()
+        public ActionResult StatisticsCompanies()
         {
             int bookingCount;
             var model = new Statistics().SetupModels(out bookingCount);
-            System.Web.HttpContext.Current.Session["StatisticsModels"] = model.StatisticsModels;
+            System.Web.HttpContext.Current.Session["CompanyModels"] = model.StatisticsModels;
             System.Web.HttpContext.Current.Session["BookingCount"] = bookingCount;
             return View(model);
         }
 
-        public ActionResult StatisticsDetails(int index)
+        public ActionResult StatisticsDrivers()
         {
-            var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
+            int bookingCount;
+            var model = new Statistics().SetupModels(out bookingCount, true);
+            System.Web.HttpContext.Current.Session["DriverModels"] = model.StatisticsModels;
+            System.Web.HttpContext.Current.Session["BookingCount"] = bookingCount;
+
+            return View(model);
+        }
+
+        public ActionResult StatisticsDetails(int index, bool isForDrivers = false)
+        {
+            var models = System.Web.HttpContext.Current.Session[
+                isForDrivers ? "DriverModels" : "CompanyModels"] as List<StatisticsModel>;
             if (models == null)
             {
                 int bookingCount;
-                models = new Statistics().SetupModels(out bookingCount).StatisticsModels;
-                System.Web.HttpContext.Current.Session["StatisticsModels"] = models;
+                models = new Statistics().SetupModels(out bookingCount, isForDrivers).StatisticsModels;
+                System.Web.HttpContext.Current.Session[isForDrivers ? "DriverModels" : "CompanyModels"] = models;
             }
 
             var model = models[index];
@@ -139,26 +150,27 @@ namespace Moridge.Controllers
             return View(model);
         }
 
-        public ActionResult StatisticsChart(int? index, bool showTotal = false, bool useDates = true)
+        public ActionResult StatisticsChart(int? index, bool showTotal = false, bool useDates = true, bool isForDrivers = false)
         {
-            var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
+            var models = System.Web.HttpContext.Current.Session[isForDrivers ? "DriverModels" : "CompanyModels"] as List<StatisticsModel>;
             var chartModel = new Statistics().SetupChart(showTotal ? null : models[index.Value],
                 showTotal ? models : null, useDates);
             return View(chartModel);
         }
 
-        public ActionResult StatisticsTotal()
+        public ActionResult StatisticsTotal(bool isForDrivers)
         {
-            var models = System.Web.HttpContext.Current.Session["StatisticsModels"] as List<StatisticsModel>;
+            //todo session för förare
+            var models = System.Web.HttpContext.Current.Session[isForDrivers ? "DriverModels" : "CompanyModels"] as List<StatisticsModel>;
             var bookingCount = System.Web.HttpContext.Current.Session["BookingCount"] is int
-                ? (int) System.Web.HttpContext.Current.Session["BookingCount"]
+                ? (int)System.Web.HttpContext.Current.Session["BookingCount"]
                 : 0;
             if (models == null)
             {
-                models = new Statistics().SetupModels(out bookingCount).StatisticsModels;
-                System.Web.HttpContext.Current.Session["StatisticsModels"] = models;
+                models = new Statistics().SetupModels(out bookingCount, isForDrivers).StatisticsModels;
+                System.Web.HttpContext.Current.Session[isForDrivers ? "DriverModels" : "CompanyModels"] = models;
             }
-            return View(new StatisticsSetModel { StatisticsModels = models, BookingCount = bookingCount });
+            return View(new StatisticsSetModel { StatisticsModels = models, BookingCount = bookingCount, IsForDriver = isForDrivers });
         }
 
         #endregion

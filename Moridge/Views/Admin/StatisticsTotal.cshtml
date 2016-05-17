@@ -17,9 +17,10 @@
 </ul>
 @Html.EnumDropDownListFor(m => m.ChartMode, new
 {
-    onchange = "url=this.value == 0 ? '/Admin/StatisticsChart?showTotal=True&useDates=True' : '/Admin/StatisticsChart?showTotal=True&useDates=False'; $('#chart').attr('src',url)"
+    onchange = "url=this.value == 0 ? '/Admin/StatisticsChart?showTotal=True&useDates=True&isForDrivers=" + @Model.IsForDriver + "'  :" +
+               " '/Admin/StatisticsChart?showTotal=True&useDates=False&isForDrivers=" + @Model.IsForDriver + "'; $('#chart').attr('src',url)"
 })
-
 <p>
-    <img id="chart" src="@Url.Action("StatisticsChart", "Admin", new { showTotal = true, useDates = Model.ChartMode == StatisticsSetModel.ChartModes.Date })"/>
+    <img id="chart" src="@Url.Action("StatisticsChart", "Admin", 
+        new { showTotal = true, useDates = Model.ChartMode == StatisticsSetModel.ChartModes.Date, isForDrivers = Model.IsForDriver })"/>
 </p>

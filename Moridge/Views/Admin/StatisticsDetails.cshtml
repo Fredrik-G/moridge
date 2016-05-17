@@ -12,17 +12,19 @@
 }
 
 <ul data-role="listview" data-inset="true" style="min-width: 210px;">
-    <li>@Html.DisplayFor(m => m.BookingEvents.First().CompanyName)</li>
-    <li>@Html.DisplayFor(m => m.BookingEvents.First().CustomerOrgNo)</li>
-    <li>@Html.DisplayFor(m => m.BookingEvents.First().CustomerEmail)</li>
+    <li>@Html.DisplayFor(m => m.Name)</li>
+    <li>@Html.DisplayFor(m => m.Number)</li>
+    <li>@Html.DisplayFor(m => m.Email)</li>
     <li data-role="list-divider">
     <li>@Html.DisplayFor(m => m.InfoText)</li>
 </ul>
-
+@{ var asd = Model.IsForDriver;}
 @Html.EnumDropDownListFor(m => m.ChartMode, new
 {
-    onchange = "url=this.value == 0 ? '/Admin/StatisticsChart?showTotal=True&useDates=True' : '/Admin/StatisticsChart?showTotal=True&useDates=False'; $('#chart').attr('src',url)"
+    onchange = "url=this.value == 0 ? '/Admin/StatisticsChart?index=" + @Model.Index + "&showTotal=False&useDates=True&isForDrivers=" + @Model.IsForDriver + "'  :" +
+               " '/Admin/StatisticsChart?index=" + @Model.Index + "&showTotal=False&useDates=False&isForDrivers=" + @Model.IsForDriver + "'; $('#chart').attr('src',url)"
 })
 <p>
-    <img id="chart" src="@Url.Action("StatisticsChart", "Admin", new { showTotal = true, useDates = Model.ChartMode == StatisticsModel.ChartModes.Date })"/>
+    <img id="chart" src="@Url.Action("StatisticsChart", "Admin",
+        new { index = Model.Index, showTotal = false, useDates = Model.ChartMode == StatisticsModel.ChartModes.Date, isForDrivers = Model.IsForDriver })"/>
 </p>

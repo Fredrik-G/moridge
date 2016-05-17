@@ -1,0 +1,41 @@
+﻿@using Moridge.Models
+@model StatisticsSetModel
+@{
+    ViewBag.Title = "Statistik";
+}
+
+@section Header {
+    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h6 class="header-heading">
+        @ViewBag.Title
+    </h6>
+}
+
+<ul data-role="listview" data-inset="true" style="min-width: 210px;">
+    @for (var i = 0; i < Model.StatisticsModels.Count; i++)
+    {
+        <li>
+            <a href="@Url.Action("StatisticsDetails", "Admin", new { index = i, isForDrivers = true })">
+                <span>@Html.DisplayFor(m => m.StatisticsModels[i].User.FullName)</span>
+                <span style="float: right">@Html.DisplayFor(m => m.StatisticsModels[i].BookingCount)</span>
+            </a>
+        </li>
+    }
+</ul>
+
+@Html.ActionLink("Visa totalt", "StatisticsTotal", "Admin", new { isForDrivers = true }, new { @class = "ui-btn" })
+
+@section Footer
+{
+    <ul>
+        <li><a href="@Url.Action("StatisticsCompanies", "Admin")" data-transition="slide" data-direction="reverse"><span>
+            <i class="material-icons">assignment</i>
+            <span style="font-size: 12px; display: block;">Företag</span>
+        </span></a>
+        </li>
+        <li><a href="#" class="ui-btn-active"><span>
+            <i class="material-icons">event</i>
+            <span style="font-size: 12px; display: block;">Förare</span>
+        </span></a></li>
+    </ul>
+}

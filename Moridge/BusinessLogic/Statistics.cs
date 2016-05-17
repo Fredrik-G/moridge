@@ -10,12 +10,13 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Reads all booking events from the database and groups them by company.
         /// </summary>
+        /// <param name="groupByDriver">true if group by driver, false if group by companies</param>
         /// <returns>list of bookings</returns>
-        public List<List<BookingEvent>> ReadBookingEvents()
+        public List<List<BookingEvent>> ReadBookingEvents(bool groupByDriver = false)
         {
             var bookings = new MyMoridgeServer.BusinessLogic.Booking().GetAllBookings();
             var groupedBookings = bookings
-                .GroupBy(x => x.CustomerOrgNo)
+                .GroupBy(x => groupByDriver ? x.SupplierEmailAddress : x.CustomerOrgNo)
                 .Select(group => group.ToList())
                 .OrderByDescending(events => events.Count)
                 .ToList();
@@ -27,16 +28,23 @@ namespace Moridge.BusinessLogic
         /// Sets up the statistics models by calculating companies bookings.
         /// </summary>
         /// <param name="bookingCount"></param>
+        /// <param name="groupByDriver">true if group by driver, false if group by companies</param>
         /// <returns>statistic model containing information about companies booking</returns>
-        public StatisticsSetModel SetupModels(out int bookingCount)
+        public StatisticsSetModel SetupModels(out int bookingCount, bool groupByDriver = false)
         {
-            var companiesBookings = ReadBookingEvents();
+            var bookings = ReadBookingEvents(groupByDriver);
             var model = new StatisticsSetModel();
             bookingCount = 0;
-            foreach (var company in companiesBookings)
+            foreach (var booking in bookings)
             {
-                model.StatisticsModels.Add(new StatisticsModel(company));
-                bookingCount += company.Count;
+                var bookingModel = new StatisticsModel(booking);
+                if (groupByDriver)
+                {
+                    bookingModel.User = UserHelper.GetUserByEmail(booking.First().SupplierEmailAddress) ??
+                                        new User() { FirstName = "Förnamn", LastName = "Efternamn", Email = "notfound@removed"};
+                }
+                model.StatisticsModels.Add(bookingModel);
+                bookingCount += booking.Count;
             }
             return model;
         }
@@ -44,7 +52,9 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Sets up the statistic chart.
         /// </summary>
-        /// <param name="model">statistic model containing data</param>
+        /// <param name="model">statistic model containing data or null</param>
+        /// <param name="models">list of statistic model containing data or null</param>
+        /// <param name="useDates">true to use dates or false to use weekdays</param>
         /// <returns>chart model</returns>
         public StatisticsChart SetupChart(StatisticsModel model = null, List<StatisticsModel> models = null, bool useDates = true)
         {

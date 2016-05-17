@@ -30,12 +30,15 @@ namespace Moridge.BusinessLogic
         public ApplicationUser FindUser(string userId = null) => _userManager.FindById(userId ?? HttpContext.Current.User.Identity.Name);
 
         /// <summary>
-        /// Finds user by email and password.
+        /// Finds user by email.
         /// </summary>
         /// <param name="email">user email</param>
-        /// <param name="password">user password</param>
+        /// <param name="password">user password or null</param>
         /// <returns><see cref="ApplicationUser"/> or null</returns>
-        public ApplicationUser FindUserByEmail(string email, string password) => _userManager.FindByEmail(email, password);
+        public ApplicationUser FindUserByEmail(string email, string password = null)
+        {
+            return password == null ? _userManager.FindByEmail(email) : _userManager.FindByEmail(email, password);
+        }
 
         /// <summary>
         /// Creates a new user and saves it to the database.

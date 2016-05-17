@@ -435,11 +435,12 @@
     <Content Include="Views\Admin\DriverCreate.cshtml" />
     <Content Include="Views\Admin\DriverDetails.cshtml" />
     <Content Include="Views\Driver\GoogleMaps.cshtml" />
-    <Content Include="Views\Admin\Statistics.cshtml" />
+    <Content Include="Views\Admin\StatisticsCompanies.cshtml" />
     <Content Include="Views\Admin\StatisticsDetails.cshtml" />
     <Content Include="Views\Admin\StatisticsChart.cshtml" />
     <Content Include="Views\Admin\StatisticsTotal.cshtml" />
     <Content Include="Views\Shared\_FloatingActionButton.cshtml" />
+    <Content Include="Views\Admin\StatisticsDrivers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -68,8 +68,10 @@ namespace Moridge.Models
     {
         public List<StatisticsModel> StatisticsModels { get; set; } = new List<StatisticsModel>();
         public int BookingCount { get; set; }
+        public bool IsForDriver { get; set; }
 
-        public string InfoText => $"Totalt {StatisticsModels.Count} olika företag och totalt {BookingCount} bokningar.";
+        public string InfoText
+            => $"Totalt {StatisticsModels.Count} olika {(IsForDriver ? "förare" : "företag")} och totalt {BookingCount} bokningar.";
 
         public enum ChartModes
         {
@@ -86,10 +88,14 @@ namespace Moridge.Models
         public List<BookingEvent> BookingEvents { get; set; }
         public string CompanyName { get; set; }
         public int BookingCount { get; set; }
-        public string Debug { get; set; }
         public int Index { get; set; }
+        public User User { get; set; }
+        public bool IsForDriver => User != null;
 
         public string InfoText => $"Totalt {BookingCount} bokningar.";
+        public string Name => IsForDriver ? User.FullName : CompanyName;
+        public string Number => IsForDriver ? User.PhoneNumber : BookingEvents.First().CustomerOrgNo;
+        public string Email => IsForDriver ? User.Email : BookingEvents.First().CustomerEmail;
 
         public enum ChartModes
         {

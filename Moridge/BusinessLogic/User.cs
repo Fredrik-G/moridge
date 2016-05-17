@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using Moridge.Models;
 
 namespace Moridge.BusinessLogic
 {
@@ -11,22 +12,40 @@ namespace Moridge.BusinessLogic
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
+
         /// <summary>
         /// Gets the web user's information from the database
         /// and saves user info for this sidepaneluser.
         /// </summary>
         /// <param name="userId">user id or null</param>
-        public void GetUserFromDatabase(string userId)
+        /// <param name="email">email or null</param>
+        /// <returns>true if successfully found user, otherwise false</returns>
+        public bool GetUserFromDatabase(string userId = null, string email = null)
         {
-            userId = userId ?? HttpContext.Current.User.Identity.Name;
             var dbHelper = new DatabaseHelper();
-            var user = dbHelper.FindUser(userId);
+            ApplicationUser user;
+            if (email != null)
+            {
+                user = dbHelper.FindUserByEmail(email);
+                //user wasn't found => return false
+                if (user == null)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                userId = userId ?? HttpContext.Current.User.Identity.Name;
+                user = dbHelper.FindUser(userId);
+                Role = dbHelper.GetUserRole(userId);
+            }
             FirstName = user.FirstName;
             LastName = user.LastName;
             Email = user.Email;
             Adress = user.Adress;
             PhoneNumber = user.PhoneNumber;
-            Role = dbHelper.GetUserRole(userId);
+            return true;
         }
     }
 
@@ -53,6 +72,13 @@ namespace Moridge.BusinessLogic
             //The session may be null if the web user access the page "in the wrong way", ie debugging
             //in that case, re-assign session user. 
             return System.Web.HttpContext.Current.Session["CurrentUser"] as User ?? UserHelper.SaveUserToSession();
+        }
+
+        public static User GetUserByEmail(string email)
+        {
+            var user = new User();
+            var userFound = user.GetUserFromDatabase(email: email);
+            return userFound ? user : null;
         }
     }
     
