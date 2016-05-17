@@ -31,7 +31,13 @@
         @if (!Model.UserIsDriver())
         {
             @* model is for admin *@
-            <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
+            <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" /> 
+            <li>
+                <a href="@Url.Action("DriverRegister", "Admin")" class="ui-btn" data-transition="pop">
+                    <i class="material-icons">people</i>
+                    <span class="align-super">Förarregister</span>
+                </a>
+            </li>        
             <li>
                 <a href="@Url.Action("Statistics", "Admin")" class="ui-btn" data-transition="pop">
                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
