@@ -5,6 +5,8 @@
 <link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
 <script>
     $(document).ready(function () {
+        $('.floating-booking').remove();
+
         $('#CustomerOrgNo').blur(function () {
             readRegNo();
         });
@@ -77,7 +79,7 @@
 @Html.ValidationSummary()
 @using (Html.BeginForm("BookingCreate", "Driver", FormMethod.Post, new { data_ajax = "false", @class = "bookingCreate" }))
 {
-    @Html.MaterialDesignInput(m => m.CustomerOrgNo, Model.CustomerOrgNoDisplay, true, "number")
+    @Html.MaterialDesignInput(m => m.CustomerOrgNo, Model.CustomerOrgNoDisplay, true, "tel")
     <div class="ui-field-contain">
         <select id="vehicle-select" data-native-menu="false">
             <option value="choose-one" data-placeholder="true">@Model.VehicleRegNoDisplay</option>

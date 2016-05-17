@@ -25,7 +25,7 @@
            href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
                 new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")></a>
 
-        <a data-theme="a" style="border: 0;" href="#popupLogin" data-rel="popup" data-position-to="window" data-transition="pop">
+        <a data-theme="a" style="border: 0;" href="#popupDate" data-rel="popup" data-position-to="window" data-transition="pop">
             <span>
                 <i class="material-icons">date_range</i>
                 <span style="font-size: 12px; display: block;">Datum</span>
@@ -51,7 +51,7 @@
         </ul>
     </div>
 }
-<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+<div data-role="popup" id="popupDate" data-theme="a" class="ui-corner-all">
     @using (Html.BeginForm("ScheduleLoadDate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
     {
         <div class="popup-date">
