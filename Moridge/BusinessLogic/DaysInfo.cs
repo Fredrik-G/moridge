@@ -24,7 +24,6 @@ namespace Moridge.BusinessLogic
                 var daysInWeek = Enum.GetNames(typeof (DayOfWeek)).Length;
                 for (var i = 0; i < daysInWeek; i++)
                 {
-                    //TODO skippa helg?
                     if(startFromToday)
                     {
                         Days.Add(new Day {Date = DateTime.Now.AddDays(i)});

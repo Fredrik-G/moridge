@@ -20,6 +20,8 @@ namespace Moridge.BusinessLogic
             _userManager.UserValidator = new UserValidator<ApplicationUser>(_userManager) { AllowOnlyAlphanumericUserNames = false };
         }
 
+        #region User Related Methods
+
         /// <summary>
         /// Gets the user based off given ID or for the current web user.
         /// </summary>
@@ -28,24 +30,12 @@ namespace Moridge.BusinessLogic
         public ApplicationUser FindUser(string userId = null) => _userManager.FindById(userId ?? HttpContext.Current.User.Identity.Name);
 
         /// <summary>
-        /// Saves database changes.
-        /// </summary>
-        public void Save() => _dbContext.SaveChanges();
-
-        /// <summary>
         /// Finds user by email and password.
         /// </summary>
         /// <param name="email">user email</param>
         /// <param name="password">user password</param>
         /// <returns><see cref="ApplicationUser"/> or null</returns>
         public ApplicationUser FindUserByEmail(string email, string password) => _userManager.FindByEmail(email, password);
-
-        /// <summary>
-        /// Gets a users roles based off given id.
-        /// </summary>
-        /// <param name="id">user id</param>
-        /// <returns>list of roles</returns>
-        public IList<string> GetRoles(string id) => _userManager.GetRoles(id);
 
         /// <summary>
         /// Creates a new user and saves it to the database.
@@ -96,6 +86,10 @@ namespace Moridge.BusinessLogic
             _dbContext.SaveChanges();
         }
 
+        #endregion
+
+        #region Roles Related Methods
+
         /// <summary>
         /// Adds a user to a role.
         /// </summary>
@@ -106,7 +100,7 @@ namespace Moridge.BusinessLogic
             //remove any current roles
             _userManager.RemoveFromRoles(id, RolesHelper.AdminRole, RolesHelper.DriverRole);
             _userManager.AddToRole(id, role);
-        } 
+        }
 
         /// <summary>
         /// Gets the user's role.
@@ -114,6 +108,13 @@ namespace Moridge.BusinessLogic
         /// <param name="id">user id</param>
         /// <returns>user's role</returns>
         public string GetUserRole(string id) => _userManager.GetRoles(id)?.First();
+
+        /// <summary>
+        /// Gets a users roles based off given id.
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>list of roles</returns>
+        public IList<string> GetRoles(string id) => _userManager.GetRoles(id);
 
         /// <summary>
         /// Gets all users in the given role.
@@ -127,5 +128,11 @@ namespace Moridge.BusinessLogic
                 .ToList();
         }
 
+        #endregion
+
+        /// <summary>
+        /// Saves database changes.
+        /// </summary>
+        public void Save() => _dbContext.SaveChanges();
     }
 }

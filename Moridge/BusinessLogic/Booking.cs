@@ -69,8 +69,7 @@ namespace Moridge.BusinessLogic
             else
             {
                 //both false => is debug or some error
-                //if(!debug) { database.logError(); }
-                //TODO
+                Logger.LogError($"IsTimeDuringOccassion: invalid parameter {occassion}.");
             }
             return swedishTime.TimeOfDay >= start && swedishTime.TimeOfDay < end;
         }

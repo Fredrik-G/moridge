@@ -62,8 +62,7 @@ namespace Moridge.BusinessLogic
             if (userActiveRoles.Count > 1)
             {
                 //More than one role = something is wrong. Log it.
-                //log.log("User " + id + " has more than one role.");
-                //TODO logga
+                Logger.LogError($"GetPageForUser: user has more than one role {userActiveRoles}.");
             }
 
             var userActiveRole = userActiveRoles.First();
@@ -105,8 +104,7 @@ namespace Moridge.BusinessLogic
             //nor admin or driver => error
             if(!(role.Equals(AdminRole) || role.Equals(DriverRole)))
             {
-                //log.log($"Error adding role {role} to userID {id}.");
-                //TODO logga
+                Logger.LogError($"AddUserToRole: Error adding role {role} to userID {id}.");
                 return;
             }
 
