@@ -61,3 +61,11 @@
         <input type="submit" value="Gå till datum" />
     }
 </div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+                @* Move the FAB up to compensate for the week-toolbar at the bottom of the page. *@
+                $('.floating-booking').attr('style', 'bottom: 120px !important');
+            });
+    </script>
+}
