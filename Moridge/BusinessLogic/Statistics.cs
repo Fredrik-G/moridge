@@ -69,7 +69,7 @@ namespace Moridge.BusinessLogic
                         .Select(group => group.ToList())
                         .OrderByDescending(d => d.Count)
                         .ToList();
-                    return GetChartValues(groupedEvents, "Datum för " + model.CompanyName, "Datum", true);
+                    return GetChartValues(groupedEvents, $"Datum för {(model.IsForDriver ? model.Name : model.CompanyName)}", "Datum", true);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace Moridge.BusinessLogic
                         .GroupBy(e => e.StartDateTime.DayOfWeek)
                         .Select(group => group.ToList())
                         .ToList();
-                    return GetChartValues(groupedEvents, "Dagar för " + model.CompanyName, "Dag", false);
+                    return GetChartValues(groupedEvents, $"Dagar för {(model.IsForDriver ? model.Name : model.CompanyName)} ", "Dag", false);
                 }
             }
             //chart is for total bookings
