@@ -118,14 +118,16 @@ namespace Moridge.BusinessLogic
                 //assign x/y-values
                 if (useDates)
                 {
-                    var isMorning = Booking.IsTimeDuringOccassion("Förmiddag", bookingEvents[i].First().StartDateTime,
-                        true);
+                    var isMorning = Booking.IsTimeDuringOccassion("Förmiddag", bookingEvents[i].First().StartDateTime, true);
                     xValue[i] = bookingEvents[i].First().StartDateTime.ToString("yyyy-M-d") +
                                 $"{(isMorning ? "FM" : "EM")}";
                 }
                 else
                 {
-                    xValue[i] = bookingEvents[i].First().StartDateTime.DayOfWeek.ToString(); //todo svenska namn
+                    //Assign swedish day name in title case.
+                    xValue[i] =
+                        DaysInfo.SwedishCultureInfo.TextInfo.ToTitleCase(bookingEvents[i].First()
+                            .StartDateTime.ToString("dddd", DaysInfo.SwedishCultureInfo));
                 }
                 yValues[i] = bookingEvents[i].Count.ToString();
 
