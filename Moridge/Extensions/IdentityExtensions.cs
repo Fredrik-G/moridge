@@ -19,7 +19,7 @@ namespace Moridge.Extensions
         {
             if (!email.Contains("@")) return null;
             var user = userManager.FindByEmail(email);
-            return userManager.Find(user.UserName, password);
+            return user != null ? userManager.Find(user.UserName, password) : null;
         }
     }
 }

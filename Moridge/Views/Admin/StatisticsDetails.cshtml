@@ -18,7 +18,6 @@
     <li data-role="list-divider">
     <li>@Html.DisplayFor(m => m.InfoText)</li>
 </ul>
-@{ var asd = Model.IsForDriver;}
 @Html.EnumDropDownListFor(m => m.ChartMode, new
 {
     onchange = "url=this.value == 0 ? '/Admin/StatisticsChart?index=" + @Model.Index + "&showTotal=False&useDates=True&isForDrivers=" + @Model.IsForDriver + "'  :" +
