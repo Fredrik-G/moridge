@@ -91,7 +91,7 @@ namespace Moridge.Controllers
             new Booking().UpdateEvent(model.Event.Id, model.CurrentStatus.ToString());
 
             return RedirectToAction("BookingEvent", "Driver",
-                new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString() });
+                new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString(), parentDate = model.ParentDate });
         }
 
         public ActionResult BookingEventDelete(string id, string parentDate)

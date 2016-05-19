@@ -30,6 +30,7 @@
 {
     @Html.EnumDropDownListFor(m => m.CurrentStatus)
     @Html.HiddenFor(m => m.Event.Id)
+    @Html.HiddenFor(m => m.ParentDate)
     <input type="submit" id="submit" value=" Uppdatera" />
 }
 @section Footer
