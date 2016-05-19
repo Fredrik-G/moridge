@@ -104,11 +104,6 @@ namespace Moridge.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
 
-        public BookingCreateModel()
-        {
-            Date = ParentDate != null ? Day.ConvertStringToDateTime(ParentDate) : DateTime.Now;
-        }
-
         public const string _customerOrgNoDisplay = "Kund org. nummer (123456-7890)";
         public string CustomerOrgNoDisplay => _customerOrgNoDisplay;
         [Required]

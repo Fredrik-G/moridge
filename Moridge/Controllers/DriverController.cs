@@ -41,7 +41,12 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult BookingCreate(string parentPage, string parentDate = null)
         {
-            return View(new BookingCreateModel { ParentPage = parentPage, ParentDate = parentDate });
+            return View(new BookingCreateModel
+            {
+                ParentPage = parentPage,
+                ParentDate = parentDate,
+                Date = parentDate != null ? Day.ConvertStringToDateTime(parentDate) : DateTime.Now
+            });
         }
 
         //

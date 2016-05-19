@@ -96,13 +96,7 @@
     
     @Html.MaterialDesignInput(m => m.CustomerAddress, Model.CustomerAddressDisplay, true)
     @Html.MaterialDesignInput(m => m.BookingMessage, Model.MessageDisplay, false)
-    <div data-role='none' class='group'>
-        <input data-role="none" class="text-box single-line" data-val="true"
-               data-val-date="The field Date must be a date." data-val-required="The Date field is required."
-               id="Date" name="Date" type="date" value="@Model.Date.ToString("yyyy-MM-d")">
-        <span data-role='none' class='highlight'></span>
-        <span data-role='none' class='bar'></span>
-    </div>
+    @Html.MaterialDesignDatePicker(m=> m.Date, @Model.Date.ToString("yyyy-MM-d"))
     @Html.EnumDropDownListFor(m => m.Occassion)
 
     @Html.HiddenFor(m => m.Occassion)

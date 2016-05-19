@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
@@ -27,10 +26,25 @@ namespace Moridge.Extensions
                 attributes.Add("class", (string.IsNullOrEmpty(value) ? "empty" : "not-empty") + " not-required");
             }
             var content = "<div data-role='none' class='group'>" +
-                          helper.TextBoxFor(expression, attributes) +
-                          "<span data-role='none' class='highlight'></span>" +
-                          "<span data-role='none' class='bar'></span>" +
-                          "<label data-role='none'>" + labelText + "</label>" +
+                              helper.TextBoxFor(expression, attributes) +
+                              "<span data-role='none' class='highlight'></span>" +
+                              "<span data-role='none' class='bar'></span>" +
+                              "<label data-role='none'>" + labelText + "</label>" +
+                          "</div>";
+            return new MvcHtmlString(content);
+        }
+        public static MvcHtmlString MaterialDesignDatePicker<TModel, TValue>(this HtmlHelper<TModel> helper,
+            Expression<Func<TModel, TValue>> expression, string value = null, object htmlAttributes = null)
+        {
+            IDictionary<string, object> attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            attributes.Add("type", "date");
+            attributes.Add("data-role", "none");
+            attributes.Add("Value", value);
+
+            var content = "<div data-role='none' class='group'>" +
+                              helper.TextBoxFor(expression, attributes) +
+                              "<span data-role='none' class='highlight'></span>" +
+                              "<span data-role='none' class='bar'></span>" +
                           "</div>";
             return new MvcHtmlString(content);
         }
