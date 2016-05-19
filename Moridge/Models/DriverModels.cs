@@ -100,6 +100,15 @@ namespace Moridge.Models
         public string ParentPage { get; set; }
         public string DriverEmail { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime Date { get; set; }
+
+        public BookingCreateModel()
+        {
+            Date = ParentDate != null ? Day.ConvertStringToDateTime(ParentDate) : DateTime.Now;
+        }
+
         public const string _customerOrgNoDisplay = "Kund org. nummer (123456-7890)";
         public string CustomerOrgNoDisplay => _customerOrgNoDisplay;
         [Required]
@@ -138,9 +147,7 @@ namespace Moridge.Models
         [Display(Name = _messageDisplay)]
         public string BookingMessage { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime Date { get; set; } = Day.GetSwedishTime(DateTime.Now);
+  
 
         public enum Occassions
         {

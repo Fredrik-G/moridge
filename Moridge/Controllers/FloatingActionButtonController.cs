@@ -6,7 +6,6 @@ namespace Moridge.Controllers
     public class FloatingActionButtonController : Controller
     {
         [ChildActionOnly]
-        [AllowAnonymous]
         public ActionResult _FloatingActionButton()
         {
             var user = UserHelper.GetCurrentUser();

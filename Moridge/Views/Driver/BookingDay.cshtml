@@ -3,7 +3,17 @@
 @{
     ViewBag.Title = Model.GetTitle(isDetails: true);
 }
-
+<script src="/Scripts/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        toastr.options.timeOut = 3500;
+        if ('@Model.Message'.length) {
+            toastr.success('@Model.Message');
+        }
+        $('.floating-booking').attr('href',
+                '@Html.Raw(Url.Action("BookingCreate", "Driver", new { parentPage = "BookingDay", parentDate = Model.Date }))');
+    });
+</script>
 @section Header {
     <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
     <h6 class="header-heading">
@@ -38,7 +48,7 @@
             {
                 //Show total number of missing bookings and break loop.
                 var emptyBookings = Model.BookingsForDriver(occassion.Key) - i;
-                <a href="#" class="empty">@emptyBookings tomma</a>
+                <a class="empty ui-btn">@emptyBookings tomma</a>
                 break;
             }
         </li>
@@ -63,16 +73,4 @@
 }
 @section styles {
     <link rel="stylesheet" type="text/css" href="~/Content/toastr.min.css" />
-}
-@section scripts {
-    <script src="/Scripts/toastr.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            toastr.options.timeOut = 3500;
-            if ('@Model.Message'.length) {
-                toastr.success('@Model.Message');
-            }
-            $('.floating-booking').attr('href', '@Url.Action("BookingCreate", "Driver", new { parentPage = "BookingDay", parentDate = Model.Date })');
-        });
-    </script>
 }
