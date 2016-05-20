@@ -4,10 +4,17 @@
 @{
     ViewBag.Title = Model.GetTitle();
 }
+<script>
+    $(document).ready(function () {
+        @* Move the FAB up to compensate for the week-toolbar at the bottom of the page. *@
+        $('.floating-booking').attr('style', 'bottom: 120px !important');
+    });
+</script>
 @section Header {
-    <a href="#nav-panel" id="nav-btn" data-icon="bars" data-transition="slideup" data-iconpos="notext">Menu</a>
-    <h6></h6>
-    @Html.ActionLink("Tillbaka Till Schemat", "Schedule", "Driver", null, new { @class = "ui-btn-right ui-btn ui-mini header-btn-right", @data_transition = "slideup" })
+    <a href="@Url.Action("Schedule", "Driver")" id="nav-btn" data-icon="back" data-transition="slideup" data-iconpos="notext">Menu</a>
+    <h1>
+        @Model.GetTitle()
+    </h1>
 }
 
 @using (Html.BeginForm("ScheduleDeviation", "Driver"))
@@ -58,14 +65,6 @@
             <h3>Välj datum</h3>
             @Html.EditorFor(m => m.NewDate)
         </div>
-        <input type="submit" value="Gå till datum" />
+        <input type="submit" value="Gå till datum"/>
     }
 </div>
-@section scripts {
-    <script>
-        $(document).ready(function () {
-                @* Move the FAB up to compensate for the week-toolbar at the bottom of the page. *@
-                $('.floating-booking').attr('style', 'bottom: 120px !important');
-            });
-    </script>
-}
