@@ -1,6 +1,16 @@
 ﻿@using Moridge.Models
 @model SidePanelLoggedInModel
 
+<script>
+    $(document).on("pageinit", function () {
+        $(document).on("swiperight", function (e) {
+            if ($.mobile.activePage.jqmData("panel") !== "open") {
+                $("*#nav-panel").panel("open");
+            }
+        });
+    });
+</script>
+
 <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
     <ul data-role="listview" class="ui-listview">
         <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-d ui-li-has-count">

@@ -1,4 +1,14 @@
-﻿<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
+﻿<script>
+    $(document).on("pageinit", function () {
+        $(document).on("swiperight", function () {
+            if ($.mobile.activePage.jqmData("panel") !== "open") {
+                $("*#nav-panel").panel("open");
+            }
+        });
+    });
+</script>
+
+<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
     <ul data-role="listview" class="ui-listview sidebar-footer">
         <li><a href="http://www.moridge.com/sv-se/orebro/support/index1,10.htm" class="ui-btn">
             <i class="material-icons">info_outline</i>
