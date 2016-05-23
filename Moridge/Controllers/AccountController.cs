@@ -50,7 +50,7 @@ namespace Moridge.Controllers
                 UserHelper.SaveUserToSession(user.Id);
 
                 //Create authentication cookie with user role.
-                CreateAuthenticationCookie(user.Id, controllerName, model.RememberMe);
+                CreateAuthenticationCookie(user.Id, controllerName, true);
 
                 return RedirectToAction(actionName, controllerName);
             }
@@ -68,7 +68,7 @@ namespace Moridge.Controllers
         private void CreateAuthenticationCookie(string userId, string role, bool isPersistent)
         {
             var authTicket = new FormsAuthenticationTicket(1, userId, DateTime.Now,
-                DateTime.Now.AddMinutes(60), //TODO DEBUG kör 10min
+                DateTime.Now.AddYears(1),
                 isPersistent, role, "/");
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket));
             Response.Cookies.Add(cookie);
