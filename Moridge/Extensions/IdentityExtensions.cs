@@ -11,8 +11,9 @@ namespace Moridge.Extensions
         /// <summary>
         /// Returns a user with the specified email or null if there is no match.
         /// </summary>
-        /// <param name="userManager"></param>
-        /// <param name="password"></param>
+        /// <param name="userManager">this user manager to use</param>
+        /// <param name="email">user email</param>
+        /// <param name="password">user password</param>
         /// <returns></returns>
         public static ApplicationUser FindByEmail
             (this UserManager<ApplicationUser> userManager, string email, string password)

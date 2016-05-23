@@ -111,13 +111,7 @@ namespace Moridge.BusinessLogic
         public string BookEvent(BookingCreateModel model, out bool successful)
         {
             //check if the current driver has available bookings this day.
-            Events = new Booking().GetBookingsFromCalendar(model.SelectedDriverEmail);
-            int morningScheduleBookings, afternoonScheduleBookings;
-            _schedule = _schedule ?? new Schedule();
-            _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningScheduleBookings, out afternoonScheduleBookings);
-            var bookingsThisOccasion = GetBookingsForOccasion(model.Date.ToString("yyyy-M-d"), model.Occassion.GetDisplayName()).Count;
-            if (model.Occassion == Occasions.Occassions.Morning && (morningScheduleBookings - bookingsThisOccasion) <= 0 ||
-                model.Occassion == Occasions.Occassions.Afternoon && (afternoonScheduleBookings - bookingsThisOccasion) <= 0)
+            if (!DriverHasAvailableBookings(model))
             {
                 //driver has no available bookings this day => don't create new booking
                 successful = false;
@@ -155,6 +149,26 @@ namespace Moridge.BusinessLogic
 
             successful = true;
             return companyName;
+        }
+
+        /// <summary>
+        /// Checks if the driver has available bookings this day.
+        /// </summary>
+        /// <param name="model">booking model containing information about the driver and the bookings</param>
+        /// <returns>true if the driver has available bookings, otherwise false</returns>
+        private bool DriverHasAvailableBookings(BookingCreateModel model)
+        {
+            Events = new Booking().GetBookingsFromCalendar(model.SelectedDriverEmail);
+            int morningScheduleBookings, afternoonScheduleBookings;
+            _schedule = _schedule ?? new Schedule();
+            _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningScheduleBookings, out afternoonScheduleBookings);
+            var bookingsThisOccasion = GetBookingsForOccasion(model.Date.ToString("yyyy-M-d"), model.Occassion.GetDisplayName()).Count;
+            if (model.Occassion == Occasions.Occassions.Morning && (morningScheduleBookings - bookingsThisOccasion) <= 0 ||
+                model.Occassion == Occasions.Occassions.Afternoon && (afternoonScheduleBookings - bookingsThisOccasion) <= 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>

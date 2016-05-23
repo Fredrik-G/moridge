@@ -24,6 +24,8 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Gets the driver's schedule.
         /// </summary>
+        /// <param name="firstDay">the first day to read schedule for</param>
+        /// <param name="lastDay">the last day to read schedule for</param>
         public List<ScheduleModel> GetDriverSchedule(DateTime? firstDay = null, DateTime? lastDay = null)
         {
             ConvertDatabaseSchedule(_user.Schedule, _user.ScheduleDeviation, firstDay, lastDay);
@@ -35,6 +37,8 @@ namespace Moridge.BusinessLogic
         /// </summary>
         /// <param name="schedule">the database schedule</param>
         /// <param name="scheduleDeviations">schedule deviation or null if ignore deviations</param>
+        /// <param name="firstDay">the first day to read schedule for</param>
+        /// <param name="lastDay">the last day to read schedule for</param>
         public void ConvertDatabaseSchedule(ICollection<DaySchedule> schedule,
             ICollection<ScheduleDeviation> scheduleDeviations, DateTime? firstDay, DateTime? lastDay)
         {

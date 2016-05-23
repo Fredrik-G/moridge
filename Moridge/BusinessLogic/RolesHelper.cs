@@ -53,8 +53,7 @@ namespace Moridge.BusinessLogic
         /// Gets the next page based on the given user's role.
         /// Values are returned by the out parameters actionName and controllerName.
         /// </summary>
-        /// <param name="userManager">Application's database context</param>
-        /// <param name="id">user id</param>
+        /// <param name="userActiveRoles">list of user's roles</param>
         /// <param name="actionName">name for the next page</param>
         /// <param name="controllerName">controller for the next page</param>
         public static void GetPageForUser(IList<string> userActiveRoles, out string actionName, out string controllerName)

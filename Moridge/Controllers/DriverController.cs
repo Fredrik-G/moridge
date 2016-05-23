@@ -57,7 +57,7 @@ namespace Moridge.Controllers
                     drivers.Select(x => new SelectListItem
                     { 
                         Value = x.Email,
-                        Text = $"{x.FirstName} {x.LastName}",
+                        Text = $"{x.FirstName} {x.LastName}"
                     }),
                     "Value",
                     "Text"
@@ -256,6 +256,7 @@ namespace Moridge.Controllers
         /// </summary>
         /// <param name="weeksFromNow">current weeks from now</param>
         /// <param name="gotoNextWeek">true if load next week, false if previous week</param>
+        /// <param name="date">the current schedule date</param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult ScheduleLoadWeek(int weeksFromNow, bool gotoNextWeek, string date)
