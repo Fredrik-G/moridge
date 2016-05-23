@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
+using Moridge.Extensions;
 using Moridge.Models;
 using MyMoridgeServer.BusinessLogic;
 using MyMoridgeServer.Models;
@@ -110,11 +111,13 @@ namespace Moridge.BusinessLogic
         public string BookEvent(BookingCreateModel model, out bool successful)
         {
             //check if the current driver has available bookings this day.
-            int morningBookings, afternoonBookings;
+            Events = new Booking().GetBookingsFromCalendar();
+            int morningScheduleBookings, afternoonScheduleBookings;
             _schedule = _schedule ?? new Schedule();
-            _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningBookings, out afternoonBookings);
-            if (model.Occassion == BookingCreateModel.Occassions.Morning && morningBookings == 0 ||
-                model.Occassion == BookingCreateModel.Occassions.Afternoon && afternoonBookings == 0)
+            _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningScheduleBookings, out afternoonScheduleBookings);
+            var bookingsThisOccasion = GetBookingsForOccasion(model.Date.ToString("yyyy-M-d"), model.Occassion.GetDisplayName()).Count;
+            if (model.Occassion == BookingCreateModel.Occassions.Morning && (morningScheduleBookings - bookingsThisOccasion) <= 0 ||
+                model.Occassion == BookingCreateModel.Occassions.Afternoon && (afternoonScheduleBookings - bookingsThisOccasion) <= 0)
             {
                 //driver has no available bookings this day => don't create new booking
                 successful = false;
@@ -204,12 +207,12 @@ namespace Moridge.BusinessLogic
         /// Read bookings for the current user from the calendar.
         /// </summary>
         /// <returns>list of bookings</returns>
-        public IList<Event> GetBookingsFromCalendar()
+        public IList<Event> GetBookingsFromCalendar(string driverEmail = null)
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
 
-            var user = UserHelper.GetCurrentUser();
-            var events = calendar.GetUpcomingEventsForDriver(user.Email);
+            driverEmail = driverEmail ?? UserHelper.GetCurrentUser().Email;
+            var events = calendar.GetUpcomingEventsForDriver(driverEmail);
             return events;
         }
 

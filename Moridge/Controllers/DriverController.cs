@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
@@ -32,7 +31,6 @@ namespace Moridge.Controllers
 
             //save any message
             bookingModel.Message = message;
-
             return View(bookingModel);
         }
 
