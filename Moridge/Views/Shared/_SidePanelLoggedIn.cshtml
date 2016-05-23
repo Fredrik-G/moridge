@@ -3,7 +3,7 @@
 
 <script>
     $(document).on("pageinit", function () {
-        $(document).on("swiperight", function (e) {
+        $(document).on("swiperight", function () {
             if ($.mobile.activePage.jqmData("panel") !== "open") {
                 $("*#nav-panel").panel("open");
             }

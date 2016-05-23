@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Google.Apis.Calendar.v3.Data;
+﻿using Google.Apis.Calendar.v3.Data;
 
 namespace Moridge.BusinessLogic
 {

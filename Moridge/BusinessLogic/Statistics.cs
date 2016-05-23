@@ -41,7 +41,7 @@ namespace Moridge.BusinessLogic
                 if (groupByDriver)
                 {
                     bookingModel.User = UserHelper.GetUserByEmail(booking.First().SupplierEmailAddress) ??
-                                        new User() { FirstName = "Förnamn", LastName = "Efternamn", Email = "notfound@removed"};
+                                        new User { FirstName = "Förnamn", LastName = "Efternamn", Email = "notfound@removed"};
                 }
                 model.StatisticsModels.Add(bookingModel);
                 bookingCount += booking.Count;

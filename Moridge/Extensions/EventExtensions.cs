@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using MyMoridgeServer.BusinessLogic;
 
 namespace Moridge.Extensions
 {

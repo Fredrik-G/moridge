@@ -89,7 +89,7 @@ namespace Moridge.Models
         /// <returns>true if done, otherwise false</returns>
         public bool EventIsDone(string occassion, int index)
         {
-            var done = " " +EventStatus.Status.VehicleDelivered.ToString();
+            var done = " " +EventStatus.Status.VehicleDelivered;
             var currentSummary = GetEvents(occassion)[index].Summary.Split('-');
             return currentSummary.Last().Equals(done);
         }
