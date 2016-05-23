@@ -11,12 +11,12 @@ namespace Moridge.BusinessLogic
             NotSet,
             [Display(Name = "Fordon upphämtat")]
             VehiclePickedUp,
-            [Display(Name = "Fordon tvättas")]
-            VehicleAtWash,
-            [Display(Name = "Fordon färdigt")]
-            VehicleDone,
+            [Display(Name = "Service utförs")]
+            ServiceStarted,
+            [Display(Name = "Service färdigt")]
+            ServiceDone,
             [Display(Name = "Fordon levererat")]
-            VehicleDelivered,
+            VehicleDelivered
         }
 
         /// <summary>
@@ -38,6 +38,26 @@ namespace Moridge.BusinessLogic
                 Enum.TryParse(enumString, out status);
             }
             return status;
+        }
+
+        /// <summary>
+        /// Checks if the next/previous status is valid.
+        /// </summary>
+        /// <param name="status">current status</param>
+        /// <param name="isNextStatus">next or previous status</param>
+        /// <returns>true if valid, otherwise false</returns>
+        public static bool IsStatusValid(Status status, bool isNextStatus)
+        {
+            //handle first/last status separately
+            switch (status)
+            {
+                case Status.NotSet:
+                    return isNextStatus;
+                case Status.VehicleDelivered:
+                    return !isNextStatus;
+            }
+            //any other status is always valid, return true
+            return true;
         }
     }
 }

@@ -18,7 +18,7 @@
 
 @Html.ValidationSummary()
 
-<ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
+<ul data-role="listview" data-inset="true" style="min-width: 210px;">
     <li>
         <strong>@Html.DisplayFor(m => m.Event.Location)</strong>
         <p>@Model.Event.GetVehicleRegNo()</p>
@@ -26,13 +26,18 @@
     </li>
 </ul>
 
-@using (Html.BeginForm("BookingEventUpdate", "Driver", FormMethod.Post, new { data_ajax = "false" }))
-{
-    @Html.EnumDropDownListFor(m => m.CurrentStatus)
-    @Html.HiddenFor(m => m.Event.Id)
-    @Html.HiddenFor(m => m.ParentDate)
-    <input type="submit" id="submit" value=" Uppdatera" />
-}
+<div class="center-wrapper" data-theme="a">
+    <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline
+         @(Model.IsStatusAvailable(false) ? "" : "ui-state-disabled")"
+           href=@(Model.IsStatusAvailable(false) ? @Url.Action("BookingEventUpdate", "Driver",
+            new { status = Model.CurrentStatus, eventId = Model.Event.Id, parentDate = Model.ParentDate, isNextStatus = false }) : "")></a>
+    <b style="padding: 0 10px 0 10px;">@Model.CurrentStatus.GetDisplayName()</b>
+    <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline
+         @(Model.IsStatusAvailable(true) ? "" : "ui-state-disabled")"
+           href=@(Model.IsStatusAvailable(true) ? @Url.Action("BookingEventUpdate", "Driver",
+            new { status = Model.CurrentStatus, eventId = Model.Event.Id, parentDate = Model.ParentDate, isNextStatus = true }) : "")></a>
+</div>
+
 @section Footer
 {
     <ul>

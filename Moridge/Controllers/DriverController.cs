@@ -85,13 +85,33 @@ namespace Moridge.Controllers
             });
         }
 
-        public ActionResult BookingEventUpdate(BookingEventModel model)
+        public ActionResult BookingEventUpdate(EventStatus.Status status, string eventId, string parentDate, bool isNextStatus)
         {
+            //get next/previous status
+            switch (status)
+            {
+                case EventStatus.Status.NotSet:
+                    status = isNextStatus ? EventStatus.Status.VehiclePickedUp : EventStatus.Status.NotSet;
+                    break;
+                case EventStatus.Status.VehiclePickedUp:
+                    status = isNextStatus ? EventStatus.Status.ServiceStarted : EventStatus.Status.NotSet;
+                    break;
+                case EventStatus.Status.ServiceStarted:
+                    status = isNextStatus ? EventStatus.Status.ServiceDone : EventStatus.Status.VehiclePickedUp;
+                    break;
+                case EventStatus.Status.ServiceDone:
+                    status = isNextStatus ? EventStatus.Status.VehicleDelivered : EventStatus.Status.ServiceStarted;
+                    break;
+                case EventStatus.Status.VehicleDelivered:
+                    status = isNextStatus ? EventStatus.Status.VehicleDelivered : EventStatus.Status.ServiceDone;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
+            }
             //update the event
-            new Booking().UpdateEvent(model.Event.Id, model.CurrentStatus.ToString());
+            new Booking().UpdateEvent(eventId, status.ToString());
 
-            return RedirectToAction("BookingEvent", "Driver",
-                new { eventId = model.Event.Id, eventStatus = model.CurrentStatus.ToString(), parentDate = model.ParentDate });
+            return RedirectToAction("BookingEvent", "Driver", new { eventId = eventId, eventStatus = status, parentDate = parentDate });
         }
 
         public ActionResult BookingEventDelete(string id, string parentDate)

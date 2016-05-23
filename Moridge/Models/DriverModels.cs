@@ -142,8 +142,6 @@ namespace Moridge.Models
         [Display(Name = _messageDisplay)]
         public string BookingMessage { get; set; }
 
-  
-
         public enum Occassions
         {
             [Display(Name = "Förmiddag")]
@@ -161,6 +159,8 @@ namespace Moridge.Models
         public Event Event { get; set; }
         public EventStatus.Status CurrentStatus { get; set; } = EventStatus.Status.NotSet;
         public string ParentDate { get; set; }
+
+        public bool IsStatusAvailable(bool isNextStatus) => EventStatus.IsStatusValid(CurrentStatus, isNextStatus);
 
         public string GetTitle() => "Bokningsdetaljer";
     }
@@ -189,6 +189,7 @@ namespace Moridge.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime NewDate { get; set; } = Day.GetSwedishTime(DateTime.Now);
+
         public string CurrentWeek => GetCurrentWeek();
 
         public List<ScheduleModel> GetScheduleModels() => ScheduleModels;
