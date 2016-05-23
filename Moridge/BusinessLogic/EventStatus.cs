@@ -13,7 +13,7 @@ namespace Moridge.BusinessLogic
             VehiclePickedUp,
             [Display(Name = "Service utförs")]
             ServiceStarted,
-            [Display(Name = "Service färdigt")]
+            [Display(Name = "Service färdig")]
             ServiceDone,
             [Display(Name = "Fordon levererat")]
             VehicleDelivered

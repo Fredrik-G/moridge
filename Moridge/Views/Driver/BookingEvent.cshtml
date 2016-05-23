@@ -27,15 +27,15 @@
 </ul>
 
 <div class="center-wrapper" data-theme="a">
-    <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline
-         @(Model.IsStatusAvailable(false) ? "" : "ui-state-disabled")"
-           href=@(Model.IsStatusAvailable(false) ? @Url.Action("BookingEventUpdate", "Driver",
-            new { status = Model.CurrentStatus, eventId = Model.Event.Id, parentDate = Model.ParentDate, isNextStatus = false }) : "")></a>
+    <a href=@(Model.IsStatusAvailable(false) ? @Url.Action("BookingEventUpdate", "Driver",
+                  new { status = Model.CurrentStatus, eventId = Model.Event.Id, parentDate = Model.ParentDate, isNextStatus = false }) : "")
+         data-transition="slide" data-direction="reverse" class="@(Model.IsStatusAvailable(false) ? "" : "ui-state-disabled")">
+        <i class="material-icons" style="font-size: 30px;">arrow_back</i></a>
     <b style="padding: 0 10px 0 10px;">@Model.CurrentStatus.GetDisplayName()</b>
-    <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline
-         @(Model.IsStatusAvailable(true) ? "" : "ui-state-disabled")"
-           href=@(Model.IsStatusAvailable(true) ? @Url.Action("BookingEventUpdate", "Driver",
-            new { status = Model.CurrentStatus, eventId = Model.Event.Id, parentDate = Model.ParentDate, isNextStatus = true }) : "")></a>
+    <a href=@(Model.IsStatusAvailable(true) ? @Url.Action("BookingEventUpdate", "Driver",
+                  new { status = Model.CurrentStatus, eventId = Model.Event.Id, parentDate = Model.ParentDate, isNextStatus = true }) : "")
+         data-transition="slide" class="@(Model.IsStatusAvailable(true) ? "" : "ui-state-disabled")">
+        <i class="material-icons" style="font-size: 30px;">arrow_forward</i></a>
 </div>
 
 @section Footer

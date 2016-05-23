@@ -24,14 +24,15 @@
 @section Footer
 {
     <div class="center-wrapper" style="height: 50px; background-color: #f9f9f9; color: #333; text-shadow: 0 1px 0 #f3f3f3;" data-theme="a">
-        <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
-               href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
-                new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")></a>
+        <a data-theme="a" style="border: 0; padding-left: 3px" class="ui-link ui-btn ui-btn-a @(Model.IsPreviousWeekAvailable() ? "" : "ui-state-disabled")"
+            href=@(Model.IsPreviousWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
+                new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = false, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")>
+            <i class="material-icons">arrow_back</i></a>
         @Html.DisplayFor(m => m.CurrentWeek, new { data_theme = "a" })
-        <a data-theme="a" class="ui-shadow ui-btn ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline @(Model.IsNextWeekAvailable() ? "" : "ui-state-disabled")"
-           href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
-                new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")></a>
-
+        <a data-theme="a" style="border: 0;" class="ui-link ui-btn ui-btn-a @(Model.IsNextWeekAvailable() ? "" : "ui-state-disabled")"
+            href=@(Model.IsNextWeekAvailable() ? @Url.Action("ScheduleLoadWeek", "Driver",
+                new { weeksFromNow = Model.WeeksFromNow, gotoNextWeek = true, date = Model.CurrentDate.ToString("yyyy-M-d") }) : "")>
+            <i class="material-icons">arrow_forward</i></a>
         <a data-theme="a" style="border: 0;" href="#popupDate" data-rel="popup" data-position-to="window" data-transition="pop">
             <span>
                 <i class="material-icons">date_range</i>
@@ -65,6 +66,6 @@
             <h3>Välj datum</h3>
             @Html.EditorFor(m => m.NewDate)
         </div>
-        <input type="submit" value="Gå till datum"/>
+        <input type="submit" value="Gå till datum" />
     }
 </div>
