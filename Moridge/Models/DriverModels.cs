@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
 using Google.Apis.Calendar.v3.Data;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
@@ -100,6 +101,9 @@ namespace Moridge.Models
         public string ParentPage { get; set; }
         public string DriverEmail { get; set; }
         public string ErrorMessage { get; set; }
+
+        public string SelectedDriverEmail { get; set; }
+        public IEnumerable<SelectListItem> Drivers { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

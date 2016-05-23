@@ -111,7 +111,7 @@ namespace Moridge.BusinessLogic
         public string BookEvent(BookingCreateModel model, out bool successful)
         {
             //check if the current driver has available bookings this day.
-            Events = new Booking().GetBookingsFromCalendar();
+            Events = new Booking().GetBookingsFromCalendar(model.SelectedDriverEmail);
             int morningScheduleBookings, afternoonScheduleBookings;
             _schedule = _schedule ?? new Schedule();
             _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningScheduleBookings, out afternoonScheduleBookings);
@@ -140,7 +140,6 @@ namespace Moridge.BusinessLogic
             bookingEvent.CustomerOrgNo = model.CustomerOrgNo;
             bookingEvent.CompanyName = companyName;
             bookingEvent.CustomerEmail = customerEmail;
-
             bookingEvent.CustomerAddress = model.CustomerAddress;
             bookingEvent.VehicleRegNo = model.VehicleRegNo;
 
@@ -148,7 +147,7 @@ namespace Moridge.BusinessLogic
             bookingEvent.BookingHeader = model.BookingHeader;
             bookingEvent.BookingMessage = model.BookingMessage;
             bookingEvent.ResourceId = 1; //TODO
-            bookingEvent.SupplierEmailAddress = UserHelper.GetCurrentUser().Email;
+            bookingEvent.SupplierEmailAddress = model.SelectedDriverEmail;
             bookingEvent.Attendees = new List<string> { Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail") };
 
             var booking = new MyMoridgeServer.BusinessLogic.Booking();
@@ -206,6 +205,7 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Read bookings for the current user from the calendar.
         /// </summary>
+        /// <param name="driverEmail">driver's email to read or null for current driver</param>
         /// <returns>list of bookings</returns>
         public IList<Event> GetBookingsFromCalendar(string driverEmail = null)
         {

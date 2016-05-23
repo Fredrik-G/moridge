@@ -105,6 +105,8 @@
     @Html.MaterialDesignDatePicker(m=> m.Date, @Model.Date.ToString("yyyy-MM-d"))
     @Html.EnumDropDownListFor(m => m.Occassion)
 
+    @Html.DropDownListFor(m => m.SelectedDriverEmail, Model.Drivers)
+    
     @Html.HiddenFor(m => m.Occassion)
     @Html.HiddenFor(m => m.ParentPage)
     @Html.HiddenFor(m => m.ParentDate)

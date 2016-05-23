@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Moridge.BusinessLogic;
 using Moridge.Extensions;
@@ -43,8 +44,26 @@ namespace Moridge.Controllers
             {
                 ParentPage = parentPage,
                 ParentDate = parentDate,
-                Date = parentDate != null ? Day.ConvertStringToDateTime(parentDate) : DateTime.Now
+                Date = parentDate != null ? Day.ConvertStringToDateTime(parentDate) : Day.GetSwedishTime(DateTime.Now),
+                Drivers = GetDriversSelectList(),
+                SelectedDriverEmail = UserHelper.GetCurrentUser().Email
             });
+        }
+
+        private SelectList GetDriversSelectList()
+        {
+            var drivers = new DatabaseHelper().FindAllUsersInRole(RolesHelper.DriverRoleId);
+            var driversSelectList = new SelectList(
+                    drivers.Select(x => new SelectListItem
+                    { 
+                        Value = x.Email,
+                        Text = $"{x.FirstName} {x.LastName}",
+                    }),
+                    "Value",
+                    "Text"
+                );
+            System.Web.HttpContext.Current.Session["DriversSelectList"] = driversSelectList;
+            return driversSelectList;
         }
 
         //
@@ -52,7 +71,13 @@ namespace Moridge.Controllers
         [HttpPost]
         public ActionResult BookingCreate(BookingCreateModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            SelectList drivers;
+            if (!ModelState.IsValid)
+            {
+                drivers = System.Web.HttpContext.Current.Session["DriversSelectList"] as SelectList ?? GetDriversSelectList();
+                model.Drivers = drivers;
+                return View(model);
+            }
 
             bool successful;
             var companyName = new Booking().BookEvent(model, out successful);
@@ -61,8 +86,11 @@ namespace Moridge.Controllers
                 var message = $"Skapade en bokning för {companyName} den {model.Date.ToString("yyyy-M-d")}.";
                 return RedirectToAction(model.ParentPage ?? "BookingDay", "Driver", new { date = model.ParentDate, message = message });
             }
-            //not successful => re-show view with error msg.
-            model.ErrorMessage =  $"Det finns inga lediga bokningar för vald förare vid detta tillfälle.";
+
+            //unsuccessful => re-show view with error msg.
+            drivers = System.Web.HttpContext.Current.Session["DriversSelectList"] as SelectList ?? GetDriversSelectList();
+            model.Drivers = drivers;
+            model.ErrorMessage = "Det finns inga lediga bokningar för vald förare vid detta tillfälle.";
             return View(model);
         }
 
