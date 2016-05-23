@@ -240,6 +240,7 @@
     <Compile Include="BusinessLogic\DatabaseHelper.cs" />
     <Compile Include="BusinessLogic\EventStatus.cs" />
     <Compile Include="BusinessLogic\Logger.cs" />
+    <Compile Include="BusinessLogic\Occasions.cs" />
     <Compile Include="BusinessLogic\User.cs" />
     <Compile Include="Controllers\FloatingActionButtonController.cs" />
     <Compile Include="Controllers\SidePanelController.cs" />

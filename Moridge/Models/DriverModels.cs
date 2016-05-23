@@ -147,14 +147,7 @@ namespace Moridge.Models
         [Display(Name = _messageDisplay)]
         public string BookingMessage { get; set; }
 
-        public enum Occassions
-        {
-            [Display(Name = "Förmiddag")]
-            Morning,
-            [Display(Name = "Eftermiddag")]
-            Afternoon
-        }
-        public Occassions Occassion { get; set; }
+        public Occasions.Occassions Occassion { get; set; }
 
         public string GetTitle() => "Boka";
     }
@@ -164,6 +157,12 @@ namespace Moridge.Models
         public Event Event { get; set; }
         public EventStatus.Status CurrentStatus { get; set; } = EventStatus.Status.NotSet;
         public string ParentDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime NewDate { get; set; }
+
+        public Occasions.Occassions Occassion { get; set; }
 
         public bool IsStatusAvailable(bool isNextStatus) => EventStatus.IsStatusValid(CurrentStatus, isNextStatus);
 

@@ -113,7 +113,8 @@ namespace Moridge.Controllers
             {
                 Event = bookingEvent,
                 CurrentStatus = EventStatus.StringToStatus(eventStatus),
-                ParentDate = parentDate
+                ParentDate = parentDate,
+                NewDate = bookingEvent.Start.DateTime.Value
             });
         }
 
@@ -151,6 +152,15 @@ namespace Moridge.Controllers
             //delete the event
             new Booking().DeleteEvent(id);
             return RedirectToAction("BookingDay", "Driver", new { date = parentDate });
+        }
+
+        public ActionResult BookingEventMove(BookingEventModel model)
+        {
+            var movedEvent = new Booking().MoveEvent(model.Event.Id, model.NewDate, model.Occassion.ToString());
+            model.Event = movedEvent;
+            model.NewDate = movedEvent.Start.DateTime.Value;
+            return RedirectToAction("BookingEvent","Driver", 
+                new { eventId = model.Event.Id, eventStatus = model.CurrentStatus, parentDate = model.ParentDate });
         }
 
         #endregion
@@ -287,6 +297,5 @@ namespace Moridge.Controllers
         }
 
         #endregion
-
     }
 }

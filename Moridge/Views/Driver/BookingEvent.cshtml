@@ -23,6 +23,8 @@
         <strong>@Html.DisplayFor(m => m.Event.Location)</strong>
         <p>@Model.Event.GetVehicleRegNo()</p>
         <p>@Html.DisplayFor(m => m.Event.Description)</p>
+        <p>@Model.Event.Start.DateTime.Value.ToString("yyyy-M-d")
+        <a data-theme="a" style="border: 0;" href="#popupDate" data-rel="popup" data-position-to="window" data-transition="pop">Flytta bokning</a></p>
     </li>
 </ul>
 
@@ -70,4 +72,18 @@
             </div>
         </div>
     </div>
+</div>
+<div data-role="popup" id="popupDate" data-theme="a" class="ui-corner-all">
+    @using (Html.BeginForm("BookingEventMove", "Driver", FormMethod.Post, new { data_ajax = "false" }))
+    {
+        <div class="popup-date">
+            <h3>Välj datum</h3>
+            @Html.EditorFor(m => m.NewDate)
+            @Html.EnumDropDownListFor(m => m.Occassion)
+        </div>
+        @Html.HiddenFor(m => m.Event.Id)
+        @Html.HiddenFor(m => m.CurrentStatus)
+        @Html.HiddenFor(m => m.ParentDate)
+        <input type="submit" value="Flytta bokningen" />
+    }
 </div>

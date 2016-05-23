@@ -116,8 +116,8 @@ namespace Moridge.BusinessLogic
             _schedule = _schedule ?? new Schedule();
             _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningScheduleBookings, out afternoonScheduleBookings);
             var bookingsThisOccasion = GetBookingsForOccasion(model.Date.ToString("yyyy-M-d"), model.Occassion.GetDisplayName()).Count;
-            if (model.Occassion == BookingCreateModel.Occassions.Morning && (morningScheduleBookings - bookingsThisOccasion) <= 0 ||
-                model.Occassion == BookingCreateModel.Occassions.Afternoon && (afternoonScheduleBookings - bookingsThisOccasion) <= 0)
+            if (model.Occassion == Occasions.Occassions.Morning && (morningScheduleBookings - bookingsThisOccasion) <= 0 ||
+                model.Occassion == Occasions.Occassions.Afternoon && (afternoonScheduleBookings - bookingsThisOccasion) <= 0)
             {
                 //driver has no available bookings this day => don't create new booking
                 successful = false;
@@ -129,9 +129,9 @@ namespace Moridge.BusinessLogic
             bookingEvent.EndDateTime = model.Date;
 
             bookingEvent.StartDateTime = bookingEvent.StartDateTime.AddHours(
-                model.Occassion == BookingCreateModel.Occassions.Morning ? 0 : 4);
+                model.Occassion == Occasions.Occassions.Morning ? 0 : 4);
             bookingEvent.EndDateTime = bookingEvent.EndDateTime.AddHours(
-                model.Occassion == BookingCreateModel.Occassions.Morning ? 4 : 8);
+                model.Occassion == Occasions.Occassions.Morning ? 4 : 8);
 
             //Set up company information based off the org number.
             string customerEmail, companyName;
@@ -246,6 +246,19 @@ namespace Moridge.BusinessLogic
         {
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             calendar.DeleteEvent(id);
+        }
+
+        /// <summary>
+        /// Moves an event to a new time.
+        /// </summary>
+        /// <param name="eventId">id for the event</param>
+        /// <param name="newDate">new date to move to</param>
+        /// <param name="occassion">morning or afternoon</param>
+        /// <returns>the updated event</returns>
+        public Event MoveEvent(string eventId, DateTime newDate, string occassion)
+        {
+            var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
+            return calendar.MoveEvent(eventId, newDate, occassion);
         }
     }
 }
