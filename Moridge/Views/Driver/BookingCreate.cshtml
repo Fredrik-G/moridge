@@ -2,10 +2,16 @@
 @using Moridge.Models
 @model BookingCreateModel
 
-<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/themes/moridge/materialDesign.input.css"/>
+<script src="/Scripts/toastr.min.js"></script>
 <script>
     $(document).ready(function () {
         $('.floating-booking').remove();
+
+        toastr.options.timeOut = 3500;
+        if ('@Model.ErrorMessage'.length) {
+            toastr.warning('@Model.ErrorMessage');
+        }
 
         $('#CustomerOrgNo').blur(function () {
             readRegNo();
@@ -120,4 +126,7 @@
             <span style="font-size: 12px; display: block;">Vecka</span>
         </span></a></li>
     </ul>
+}
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/toastr.min.css" />
 }

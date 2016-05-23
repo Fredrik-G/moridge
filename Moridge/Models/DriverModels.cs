@@ -99,6 +99,7 @@ namespace Moridge.Models
         public string ParentDate { get; set; }
         public string ParentPage { get; set; }
         public string DriverEmail { get; set; }
+        public string ErrorMessage { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

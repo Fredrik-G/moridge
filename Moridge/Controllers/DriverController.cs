@@ -56,10 +56,16 @@ namespace Moridge.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var booking = new Booking();
-            var companyName =  booking.BookEvent(model);
-            var message = $"Skapade en bokning för {companyName} den {model.Date.ToString("yyyy-M-d")}.";
-            return RedirectToAction(model.ParentPage ?? "BookingDay", "Driver", new { date = model.ParentDate, message = message });
+            bool successful;
+            var companyName = new Booking().BookEvent(model, out successful);
+            if (successful)
+            {
+                var message = $"Skapade en bokning för {companyName} den {model.Date.ToString("yyyy-M-d")}.";
+                return RedirectToAction(model.ParentPage ?? "BookingDay", "Driver", new { date = model.ParentDate, message = message });
+            }
+            //not successful => re-show view with error msg.
+            model.ErrorMessage =  $"Det finns inga lediga bokningar för vald förare vid detta tillfälle.";
+            return View(model);
         }
 
         public ActionResult BookingWeek(string message = null)

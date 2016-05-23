@@ -104,11 +104,24 @@ namespace Moridge.BusinessLogic
         /// <summary>
         /// Books a new event with values from the model.
         /// </summary>
-        /// <param name="model">model containing event details</param>
-        /// <param name="companyName">out parameter for the company name</param>
-        public string BookEvent(BookingCreateModel model)
+        /// <param name="model">booking model containing event details</param>
+        /// <param name="successful">out parameter showing creation success</param>
+        /// <returns>the company name for this booking</returns>
+        public string BookEvent(BookingCreateModel model, out bool successful)
         {
-            BookingEvent bookingEvent = new BookingEvent();
+            //check if the current driver has available bookings this day.
+            int morningBookings, afternoonBookings;
+            _schedule = _schedule ?? new Schedule();
+            _schedule.GetDriverScheduleBookings(model.Date.ToString("yyyy-M-d"), out morningBookings, out afternoonBookings);
+            if (model.Occassion == BookingCreateModel.Occassions.Morning && morningBookings == 0 ||
+                model.Occassion == BookingCreateModel.Occassions.Afternoon && afternoonBookings == 0)
+            {
+                //driver has no available bookings this day => don't create new booking
+                successful = false;
+                return string.Empty;
+            }
+
+            var bookingEvent = new BookingEvent();
             bookingEvent.StartDateTime = model.Date;
             bookingEvent.EndDateTime = model.Date;
 
@@ -137,6 +150,8 @@ namespace Moridge.BusinessLogic
 
             var booking = new MyMoridgeServer.BusinessLogic.Booking();
             booking.BookEvent(bookingEvent);
+
+            successful = true;
             return companyName;
         }
 
