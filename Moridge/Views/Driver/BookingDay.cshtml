@@ -41,7 +41,7 @@
                 <a href="@Url.Action("BookingEvent", "Driver", new { eventId = thisEvent.Id, eventStatus = eventStatus.ToString(), parentDate = Model.Date })"
                         data-transition="slidedown" style="background-color: @(Model.EventIsDone(occassion.Key, i) ? "#E0E0E0" : "inherit")">
                     @thisEvent.Location @thisEvent.GetVehicleRegNo()
-                    <p style="color: #F44336;">@thisEvent.Description</p>
+                    <p class="booking-description">@thisEvent.Description</p>
                     <p style="color: #2ad">@eventStatus.GetDisplayName()</p>
                 </a>
             }

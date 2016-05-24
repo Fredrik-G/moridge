@@ -22,7 +22,7 @@
     <li>
         <strong>@Html.DisplayFor(m => m.Event.Location)</strong>
         <p>@Model.Event.GetVehicleRegNo()</p>
-        <p>@Html.DisplayFor(m => m.Event.Description)</p>
+        <p class="booking-description">@Html.DisplayFor(m => m.Event.Description)</p>
         <p>@Model.Event.Start.DateTime.Value.ToString("yyyy-M-d")
         <a data-theme="a" style="border: 0;" href="#popupDate" data-rel="popup" data-position-to="window" data-transition="pop">Flytta bokning</a></p>
     </li>
