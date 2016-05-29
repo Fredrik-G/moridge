@@ -68,9 +68,7 @@ namespace Moridge.Controllers
         {
             //create user
             //TODO hur göra med lösenord?
-            var password =
-                Common.GeneratePassword(model.FirstName.ToLower() +
-                                                                      model.LastName.ToLower());
+            var password = Common.GeneratePassword(model.FirstName.ToLower() + model.LastName.ToLower());
 
             var dbHelper = new DatabaseHelper();
             var creationResult = dbHelper.CreateUser(model.Driver, password);

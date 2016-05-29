@@ -210,7 +210,7 @@ namespace Moridge.Controllers
                 CurrentDate = today.Date.AddDays(7 * weeksFromNow),
                 WeeksFromNow = weeksFromNow
             };
-            if (!string.IsNullOrEmpty(date))
+            if (!useLocalValues && !string.IsNullOrEmpty(date))
             {
                 scheduleSet.CurrentDate = Day.ConvertStringToDateTime(date);
             }
