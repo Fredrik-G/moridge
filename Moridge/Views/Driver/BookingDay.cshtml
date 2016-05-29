@@ -20,8 +20,10 @@
         @Model.GetDayString()
     </h6>
 }
-
 @Html.ValidationSummary()
+@{
+    Model.Booking.SortBookingsByStatus();
+}
 <ul data-role="listview" id="popup-listview" data-inset="true" style="min-width: 210px;">
     @{
         foreach (var occassion in @Model.GetOccassions())

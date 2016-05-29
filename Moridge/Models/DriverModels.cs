@@ -70,6 +70,7 @@ namespace Moridge.Models
             Booking.Events = events;
             Date = date;
             Booking.GetMissingBookings(Date);
+            Booking.SortBookingsByStatus();
         }
 
         public EventStatus.Status GetCurrentStatus(Event bookingEvent) => EventStatus.StringToStatus(bookingEvent.Summary);

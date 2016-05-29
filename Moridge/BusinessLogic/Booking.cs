@@ -274,5 +274,17 @@ namespace Moridge.BusinessLogic
             var calendar = new GoogleCalendar(Common.GetAppConfigValue("MoridgeOrganizerCalendarEmail"), Common.GetAppConfigValue("MoridgeMainCalendarEmail"));
             return calendar.MoveEvent(eventId, newDate, occassion);
         }
+
+        /// <summary>
+        /// Sorts the bookings by their status.
+        /// </summary>
+        public void SortBookingsByStatus()
+        {
+            foreach (var occassion in Day.Occassions)
+            {
+                occassion.Value.EventsThisOccassion.Items =
+                    occassion.Value.EventsThisOccassion.Items.OrderBy(x => EventStatus.StringToStatus(x.Summary)).ToList();
+            }
+        }
     }
 }
