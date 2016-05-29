@@ -203,16 +203,17 @@ namespace Moridge.Controllers
         [HttpGet]
         public ActionResult ScheduleDeviation(bool useLocalValues = false, int weeksFromNow = 0, string date = null)
         {
-            var today = Day.GetSwedishTime(DateTime.Now);
+            //First day is either today or the date the user loaded.
+            var firstDay = string.IsNullOrEmpty(date) ? Day.GetSwedishTime(DateTime.Now) : Day.ConvertStringToDateTime(date);
             var scheduleSet = new ScheduleModelSet
             {
                 IsDeviationSet = true,
-                CurrentDate = today.Date.AddDays(7 * weeksFromNow),
+                CurrentDate = firstDay.Date.AddDays(7 * weeksFromNow),
                 WeeksFromNow = weeksFromNow
             };
-            if (!useLocalValues && !string.IsNullOrEmpty(date))
+            if (!string.IsNullOrEmpty(date))
             {
-                scheduleSet.CurrentDate = Day.ConvertStringToDateTime(date);
+                scheduleSet.LoadedDate = Day.ConvertStringToDateTime(date);
             }
             var weeks = new List<List<ScheduleModel>>();
             if (!useLocalValues)
@@ -248,7 +249,7 @@ namespace Moridge.Controllers
             System.Web.HttpContext.Current.Session["ScheduleWeeks"] = weeks;
 
             return RedirectToAction("ScheduleDeviation", "Driver",
-                new { useLocalValues = true, weeksFromNow = model.WeeksFromNow, date = model.CurrentDate.ToString("yyyy-M-d") });
+                new { useLocalValues = true, weeksFromNow = model.WeeksFromNow, date = model.LoadedDate.ToString("yyyy-M-d") });
         }
 
         /// <summary>

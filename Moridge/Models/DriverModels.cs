@@ -194,6 +194,7 @@ namespace Moridge.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime NewDate { get; set; } = Day.GetSwedishTime(DateTime.Now);
+        public DateTime LoadedDate { get; set; }
 
         public string CurrentWeek => GetCurrentWeek();
 

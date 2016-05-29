@@ -5,6 +5,7 @@
 @Html.HiddenFor(m => m.IsDeviationSet)
 @Html.HiddenFor(m => m.WeeksFromNow)
 @Html.HiddenFor(m => m.CurrentDate)
+@Html.HiddenFor(m => m.LoadedDate)
 
 <ul data-role="listview" class="ui-listview">
     @for (var i = 0; i < Model.GetScheduleModels().Count; i++)
